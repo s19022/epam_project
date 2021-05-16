@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="InspectionBoard:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>InspectionBoard</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="InspectionBoard-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="InspectionBoard:war exploded" />
+    </root>
+  </artifact>
+</component>
