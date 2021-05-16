@@ -19,7 +19,7 @@ import java.util.List;
 public class FacultyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*response.setContentType("text/plain");
+        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try{
             List<Faculty> facultyList = FacultyRepository.getInstance().getAllFaculties();
@@ -27,6 +27,7 @@ public class FacultyServlet extends HttpServlet {
         }catch (ParsingException ex){
             response.sendError(500);
         }
+        //todo view for data
 
-*/    }
+    }
 }

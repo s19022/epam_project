@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter("/faculty")
+//todo change path to correct
 public class LoggedInFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {

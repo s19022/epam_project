@@ -30,6 +30,9 @@ public class AccountRepository {
     }
 
     public Account getAccount(String login, String password) throws WrongLoginPasswordException {
+        if (! isValid(login) && isValid(password)){
+            throw new WrongLoginPasswordException("wrong login/password");
+        }
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
             statement.setString(1, login);
@@ -38,18 +41,22 @@ public class AccountRepository {
                 if (rs.next()) {
                     return parseAccount(rs);
                 }
-                throw new WrongLoginPasswordException("wrong login/password");
             }
         }catch (SQLException ex){
             LOGGER.error("parsing account", ex);
             throw new SQLExceptionWrapper(ex);
         }
+        throw new WrongLoginPasswordException("wrong login/password");
     }
 
     private Account parseAccount(ResultSet rs) throws SQLException{
         int id = rs.getInt(1);
         AccountRole role = AccountRole.valueOf(rs.getString(2));
         return new Account(id, role);
+    }
+
+    private boolean isValid(String toCheck){
+        return !(toCheck == null || toCheck.trim().isEmpty());
     }
 
     public static AccountRepository getInstance() {

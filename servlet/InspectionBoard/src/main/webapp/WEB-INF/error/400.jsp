@@ -1,16 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: user
-  Date: 15.05.2021
-  Time: 10:10
+  Date: 16.05.2021
+  Time: 21:01
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Enrollee bas</title>
+    <title>Bad request</title>
 </head>
 <body>
-in
+    bad request
 </body>
 </html>
