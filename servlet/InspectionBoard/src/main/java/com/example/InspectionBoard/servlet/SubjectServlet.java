@@ -4,35 +4,18 @@ import com.example.InspectionBoard.entity.Subject;
 import com.example.InspectionBoard.repository.SubjectRepository;
 import exceptions.ParsingException;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 @WebServlet(name = "subjectServlet", value = "/subject")
 public class SubjectServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-//        context.
-        Enumeration<String> attributes = session.getAttributeNames();
-        while (attributes.hasMoreElements()){
-            String name = attributes.nextElement();
-            System.out.print(session.getAttribute(name));
-            System.out.print(", ");
-        }
-        System.out.println(session.getCreationTime());
-        request.getRequestDispatcher("/WEB-INF/jsp/enrollee/enrolleeBasic.jsp").forward(request, response);
-/*
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try{
@@ -41,5 +24,5 @@ public class SubjectServlet extends HttpServlet {
         }catch (ParsingException ex){
             response.sendError(500);
         }
-    */}
+    }
 }
