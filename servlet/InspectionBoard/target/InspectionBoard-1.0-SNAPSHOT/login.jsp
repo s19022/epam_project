@@ -24,7 +24,7 @@
         <tr>
             <td>Password</td>
             <td>
-                <input type="text" size="50" name = "pass">
+                <input type="password" size="50" name = "pass">
             </td>
         </tr>
         <tr>
@@ -33,6 +33,16 @@
             </td>
         </tr>
     </table>
+    <div>
+        <input type="radio" id="langUa"
+               name="lang" value="UA" checked>
+        <label for="langUa">Ua</label>
+
+
+        <input type="radio" id="langEn"
+               name="lang" value="EN">
+        <label for="langEn">English</label>
+    </div>
 </form>
 
 </body>

@@ -1,3 +1,4 @@
+/*
 package com.example.InspectionBoard.servlet;
 
 import com.example.InspectionBoard.entity.Faculty;
@@ -28,3 +29,4 @@ public class FacultyServlet extends HttpServlet {
 
     }
 }
+*/

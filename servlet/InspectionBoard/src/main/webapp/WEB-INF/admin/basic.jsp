@@ -12,5 +12,6 @@
 </head>
 <body>
 admin home page
+<a href="${pageContext.request.contextPath}/logout">Logout</a>
 </body>
 </html>

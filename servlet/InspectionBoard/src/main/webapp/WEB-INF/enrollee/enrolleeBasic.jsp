@@ -20,6 +20,7 @@
     <title>Добро пожаловать, JSP!</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/logout">Logout</a>
 <h1>Добро пожаловать!</h1>
 <i>Сегодня <%= getFormattedDate() %></i>
 </body>

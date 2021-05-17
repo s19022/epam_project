@@ -12,7 +12,8 @@ public enum AccountRole {
         public String getRedirectPath(){
             return "/WEB-INF/admin/basic.jsp";
         }
-    };
+    },
+    UNKNOWN;
 
     public String getRedirectPath(){
         return "/index.jsp";

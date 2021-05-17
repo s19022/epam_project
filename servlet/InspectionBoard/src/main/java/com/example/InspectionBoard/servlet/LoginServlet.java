@@ -1,65 +1,50 @@
 package com.example.InspectionBoard.servlet;
 
-import com.example.InspectionBoard.entity.Account;
-import com.example.InspectionBoard.repository.AccountRepository;
-import exceptions.UserAlreadyLoggedInException;
-import exceptions.WrongLoginPasswordException;
+import com.example.InspectionBoard.command.Command;
+import com.example.InspectionBoard.command.LoginCommand;
+import com.example.InspectionBoard.command.LogoutCommand;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.*;
 
-@WebServlet(name = "loginServlet", value = "/login")
+@WebServlet(name = "loginServlet", value = "/")
 public class LoginServlet extends HttpServlet {
     public static final String LOGGED_USERS = "loggedUsers";
+    private final Map<String, Command> commands = new HashMap<>();
+
     @Override
     public void init(ServletConfig config){
         config.getServletContext().setAttribute(LOGGED_USERS, new HashSet<Integer>());
+        commands.put("login", new LoginCommand());
+        commands.put("logout", new LogoutCommand());
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
-        String redirectPath = "";
-        try{
-            Account account = getAccount(request);
-            session.setAttribute("id", account.getId());
-            session.setAttribute("userRole", account.getRole().name());
-            addLoggedUser(request.getServletContext(), account.getId());
-            redirectPath = account.getRole().getRedirectPath();
-        }catch (WrongLoginPasswordException ex){
-            redirectPath = "/WEB-INF/error/400.jsp";
-        }catch (UserAlreadyLoggedInException ex){
-            redirectPath = "/WEB-INF/error/exists.jsp";
-        }
-        request.getRequestDispatcher(redirectPath).forward(request, response);
+        processRequest(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+//        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
-    private void addLoggedUser(ServletContext context, int userId) throws UserAlreadyLoggedInException {
-        HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
-        if (isLoggedIn(loggedUsers, userId)){
-            throw new UserAlreadyLoggedInException();
-        }
-        loggedUsers.add(userId);
-        context.setAttribute(LOGGED_USERS, loggedUsers);
-    }
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getRequestURI();
+        path = path.replaceAll(".*/InspectionBoard_war/" , "");
+        Command command = commands.getOrDefault(path ,
+                (r)->"/index.jsp");
+        String page = command.execute(request);
+        request.getRequestDispatcher(page).forward(request, response);
 
-    private boolean isLoggedIn(HashSet<Integer> loggedUsers, int userId){
-        return loggedUsers.stream().anyMatch(i -> i == userId);
-    }
-
-    private Account getAccount(HttpServletRequest request) throws WrongLoginPasswordException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("pass");
-        return AccountRepository.getInstance().getAccount(login, password);
-    }
+       /* Locale l = new Locale("uk", "UA");
+        System.out.println(l);
+        ResourceBundle b = ResourceBundle.getBundle("res", l);
+        System.out.println(b.getString("apple"));
+    */}
 }
