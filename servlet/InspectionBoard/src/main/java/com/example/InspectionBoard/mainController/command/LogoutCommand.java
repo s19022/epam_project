@@ -1,6 +1,6 @@
 package com.example.InspectionBoard.mainController.command;
 
-import com.example.InspectionBoard.model.entity.AccountRole;
+import com.example.InspectionBoard.model.enums.AccountRole;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

@@ -1,6 +1,8 @@
 package com.example.InspectionBoard.model.entity;
 
 
+import com.example.InspectionBoard.model.enums.AccountRole;
+
 import java.util.Objects;
 
 public class Account {

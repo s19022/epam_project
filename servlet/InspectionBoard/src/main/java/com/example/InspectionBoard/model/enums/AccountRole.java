@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.model.entity;
+package com.example.InspectionBoard.model.enums;
 
 public enum AccountRole {
     USER{

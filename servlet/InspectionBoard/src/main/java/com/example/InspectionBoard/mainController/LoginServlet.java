@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        request.getRequestDispatcher("/login.jsp").forward(request, response);
         processRequest(request, response);
     }
 
@@ -38,11 +37,7 @@ public class LoginServlet extends HttpServlet {
         Command command = commands.getOrDefault(path ,
                 (r)->"/index.jsp");
         String page = command.execute(request);
+        System.out.println(page + ", redirect to");
         request.getRequestDispatcher(page).forward(request, response);
-
-       /* Locale l = new Locale("uk", "UA");
-        System.out.println(l);
-        ResourceBundle b = ResourceBundle.getBundle("res", l);
-        System.out.println(b.getString("apple"));
-    */}
+    }
 }

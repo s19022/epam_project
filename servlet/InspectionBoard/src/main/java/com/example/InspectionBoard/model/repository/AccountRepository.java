@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.repository;
 
 import com.example.InspectionBoard.model.entity.Account;
-import com.example.InspectionBoard.model.entity.AccountRole;
+import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import org.apache.logging.log4j.LogManager;
