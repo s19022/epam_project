@@ -23,20 +23,20 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        processRequest(request, response);
+        processRequest(request, response, RequestType.POST);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response, RequestType.GET);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response, RequestType requestType) throws ServletException, IOException {
         String path = request.getRequestURI();
         path = path.replaceAll(".*/InspectionBoard_war/" , "");
         Command command = commands.getOrDefault(path ,
-                (r)->"/index.jsp");
-        String page = command.execute(request);
+                (r, i)->"/index.jsp");
+        String page = command.execute(request, requestType);
         System.out.println(page + ", redirect to");
         request.getRequestDispatcher(page).forward(request, response);
     }

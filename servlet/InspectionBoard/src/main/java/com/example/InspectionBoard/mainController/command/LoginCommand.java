@@ -14,9 +14,8 @@ import static com.example.InspectionBoard.mainController.command.CommandUtility.
 import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USERS;
 
 public class LoginCommand implements Command{
-
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, RequestType requestType) {
         try{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);

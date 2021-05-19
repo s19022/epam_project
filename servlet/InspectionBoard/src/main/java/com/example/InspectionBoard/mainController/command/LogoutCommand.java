@@ -13,7 +13,7 @@ import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USER
 
 public class LogoutCommand implements Command{
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, RequestType requestType) {
         ServletContext context = request.getServletContext();
         HttpSession session = request.getSession();
         HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
