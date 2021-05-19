@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
-import static com.example.InspectionBoard.mainController.LoginServlet.LOGGED_USERS;
+import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USERS;
 
 
 public class LogoutCommand implements Command{

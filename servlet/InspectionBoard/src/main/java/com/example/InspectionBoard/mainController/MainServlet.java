@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
-@WebServlet(name = "loginServlet", value = "/")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "mainServlet", value = "/")
+public class MainServlet extends HttpServlet {
     public static final String LOGGED_USERS = "loggedUsers";
     private final Map<String, Command> commands = new HashMap<>();
 
