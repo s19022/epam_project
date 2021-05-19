@@ -16,6 +16,20 @@ import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USER
 public class LoginCommand implements Command{
     @Override
     public String execute(HttpServletRequest request, RequestType requestType) {
+        switch (requestType){
+            case POST:
+                return executePost(request);
+            case GET:
+            default:
+                return executeGet(request);
+        }
+    }
+
+    private String executeGet(HttpServletRequest request){
+        return "redirect:/login.jsp";
+    }
+
+    private String executePost(HttpServletRequest request){
         try{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);
