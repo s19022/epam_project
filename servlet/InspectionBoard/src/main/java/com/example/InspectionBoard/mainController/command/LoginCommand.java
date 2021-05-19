@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
+import static com.example.InspectionBoard.mainController.MainServlet.REDIRECT_KEYWORD;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
 import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USERS;
 
@@ -21,12 +22,12 @@ public class LoginCommand implements Command{
                 return executePost(request);
             case GET:
             default:
-                return executeGet(request);
+                return executeGet();
         }
     }
 
-    private String executeGet(HttpServletRequest request){
-        return "redirect:/login.jsp";
+    private String executeGet(){
+        return REDIRECT_KEYWORD + "/login.jsp";
     }
 
     private String executePost(HttpServletRequest request){

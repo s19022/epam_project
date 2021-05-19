@@ -12,5 +12,6 @@
 </head>
 <body>
 this page is displayed to not logged users
+<a href="login.jsp">Login</a>
 </body>
 </html>

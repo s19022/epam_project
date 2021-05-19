@@ -12,6 +12,8 @@ import java.util.*;
 @WebServlet(name = "mainServlet", value = "/")
 public class MainServlet extends HttpServlet {
     public static final String LOGGED_USERS = "loggedUsers";
+    public static final String REDIRECT_KEYWORD = "redirect:";
+
     private static final String DEFAULT_PATH = "/index.jsp";
     private final Map<String, Command> commands = new HashMap<>();
 
@@ -41,7 +43,7 @@ public class MainServlet extends HttpServlet {
         System.out.println("redirect to, " + page);
         System.out.println("type, " + requestType.name());
         if(page.contains("redirect:")){
-            response.sendRedirect(page.replace("redirect:", "/InspectionBoard_war"));
+            response.sendRedirect(page.replace(REDIRECT_KEYWORD, "/InspectionBoard_war"));
         }else {
             request.getRequestDispatcher(page).forward(request, response);
         }
