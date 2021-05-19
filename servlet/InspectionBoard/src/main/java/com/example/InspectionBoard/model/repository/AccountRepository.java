@@ -36,7 +36,7 @@ public class AccountRepository {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
             statement.setString(1, login);
-            statement.setString(2, password);
+            statement.setString(2, HashUtility.encodePassword(password));
             try(ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     return parseAccount(rs);
