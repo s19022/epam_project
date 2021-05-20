@@ -13,7 +13,7 @@
     <Loggers>
        <Root level="debug" additivity="false">
             <appender-ref ref="console" />
-            <appender-ref ref="app-info" level="error"/>
-        </Root>
+            <appender-ref ref="app-info" level="warn"/>
+       </Root>
     </Loggers>
 </Configuration>
