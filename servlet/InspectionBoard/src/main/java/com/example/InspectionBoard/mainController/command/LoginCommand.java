@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command;
 
+import com.example.InspectionBoard.mainController.MainServlet;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.repository.AccountRepository;
 import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
@@ -10,11 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
-import static com.example.InspectionBoard.mainController.MainServlet.REDIRECT_KEYWORD;
+import static com.example.InspectionBoard.mainController.MainServlet.*;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
-import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USERS;
 
 public class LoginCommand implements Command{
+
+
     @Override
     public String execute(HttpServletRequest request, RequestType requestType) {
         switch (requestType){
@@ -51,7 +53,7 @@ public class LoginCommand implements Command{
 
     private void addAccountToSession(HttpSession session, Account account){
         session.setAttribute("id", account.getId());
-        session.setAttribute("userRole", account.getRole().name());
+        session.setAttribute(USER_ROLE, account.getRole().name());
     }
 
     private void addAccountToContext(ServletContext context, Account account) throws UserAlreadyLoggedInException {
