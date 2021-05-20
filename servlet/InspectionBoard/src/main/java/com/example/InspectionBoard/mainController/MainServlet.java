@@ -22,6 +22,7 @@ public class MainServlet extends HttpServlet {
         config.getServletContext().setAttribute(LOGGED_USERS, new HashSet<Integer>());
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
+        commands.put("register", new RegisterCommand());
     }
 
     @Override
