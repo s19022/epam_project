@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
-import static com.example.InspectionBoard.mainController.MainServlet.REDIRECT_KEYWORD;
+import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
-import static com.example.InspectionBoard.mainController.MainServlet.LOGGED_USERS;
 
 
 public class LogoutCommand implements Command{

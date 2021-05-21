@@ -9,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.example.InspectionBoard.mainController.MainServlet.REDIRECT_KEYWORD;
+import static com.example.InspectionBoard.Constants.*;
+
 
 public class RegisterCommand implements Command{
     private static final Logger LOGGER = LogManager.getLogger(RegisterCommand.class.getName());

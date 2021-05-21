@@ -8,12 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
-public class MainServlet extends HttpServlet {
-    public static final String LOGGED_USERS = "loggedUsers";
-    public static final String REDIRECT_KEYWORD = "redirect:";
-    public static final String USER_ROLE = "userRole";
 
-    private static final String DEFAULT_PATH = "/index.jsp";
+import static com.example.InspectionBoard.Constants.*;
+
+public class MainServlet extends HttpServlet {
     private final Map<String, Command> commands = new HashMap<>();
 
     @Override

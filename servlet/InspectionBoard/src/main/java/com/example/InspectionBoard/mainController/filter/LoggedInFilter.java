@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.example.InspectionBoard.mainController.MainServlet.USER_ROLE;
+import static com.example.InspectionBoard.Constants.*;
+
 
 public class LoggedInFilter implements Filter {
     @Override

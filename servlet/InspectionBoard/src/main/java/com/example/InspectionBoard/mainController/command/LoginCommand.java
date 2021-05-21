@@ -1,7 +1,6 @@
 package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.exceptions.ParsingException;
-import com.example.InspectionBoard.mainController.MainServlet;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.entity.Subject;
 import com.example.InspectionBoard.model.repository.AccountRepository;
@@ -15,13 +14,10 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.example.InspectionBoard.mainController.MainServlet.*;
+import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
-import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
 public class LoginCommand implements Command{
-
-
     @Override
     public String execute(HttpServletRequest request, RequestType requestType) {
         switch (requestType){

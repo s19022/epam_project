@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.example.InspectionBoard.mainController.MainServlet.USER_ROLE;
+import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
 public class AdminFilter implements Filter {
