@@ -1,18 +1,23 @@
 package com.example.InspectionBoard.mainController.command;
 
+import com.example.InspectionBoard.exceptions.ParsingException;
 import com.example.InspectionBoard.mainController.MainServlet;
 import com.example.InspectionBoard.model.entity.Account;
+import com.example.InspectionBoard.model.entity.Subject;
 import com.example.InspectionBoard.model.repository.AccountRepository;
 import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
+import com.example.InspectionBoard.model.repository.SubjectRepository;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.example.InspectionBoard.mainController.MainServlet.*;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
+import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
 public class LoginCommand implements Command{
 
@@ -37,11 +42,15 @@ public class LoginCommand implements Command{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
-            return account.getRole().getRedirectPath();
+            List<Subject> subjects = SubjectRepository.getInstance().getSubjects();
+            request.getSession().setAttribute("subject", subjects);
+            return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException ex){
             return "/WEB-INF/error/400.jsp";
         }catch (UserAlreadyLoggedInException ex){
             return "/WEB-INF/error/exists.jsp";
+        }catch (ParsingException ex){
+            return "/WEB-INF/error/404.jsp";
         }
     }
 

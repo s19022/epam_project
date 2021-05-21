@@ -4,13 +4,13 @@ public enum AccountRole {
     USER{
         @Override
         public String getRedirectPath(){
-            return "/WEB-INF/enrollee/enrolleeBasic.jsp";
+            return /*"/WEB-INF"*/"/enrollee/main.jsp";
         }
     },
     ADMIN{
         @Override
         public String getRedirectPath(){
-            return "/WEB-INF/admin/basic.jsp";
+            return /*"/WEB-INF"*/"/admin/main.jsp";
         }
     },
     UNKNOWN;
