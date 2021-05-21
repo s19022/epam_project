@@ -15,7 +15,7 @@ public class SaveEnrollee {
     private final String city;
     private final String region;
     private final String schoolName;
-    private byte[] certificateScan;
+    private final byte[] certificateScan;
 
     private SaveEnrollee(String login, String password, String firstName, String fatherName, String lastName,
                          String email, String city, String region, String schoolName, byte[] certificateScan) {
