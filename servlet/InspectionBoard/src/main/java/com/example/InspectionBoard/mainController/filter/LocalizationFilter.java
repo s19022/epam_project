@@ -1,11 +1,8 @@
 package com.example.InspectionBoard.mainController.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
-import java.util.Locale;
 
-@WebFilter("/login")
 public class LocalizationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

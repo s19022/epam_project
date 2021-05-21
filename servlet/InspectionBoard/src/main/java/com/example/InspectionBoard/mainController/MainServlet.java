@@ -5,11 +5,9 @@ import com.example.InspectionBoard.mainController.command.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
-@WebServlet(name = "mainServlet", value = "/")
 public class MainServlet extends HttpServlet {
     public static final String LOGGED_USERS = "loggedUsers";
     public static final String REDIRECT_KEYWORD = "redirect:";

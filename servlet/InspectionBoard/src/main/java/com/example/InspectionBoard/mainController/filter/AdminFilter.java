@@ -3,7 +3,6 @@ package com.example.InspectionBoard.mainController.filter;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.io.IOException;
 import static com.example.InspectionBoard.mainController.MainServlet.USER_ROLE;
 import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
-@WebFilter("/admin/*")
 public class AdminFilter implements Filter {
 
     @Override

@@ -3,7 +3,6 @@ package com.example.InspectionBoard.mainController.filter;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import java.io.IOException;
 
 import static com.example.InspectionBoard.mainController.MainServlet.USER_ROLE;
 
-@WebFilter(urlPatterns = {"/enrollee/*", "/admin/*"})
 public class LoggedInFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
