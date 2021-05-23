@@ -2,6 +2,9 @@ package com.example.InspectionBoard.mainController;
 
 
 import com.example.InspectionBoard.mainController.command.*;
+import com.example.InspectionBoard.model.repository.AccountRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,6 +15,7 @@ import java.util.*;
 import static com.example.InspectionBoard.Constants.*;
 
 public class MainServlet extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(HttpServlet.class.getName());
     private final Map<String, Command> commands = new HashMap<>();
 
     @Override
@@ -34,14 +38,14 @@ public class MainServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response, RequestType requestType) throws ServletException, IOException {
         String path = request.getRequestURI();
-        path = path.replaceAll(".*/InspectionBoard_war/" , "");
+        path = path.replaceAll(".*/" + APP_NAME +"/" , "");
         Command command = commands.getOrDefault(path,
                 (r, i)-> DEFAULT_PATH);
         String page = command.execute(request, requestType);
         System.out.println("redirect to, " + page);
         System.out.println("type, " + requestType.name());
         if(page.contains("redirect:")){
-            response.sendRedirect(page.replace(REDIRECT_KEYWORD, "/InspectionBoard_war"));
+            response.sendRedirect(page.replace(REDIRECT_KEYWORD, "/" + APP_NAME));
         }else {
             request.getRequestDispatcher(page).forward(request, response);
         }

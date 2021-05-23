@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<form method="post" action="login">
+<form method="post" action="${pageContext.request.contextPath}/login">
     <table>
         <tr>
             <td>UserName</td>
