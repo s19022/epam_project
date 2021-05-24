@@ -1,11 +1,8 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
-import com.example.InspectionBoard.model.dao.DataSourceWrapper;
 import com.example.InspectionBoard.model.dao.FacultyDao;
-import com.example.InspectionBoard.model.dao.GenericDao;
 import com.example.InspectionBoard.model.entity.Faculty;
-import com.example.InspectionBoard.model.entity.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -18,17 +15,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JBDCFacultyDao implements FacultyDao {
-    private static final Logger LOGGER = LogManager.getLogger(JBDCFacultyDao.class.getName());
+public class JDBCFacultyDao implements FacultyDao {
+    private static final Logger LOGGER = LogManager.getLogger(JDBCFacultyDao.class.getName());
 
     private static final String FIND_ALL_FACULTIES =  "SELECT id, name, budget_places, all_places FROM faculty";
 
-    private static final Object LOCK = new Object();
-    private static JBDCFacultyDao instance;
-
     private final DataSource dataSource;
 
-    private JBDCFacultyDao(DataSource dataSource) {
+    public JDBCFacultyDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -84,18 +78,4 @@ public class JBDCFacultyDao implements FacultyDao {
         int allPlaces = rs.getInt(4);
         return new Faculty(id, name, budgetPlaces, allPlaces);
     }
-
-
-    public static JBDCFacultyDao getInstance() {
-        if (instance == null){
-            synchronized (LOCK){
-                if (instance == null){
-                    instance = new JBDCFacultyDao(DataSourceWrapper.getDataSource());
-                }
-            }
-        }
-        return instance;
-    }
-
-
 }

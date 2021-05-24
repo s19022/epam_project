@@ -32,12 +32,9 @@ public class JDBCAccountDao implements AccountDao {
             " and role_id = "  + USER_ROLE_ID;
 
 
-    private static final Object LOCK = new Object();
-    private static JDBCAccountDao instance;
-
     private final DataSource dataSource;
 
-    private JDBCAccountDao(DataSource dataSource) {
+    public JDBCAccountDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -153,17 +150,6 @@ public class JDBCAccountDao implements AccountDao {
 
     private boolean isValid(String toCheck){
         return !(toCheck == null || toCheck.trim().isEmpty());
-    }
-
-    public static JDBCAccountDao getInstance() {
-        if (instance == null){
-            synchronized (LOCK){
-                if (instance == null){
-                    instance = new JDBCAccountDao(DataSourceWrapper.getDataSource());
-                }
-            }
-        }
-        return instance;
     }
 
     @Override

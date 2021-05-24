@@ -1,7 +1,6 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
-import com.example.InspectionBoard.model.dao.DataSourceWrapper;
 import com.example.InspectionBoard.model.dao.SubjectDao;
 import com.example.InspectionBoard.model.entity.Subject;
 
@@ -23,7 +22,7 @@ public class JDBCSubjectDao implements SubjectDao {
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
     private final DataSource dataSource;
 
-    private JDBCSubjectDao(DataSource dataSource) {
+    public JDBCSubjectDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -76,9 +75,5 @@ public class JDBCSubjectDao implements SubjectDao {
         int id = rs.getInt(1);
         String name = rs.getString(2);
         return new Subject(id, name);
-    }
-
-    public static JDBCSubjectDao getInstance(){
-        return new JDBCSubjectDao(DataSourceWrapper.getDataSource());
     }
 }

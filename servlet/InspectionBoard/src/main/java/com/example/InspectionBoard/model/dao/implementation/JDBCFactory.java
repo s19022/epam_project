@@ -12,13 +12,14 @@ import javax.sql.DataSource;
 
 public class JDBCFactory extends DaoFactory {
     private static final Logger LOGGER = LogManager.getLogger(JDBCFactory.class.getName());
-    private final DataSource dataSource;
-    private final AccountDao accountDao = JDBCAccountDao.getInstance();
-    private final FacultyDao facultyDao = JBDCFacultyDao.getInstance();
-    private final SubjectDao subjectDao = JDBCSubjectDao.getInstance();
+    private final AccountDao accountDao;
+    private final FacultyDao facultyDao;
+    private final SubjectDao subjectDao;
 
     public JDBCFactory(DataSource dataSource) {
-        this.dataSource = dataSource;
+        accountDao = new JDBCAccountDao(dataSource);
+        facultyDao = new JDBCFacultyDao(dataSource);
+        subjectDao = new JDBCSubjectDao(dataSource);
     }
 
     @Override
