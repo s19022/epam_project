@@ -51,6 +51,7 @@
         <filter-name>LoggedIn</filter-name>
         <url-pattern>/enrollee/*</url-pattern>
         <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/logout/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -60,6 +61,14 @@
     <filter-mapping>
         <filter-name>Admin</filter-name>
         <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>Enrollee</filter-name>
+        <filter-class>com.example.InspectionBoard.mainController.filter.EnrolleeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Enrollee</filter-name>
+        <url-pattern>/enrollee/*</url-pattern>
     </filter-mapping>
 <!--    -->
 <!--  ERROR PAGES  -->

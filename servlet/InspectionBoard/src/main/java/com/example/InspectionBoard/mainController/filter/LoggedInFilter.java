@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.example.InspectionBoard.Constants.*;
+import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
 
 
 public class LoggedInFilter implements Filter {
@@ -23,24 +24,11 @@ public class LoggedInFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        System.out.println("in login filter");
         AccountRole role = getAccountRole(session.getAttribute(USER_ROLE));
         if (role == AccountRole.USER || role == AccountRole.ADMIN) {
             filterChain.doFilter(request, response);
             return;
         }
         ((HttpServletResponse) response).sendError(403);
-    }
-
-    private AccountRole getAccountRole(Object attribute) {
-        try {
-            if (attribute instanceof AccountRole) {
-                return (AccountRole) attribute;
-            }
-            if (attribute instanceof String) {
-                return AccountRole.valueOf((String) attribute);
-            }
-        } catch (RuntimeException ignore) {}
-        return AccountRole.UNKNOWN;
     }
 }

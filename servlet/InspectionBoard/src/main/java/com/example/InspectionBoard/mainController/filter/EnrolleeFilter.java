@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.example.InspectionBoard.Constants.*;
+import static com.example.InspectionBoard.Constants.USER_ROLE;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
-import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
+import static com.example.InspectionBoard.model.enums.AccountRole.USER;
 
-public class AdminFilter implements Filter {
+public class EnrolleeFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig){
@@ -22,7 +22,7 @@ public class AdminFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse) res;
         AccountRole role = getAccountRole(request.getSession().getAttribute(USER_ROLE));
-        if (role == ADMIN){
+        if (role == USER){
             filterChain.doFilter(req, res);
             return;
         }
@@ -33,3 +33,4 @@ public class AdminFilter implements Filter {
     public void destroy() {
     }
 }
+
