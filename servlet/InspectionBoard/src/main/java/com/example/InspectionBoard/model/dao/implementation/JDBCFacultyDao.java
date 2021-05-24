@@ -1,8 +1,10 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
+import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.entity.Faculty;
+import com.example.InspectionBoard.model.entity.RequiredSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -71,6 +73,8 @@ public class JDBCFacultyDao implements FacultyDao {
         String name = rs.getString(2);
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
-        return new Faculty(id, name, budgetPlaces, allPlaces);
+        List<RequiredSubject> requiredSubjects =
+                DaoFactory.getInstance().createRequiredSubjectDao().getAllByFacultyId(id);
+        return new Faculty(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 }

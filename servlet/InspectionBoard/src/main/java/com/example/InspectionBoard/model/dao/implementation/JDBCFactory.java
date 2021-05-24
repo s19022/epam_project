@@ -2,6 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.*;
+import com.example.InspectionBoard.model.entity.RequiredSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +16,13 @@ public class JDBCFactory extends DaoFactory {
     private final AccountDao accountDao;
     private final FacultyDao facultyDao;
     private final SubjectDao subjectDao;
+    private final RequiredSubjectDao requiredSubject;
 
     public JDBCFactory(DataSource dataSource) {
         accountDao = new JDBCAccountDao(dataSource);
         facultyDao = new JDBCFacultyDao(dataSource);
         subjectDao = new JDBCSubjectDao(dataSource);
+        requiredSubject = new JDBCRequiredSubjectDao(dataSource);
     }
 
     @Override
@@ -35,6 +38,11 @@ public class JDBCFactory extends DaoFactory {
     @Override
     public SubjectDao createSubjectDao() {
         return subjectDao;
+    }
+
+    @Override
+    public RequiredSubjectDao createRequiredSubjectDao() {
+        return requiredSubject;
     }
 
     public static JDBCFactory getInstance(){

@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.entity;
 
 
+import java.util.List;
 import java.util.Objects;
 
 public class Faculty {
@@ -8,12 +9,14 @@ public class Faculty {
     private final String name;
     private final int budgetPlaces;
     private final int allPlaces;
+    private final List<RequiredSubject> requiredSubjects;
 
-    public Faculty(int id, String name, int budgetPlaces, int allPlaces) {
+    public Faculty(int id, String name, int budgetPlaces, int allPlaces, List<RequiredSubject> requiredSubjects) {
         this.id = id;
         this.name = name;
         this.budgetPlaces = budgetPlaces;
         this.allPlaces = allPlaces;
+        this.requiredSubjects = requiredSubjects;
     }
 
     public int getId() {
@@ -30,6 +33,10 @@ public class Faculty {
 
     public int getAllPlaces() {
         return allPlaces;
+    }
+
+    public List<RequiredSubject> getRequiredSubjects() {
+        return requiredSubjects;
     }
 
     @Override
@@ -52,6 +59,7 @@ public class Faculty {
                 ", name='" + name + '\'' +
                 ", budgetPlaces=" + budgetPlaces +
                 ", allPlaces=" + allPlaces +
+                ", requiredSubjects=" + requiredSubjects +
                 '}';
     }
 }
