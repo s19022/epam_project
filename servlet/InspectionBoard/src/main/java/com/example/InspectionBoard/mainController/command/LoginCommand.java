@@ -4,10 +4,10 @@ import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.ParsingException;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.entity.Subject;
-import com.example.InspectionBoard.model.repository.AccountRepository;
+import com.example.InspectionBoard.model.dao.implementation.JDBCAccountDao;
 import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
-import com.example.InspectionBoard.model.repository.SubjectRepository;
+import com.example.InspectionBoard.model.dao.implementation.JDBCSubjectDao;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class LoginCommand implements Command{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
-            List<Subject> subjects = SubjectRepository.getInstance().getSubjects();
+            List<Subject> subjects = JDBCSubjectDao.getInstance().getSubjects();
             request.getSession().setAttribute("subject", subjects);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException ex){
@@ -57,7 +57,7 @@ public class LoginCommand implements Command{
             throws WrongLoginPasswordException, AccountIsBlockedException {
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
-        return AccountRepository.getInstance().getAccount(login, password);
+        return JDBCAccountDao.getInstance().getAccount(login, password);
     }
 
     private void addAccountToSession(HttpSession session, Account account){

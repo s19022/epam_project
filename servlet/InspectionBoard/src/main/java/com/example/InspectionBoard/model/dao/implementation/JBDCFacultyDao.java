@@ -1,5 +1,6 @@
-package com.example.InspectionBoard.model.repository;
+package com.example.InspectionBoard.model.dao.implementation;
 
+import com.example.InspectionBoard.model.dao.DataSourceWrapper;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.exceptions.ParsingException;
 import org.apache.logging.log4j.LogManager;
@@ -13,17 +14,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacultyRepository {
-    private static final Logger LOGGER = LogManager.getLogger(FacultyRepository.class.getName());
+public class JBDCFacultyDao {
+    private static final Logger LOGGER = LogManager.getLogger(JBDCFacultyDao.class.getName());
 
     private static final String FIND_ALL_FACULTIES =  "SELECT id, name, budget_places, all_places FROM faculty";
 
     private static final Object LOCK = new Object();
-    private static FacultyRepository instance;
+    private static JBDCFacultyDao instance;
 
     private final DataSource dataSource;
 
-    private FacultyRepository(DataSource dataSource) {
+    private JBDCFacultyDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -55,11 +56,11 @@ public class FacultyRepository {
     }
 
 
-    public static FacultyRepository getInstance() {
+    public static JBDCFacultyDao getInstance() {
         if (instance == null){
             synchronized (LOCK){
                 if (instance == null){
-                    instance = new FacultyRepository(DataSourceWrapper.getDataSource());
+                    instance = new JBDCFacultyDao(DataSourceWrapper.getDataSource());
                 }
             }
         }

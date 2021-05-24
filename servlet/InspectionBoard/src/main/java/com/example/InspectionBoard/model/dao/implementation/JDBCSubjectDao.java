@@ -1,5 +1,6 @@
-package com.example.InspectionBoard.model.repository;
+package com.example.InspectionBoard.model.dao.implementation;
 
+import com.example.InspectionBoard.model.dao.DataSourceWrapper;
 import com.example.InspectionBoard.model.entity.Subject;
 
 import javax.sql.DataSource;
@@ -15,12 +16,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class SubjectRepository {
-    private static final Logger LOGGER = LogManager.getLogger(SubjectRepository.class.getName());
+public class JDBCSubjectDao {
+    private static final Logger LOGGER = LogManager.getLogger(JDBCSubjectDao.class.getName());
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
     private final DataSource dataSource;
 
-    private SubjectRepository(DataSource dataSource) {
+    private JDBCSubjectDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -49,7 +50,7 @@ public class SubjectRepository {
         return new Subject(id, name);
     }
 
-    public static SubjectRepository getInstance(){
-        return new SubjectRepository(DataSourceWrapper.getDataSource());
+    public static JDBCSubjectDao getInstance(){
+        return new JDBCSubjectDao(DataSourceWrapper.getDataSource());
     }
 }

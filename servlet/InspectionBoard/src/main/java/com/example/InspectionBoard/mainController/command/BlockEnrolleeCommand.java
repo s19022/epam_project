@@ -1,6 +1,6 @@
 package com.example.InspectionBoard.mainController.command;
 
-import com.example.InspectionBoard.model.repository.AccountRepository;
+import com.example.InspectionBoard.model.dao.implementation.JDBCAccountDao;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +11,7 @@ public class BlockEnrolleeCommand implements Command{
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String login = request.getParameter("login");
-        AccountRepository.getInstance().blockEnrollee(login);
+        JDBCAccountDao.getInstance().blockEnrollee(login);
         return REDIRECT_KEYWORD + ADMIN.getRedirectPath();
     }
 }

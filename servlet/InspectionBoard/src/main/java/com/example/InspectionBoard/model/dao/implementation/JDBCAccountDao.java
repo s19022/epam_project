@@ -1,8 +1,10 @@
-package com.example.InspectionBoard.model.repository;
+package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.model.DTO.SaveEnrollee;
+import com.example.InspectionBoard.model.dao.DataSourceWrapper;
+import com.example.InspectionBoard.model.dao.HashUtility;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
@@ -13,8 +15,8 @@ import org.apache.logging.log4j.Logger;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class AccountRepository {
-    private static final Logger LOGGER = LogManager.getLogger(AccountRepository.class.getName());
+public class JDBCAccountDao {
+    private static final Logger LOGGER = LogManager.getLogger(JDBCAccountDao.class.getName());
     private static final int USER_ROLE_ID = 1;
     private static final String FIND_ACCOUNT =  "SELECT a.blocked, a.id, r.name " +
                                                 "FROM account a, role r " +
@@ -32,11 +34,11 @@ public class AccountRepository {
 
 
     private static final Object LOCK = new Object();
-    private static AccountRepository instance;
+    private static JDBCAccountDao instance;
 
     private final DataSource dataSource;
 
-    private AccountRepository(DataSource dataSource) {
+    private JDBCAccountDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -150,11 +152,11 @@ public class AccountRepository {
         return !(toCheck == null || toCheck.trim().isEmpty());
     }
 
-    public static AccountRepository getInstance() {
+    public static JDBCAccountDao getInstance() {
         if (instance == null){
             synchronized (LOCK){
                 if (instance == null){
-                    instance = new AccountRepository(DataSourceWrapper.getDataSource());
+                    instance = new JDBCAccountDao(DataSourceWrapper.getDataSource());
                 }
             }
         }
