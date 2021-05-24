@@ -39,7 +39,7 @@ public class LoginCommand implements Command{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
-            List<Subject> subjects = JDBCSubjectDao.getInstance().getSubjects();
+            List<Subject> subjects = JDBCSubjectDao.getInstance().findAll();
             request.getSession().setAttribute("subject", subjects);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException ex){
@@ -48,8 +48,6 @@ public class LoginCommand implements Command{
             return "/WEB-INF/error/accountBlocked.jsp";
         } catch (UserAlreadyLoggedInException ex){
             return "/WEB-INF/error/exists.jsp";
-        }catch (ParsingException ex){
-            return "/WEB-INF/error/404.jsp";
         }
     }
 

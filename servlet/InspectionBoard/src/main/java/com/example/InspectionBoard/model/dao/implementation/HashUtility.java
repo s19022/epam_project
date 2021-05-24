@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.model.dao;
+package com.example.InspectionBoard.model.dao.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

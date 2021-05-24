@@ -1,10 +1,14 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
+import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DataSourceWrapper;
+import com.example.InspectionBoard.model.dao.FacultyDao;
+import com.example.InspectionBoard.model.dao.GenericDao;
 import com.example.InspectionBoard.model.entity.Faculty;
-import com.example.InspectionBoard.exceptions.ParsingException;
+import com.example.InspectionBoard.model.entity.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -14,7 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JBDCFacultyDao {
+public class JBDCFacultyDao implements FacultyDao {
     private static final Logger LOGGER = LogManager.getLogger(JBDCFacultyDao.class.getName());
 
     private static final String FIND_ALL_FACULTIES =  "SELECT id, name, budget_places, all_places FROM faculty";
@@ -28,14 +32,40 @@ public class JBDCFacultyDao {
         this.dataSource = dataSource;
     }
 
-    public List<Faculty> getAllFaculties() throws ParsingException {
+    @Override
+    public int create(Faculty faculty) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int update(Faculty faculty) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean delete(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Faculty findById(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void close(){
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Faculty> findAll(){
         try(Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(FIND_ALL_FACULTIES)){
             return parseFaculties(rs);
         }catch (SQLException ex){
             LOGGER.error(ex);
-            throw new ParsingException(ex.getMessage(), ex);
+            throw new SQLExceptionWrapper(ex);
         }
     }
 

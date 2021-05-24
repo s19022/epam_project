@@ -29,7 +29,7 @@ public class RegisterCommand implements Command{
     private String executePost(HttpServletRequest request){
         try{
             SaveEnrollee enrollee = parseSaveEnrollee(request);
-            JDBCAccountDao.getInstance().saveUser(enrollee);
+            JDBCAccountDao.getInstance().createEnrollee(enrollee);
         }catch (ValidationException | InsertException ex){
             LOGGER.warn(ex);
             return "/WEB-INF/error/400.jsp";

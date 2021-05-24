@@ -1,6 +1,8 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
+import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DataSourceWrapper;
+import com.example.InspectionBoard.model.dao.SubjectDao;
 import com.example.InspectionBoard.model.entity.Subject;
 
 import javax.sql.DataSource;
@@ -11,12 +13,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.InspectionBoard.exceptions.ParsingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
-public class JDBCSubjectDao {
+public class JDBCSubjectDao implements SubjectDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCSubjectDao.class.getName());
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
     private final DataSource dataSource;
@@ -25,14 +27,40 @@ public class JDBCSubjectDao {
         this.dataSource = dataSource;
     }
 
-    public List<Subject> getSubjects() throws ParsingException {
+    @Override
+    public int create(Subject subject) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int update(Subject subject) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean delete(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Subject findById(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void close(){
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Subject> findAll(){
         try(Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(GET_ALL_SUBJECTS)){
             return parseSubjects(rs);
         }catch (SQLException ex){
             LOGGER.error(ex);
-            throw new ParsingException(ex.getMessage(), ex);
+            throw new SQLExceptionWrapper(ex);
         }
     }
 

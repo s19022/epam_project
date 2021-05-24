@@ -1,21 +1,20 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
-import com.example.InspectionBoard.exceptions.InsertException;
+import com.example.InspectionBoard.exceptions.*;
+import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.DTO.SaveEnrollee;
-import com.example.InspectionBoard.model.dao.DataSourceWrapper;
-import com.example.InspectionBoard.model.dao.HashUtility;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
-import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
-public class JDBCAccountDao {
+public class JDBCAccountDao implements AccountDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCAccountDao.class.getName());
     private static final int USER_ROLE_ID = 1;
     private static final String FIND_ACCOUNT =  "SELECT a.blocked, a.id, r.name " +
@@ -63,24 +62,27 @@ public class JDBCAccountDao {
         throw new WrongLoginPasswordException("wrong login/password");
     }
 
-    public void saveUser(SaveEnrollee enrollee) throws InsertException {
+    @Override
+    public int createEnrollee(SaveEnrollee enrollee) throws InsertException {
         try(Connection connection = dataSource.getConnection()){
             connection.setAutoCommit(false);
             try {
                 int accountId = insertAccount(connection, enrollee);
                 insertEnrollee(connection, enrollee, accountId);
+                connection.commit();
+                connection.setAutoCommit(true);
+                return accountId;
             } catch (Exception ex) {
                 connection.rollback();
                 throw new InsertException(ex);
             }
-            connection.commit();
-            connection.setAutoCommit(true);
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
     }
 
+    @Override
     public void blockEnrollee(String login){
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(BLOCK_ENROLLEE)){
@@ -94,6 +96,7 @@ public class JDBCAccountDao {
         }
     }
 
+    @Override
     public void unblockEnrollee(String login){
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(UNBLOCK_ENROLLEE)){
@@ -161,5 +164,35 @@ public class JDBCAccountDao {
             }
         }
         return instance;
+    }
+
+    @Override
+    public int create(Account account) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int update(Account account) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean delete(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Account findById(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Account> findAll() {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void close(){
+        throw new NotImplementedException();
     }
 }
