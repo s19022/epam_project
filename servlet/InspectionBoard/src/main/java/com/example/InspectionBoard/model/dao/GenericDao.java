@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao;
 
 import java.util.List;
 
-public interface GenericDao<T> extends AutoCloseable{
+public interface GenericDao<T>{
     int create(T t);
     int update(T t);
     boolean delete(int id);

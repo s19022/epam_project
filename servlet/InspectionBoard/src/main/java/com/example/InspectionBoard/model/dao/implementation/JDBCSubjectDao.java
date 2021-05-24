@@ -47,11 +47,6 @@ public class JDBCSubjectDao implements SubjectDao {
     }
 
     @Override
-    public void close(){
-        throw new NotImplementedException();
-    }
-
-    @Override
     public List<Subject> findAll(){
         try(Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();

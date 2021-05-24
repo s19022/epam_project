@@ -47,11 +47,6 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public void close(){
-        throw new NotImplementedException();
-    }
-
-    @Override
     public List<Faculty> findAll(){
         try(Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();

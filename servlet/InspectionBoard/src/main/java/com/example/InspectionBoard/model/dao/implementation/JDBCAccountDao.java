@@ -176,9 +176,4 @@ public class JDBCAccountDao implements AccountDao {
     public List<Account> findAll() {
         throw new NotImplementedException();
     }
-
-    @Override
-    public void close(){
-        throw new NotImplementedException();
-    }
 }
