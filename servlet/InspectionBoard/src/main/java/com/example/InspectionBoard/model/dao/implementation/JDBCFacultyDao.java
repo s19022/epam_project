@@ -10,18 +10,15 @@ import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCFacultyDao implements FacultyDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCFacultyDao.class.getName());
 
-    private static final String FIND_ALL_FACULTIES =  "SELECT id, name, budget_places, all_places FROM faculty";
-
+    private static final String FIND_ALL_FACULTIES = "SELECT id, name, budget_places, all_places FROM faculty";
+    private static final String FIND_BY_NAME = FIND_ALL_FACULTIES + " WHERE name = ?";
     private final DataSource dataSource;
 
     public JDBCFacultyDao(DataSource dataSource) {
@@ -54,6 +51,20 @@ public class JDBCFacultyDao implements FacultyDao {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(FIND_ALL_FACULTIES)){
             return parseFaculties(rs);
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    @Override
+    public Faculty getByName(String name) {
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME)){
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return parseFaculty(rs);
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
