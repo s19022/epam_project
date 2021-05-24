@@ -22,7 +22,6 @@ public class LogoutCommand implements Command{
             loggedUsers.remove(userId);
             context.setAttribute(LOGGED_USERS, loggedUsers);
             session.setAttribute("userRole", AccountRole.UNKNOWN);
-            //todo add filter to prevent logged out users from accessing
         }
         return REDIRECT_KEYWORD + AccountRole.UNKNOWN.getRedirectPath();
     }
