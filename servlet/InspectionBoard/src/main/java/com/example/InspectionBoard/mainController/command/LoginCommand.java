@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command;
 
+import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.ParsingException;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.entity.Subject;
@@ -43,14 +44,17 @@ public class LoginCommand implements Command{
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException ex){
             return "/WEB-INF/error/400.jsp";
-        }catch (UserAlreadyLoggedInException ex){
+        }catch (AccountIsBlockedException ex){
+            return "/WEB-INF/error/accountBlocked.jsp";
+        } catch (UserAlreadyLoggedInException ex){
             return "/WEB-INF/error/exists.jsp";
         }catch (ParsingException ex){
             return "/WEB-INF/error/404.jsp";
         }
     }
 
-    private Account getAccount(HttpServletRequest request) throws WrongLoginPasswordException {
+    private Account getAccount(HttpServletRequest request)
+            throws WrongLoginPasswordException, AccountIsBlockedException {
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
         return AccountRepository.getInstance().getAccount(login, password);

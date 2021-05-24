@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.model.repository;
 
+import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.model.DTO.SaveEnrollee;
 import com.example.InspectionBoard.model.entity.Account;
@@ -15,7 +16,7 @@ import java.sql.*;
 public class AccountRepository {
     private static final Logger LOGGER = LogManager.getLogger(AccountRepository.class.getName());
     private static final int USER_ROLE_ID = 1;
-    private static final String FIND_ACCOUNT =  "SELECT a.id, r.name " +
+    private static final String FIND_ACCOUNT =  "SELECT a.blocked, a.id, r.name " +
                                                 "FROM account a, role r " +
                                                 "WHERE login = ? AND password = ? AND a.role_id = r.id";
    private static final String INSERT_ACCOUNT =
@@ -39,7 +40,8 @@ public class AccountRepository {
         this.dataSource = dataSource;
     }
 
-    public Account getAccount(String login, String password) throws WrongLoginPasswordException {
+    public Account getAccount(String login, String password)
+            throws WrongLoginPasswordException, AccountIsBlockedException {
         if (! isValid(login) && isValid(password)){
             throw new WrongLoginPasswordException("wrong login/password");
         }
@@ -133,9 +135,14 @@ public class AccountRepository {
         }
     }
 
-    private Account parseAccount(ResultSet rs) throws SQLException{
-        int id = rs.getInt(1);
-        AccountRole role = AccountRole.valueOf(rs.getString(2));
+    private Account parseAccount(ResultSet rs) throws SQLException, AccountIsBlockedException{
+        boolean blocked = rs.getBoolean(1);
+        if (blocked){
+            throw new AccountIsBlockedException();
+        }
+        int id = rs.getInt(2);
+        AccountRole role = AccountRole.valueOf(rs.getString(3));
+
         return new Account(id, role);
     }
 
