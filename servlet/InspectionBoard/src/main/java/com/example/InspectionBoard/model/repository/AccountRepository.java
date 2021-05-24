@@ -20,9 +20,12 @@ public class AccountRepository {
                                                 "WHERE login = ? AND password = ? AND a.role_id = r.id";
    private static final String INSERT_ACCOUNT =
            "insert into account(login, password, role_id) values (?, ?," + USER_ROLE_ID + " )";
-    private static final String INSERT_ENROLLEE = "insert into enrollee(id, first_name, father_name, last_name, email," +
+    private static final String INSERT_ENROLLEE = "insert into enrollee(id, first_name, father_name," +
+                                                    " last_name, email," +
                                                     " city, region, school_name) " +
                                                   "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String BLOCK_ENROLLEE = "UPDATE account SET blocked = TRUE WHERE login = ?" +
+            " and role_id = "  + USER_ROLE_ID;
     private static final Object LOCK = new Object();
     private static AccountRepository instance;
 
@@ -67,6 +70,19 @@ public class AccountRepository {
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    public void blockEnrollee(String login){
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(BLOCK_ENROLLEE)){
+            statement.setString(1, login);
+            statement.executeUpdate();
+            //todo check if blocked
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+            //todo one method to exception handling
         }
     }
 
