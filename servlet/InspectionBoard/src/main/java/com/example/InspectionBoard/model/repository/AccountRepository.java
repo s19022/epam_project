@@ -26,6 +26,10 @@ public class AccountRepository {
                                                   "values(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String BLOCK_ENROLLEE = "UPDATE account SET blocked = TRUE WHERE login = ?" +
             " and role_id = "  + USER_ROLE_ID;
+    private static final String UNBLOCK_ENROLLEE = "UPDATE account SET blocked = FALSE WHERE login = ?" +
+            " and role_id = "  + USER_ROLE_ID;
+
+
     private static final Object LOCK = new Object();
     private static AccountRepository instance;
 
@@ -76,6 +80,19 @@ public class AccountRepository {
     public void blockEnrollee(String login){
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(BLOCK_ENROLLEE)){
+            statement.setString(1, login);
+            statement.executeUpdate();
+            //todo check if blocked
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+            //todo one method to exception handling
+        }
+    }
+
+    public void unblockEnrollee(String login){
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UNBLOCK_ENROLLEE)){
             statement.setString(1, login);
             statement.executeUpdate();
             //todo check if blocked

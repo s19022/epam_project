@@ -25,6 +25,7 @@ public class MainServlet extends HttpServlet {
         commands.put("logout", new LogoutCommand());
         commands.put("register", new RegisterCommand());
         commands.put("admin/enrollee/block", new BlockEnrolleeCommand());
+        commands.put("admin/enrollee/unblock", new UnblockEnrolleeCommand());
     }
 
     @Override
