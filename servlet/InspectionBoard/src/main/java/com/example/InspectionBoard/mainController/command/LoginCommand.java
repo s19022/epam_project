@@ -38,7 +38,7 @@ public class LoginCommand implements Command{
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
             List<Subject> subjects = DaoFactory.getInstance().createSubjectDao().findAll();
-            request.getSession().setAttribute("subject", subjects);
+            request.getSession().setAttribute("myList", subjects);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException ex){
             return "/WEB-INF/error/400.jsp";

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
@@ -14,11 +15,14 @@
 </head>
 <body>
 <h1>Добро пожаловать!</h1>
-<%--
-<c:forEach items="${sessionScope.get('subject')}" var="subject">
-    <p>${subject.id}</p>
-</c:forEach>
---%>
-<%=session.getAttribute("subject")%>
+<table border="2">
+    <c:forEach items="${sessionScope.myList}" var="element">
+        <tr>
+            <td>Subject</td>
+            <td>${element.id}</td>
+            <td>${element.name}</td>
+        </tr>
+    </c:forEach>
+</table>
 </body>
 </html>
