@@ -1,16 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 14.05.2021
-  Time: 14:17
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/tld/mytag.tld" prefix="m" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="errorPage.internalServerError" bundle="${lang}" var = "internalServerError"/>
+
 <html>
 <head>
-    <title>Error</title>
+    <title>500</title>
 </head>
 <body>
-server is sleeping, please do not disturb
+    ${internalServerError}
 </body>
 </html>

@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 14.05.2021
-  Time: 11:13
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/tld/mytag.tld" prefix="m" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="errorPage.forbidden" bundle="${lang}" var = "forbidden"/>
 <html>
 <head>
     <title>403</title>
 </head>
 <body>
-    you cant access this page
+    ${forbidden}
 </body>
 </html>
