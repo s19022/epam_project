@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/resources/login.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/login_ua.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/res.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/res_EN.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/res_UA.properties" />
@@ -13,6 +15,11 @@
       <file value="file://$PROJECT_DIR$/src/main/resources/res_UA_UK.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/res_UK_UA.properties" />
       <base-name>res</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/login.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/login_ua.properties" />
+      <base-name>login</base-name>
     </custom-resource-bundle>
   </component>
 </project>
