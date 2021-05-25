@@ -38,14 +38,13 @@
         </tr>
     </table>
     <div>
-        <input type="radio" id="langUa"
-               name="lang" value="UA" checked>
-        <label for="langUa">${langUa}</label>
-
-
         <input type="radio" id="langEn"
-               name="lang" value="EN">
+               name="lang" value="EN" checked>
         <label for="langEn">${langEn}</label>
+
+        <input type="radio" id="langUa"
+               name="lang" value="UA">
+        <label for="langUa">${langUa}</label>
     </div>
 </form>
 

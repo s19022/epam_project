@@ -1,17 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 16.05.2021
-  Time: 17:06
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/tld/mytag.tld" prefix="m" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="adminPage.admin_home_page" bundle="${lang}" var = "homePage"/>
+<fmt:message key="adminPage.title" bundle="${lang}" var = "title"/>
+<fmt:message key="indexPage.logout" bundle="${lang}" var = "logout"/>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>${title}</title>
 </head>
 <body>
-admin home page
-<a href="${pageContext.request.contextPath}/logout">Logout</a>
+${homePage}
+<a href="${pageContext.request.contextPath}/logout">${logout}</a>
 </body>
 </html>
