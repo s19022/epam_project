@@ -40,12 +40,9 @@ public class LoginCommand implements Command{
             List<Subject> subjects = DaoFactory.getInstance().createSubjectDao().findAll();
             request.getSession().setAttribute("myList", subjects);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
-        }catch (WrongLoginPasswordException ex){
-            return "/WEB-INF/error/400.jsp";
-        }catch (AccountIsBlockedException ex){
-            return "/WEB-INF/error/accountBlocked.jsp";
-        } catch (UserAlreadyLoggedInException ex){
-            return "/WEB-INF/error/exists.jsp";
+        }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
+            request.setAttribute("login_status", ex);
+            return "login.jsp";
         }
     }
 
@@ -64,7 +61,7 @@ public class LoginCommand implements Command{
     private void addAccountToContext(ServletContext context, Account account) throws UserAlreadyLoggedInException {
         HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
         if (isLoggedIn(loggedUsers, account.getId())){
-            throw new UserAlreadyLoggedInException();
+            throw new UserAlreadyLoggedInException("Already logged in to the system");
         }
         loggedUsers.add(account.getId());
         context.setAttribute(LOGGED_USERS, loggedUsers);

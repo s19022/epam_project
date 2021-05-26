@@ -73,21 +73,24 @@
             errorField.innerText = '';
 
 
-            const xhr = new XMLHttpRequest();
-            const url = "login?login=" + login + "&pass=" + password;
-            xhr.open('POST', url, true);
-            xhr.onload = function () {
-                if (xhr.status === 200){
-                    window.location.href = xhr.responseURL;
+            const formData = new FormData();
+            formData.append("username", "Groucho");
+            formData.append("accountnum", 123456);
+            const request = new XMLHttpRequest();
+            request.open("POST", "http://localhost:8080/api/");
+            request.send(formData);
+            request.onload = function () {
+                if (request.status === 200){
+                    window.location.href = request.responseURL;
                     return;
                 }
-                if (xhr.status === 400){
+                if (request.status === 400){
                     errorField.innerText = 'Wrong login/password combination';
                     return;
                 }
 
             };
-            xhr.send();
+            request.send();
         });
 </script>
 </body>

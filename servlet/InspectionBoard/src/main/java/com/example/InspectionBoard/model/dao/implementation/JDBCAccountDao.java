@@ -140,7 +140,7 @@ public class JDBCAccountDao implements AccountDao {
     private Account parseAccount(ResultSet rs) throws SQLException, AccountIsBlockedException{
         boolean blocked = rs.getBoolean(1);
         if (blocked){
-            throw new AccountIsBlockedException();
+            throw new AccountIsBlockedException("Account is blocked");
         }
         int id = rs.getInt(2);
         AccountRole role = AccountRole.valueOf(rs.getString(3));
