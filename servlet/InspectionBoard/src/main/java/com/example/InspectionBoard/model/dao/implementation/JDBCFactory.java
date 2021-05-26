@@ -2,7 +2,6 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.*;
-import com.example.InspectionBoard.model.entity.RequiredSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,39 +9,53 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class JDBCFactory extends DaoFactory {
     private static final Logger LOGGER = LogManager.getLogger(JDBCFactory.class.getName());
-    private final AccountDao accountDao;
-    private final FacultyDao facultyDao;
-    private final SubjectDao subjectDao;
-    private final RequiredSubjectDao requiredSubject;
-
+    private final DataSource dataSource;
     public JDBCFactory(DataSource dataSource) {
-        accountDao = new JDBCAccountDao(dataSource);
-        facultyDao = new JDBCFacultyDao(dataSource);
-        subjectDao = new JDBCSubjectDao(dataSource);
-        requiredSubject = new JDBCRequiredSubjectDao(dataSource);
+        this.dataSource = dataSource;
     }
 
     @Override
     public AccountDao createAccountDao() {
-        return accountDao;
+        try{
+            return new JDBCAccountDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
     }
 
     @Override
     public FacultyDao createFacultyDao() {
-        return facultyDao;
+        try{
+            return new JDBCFacultyDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
     }
 
     @Override
     public SubjectDao createSubjectDao() {
-        return subjectDao;
+        try{
+            return new JDBCSubjectDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
     }
 
     @Override
     public RequiredSubjectDao createRequiredSubjectDao() {
-        return requiredSubject;
+        try{
+            return new JDBCRequiredSubjectDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
     }
 
     public static JDBCFactory getInstance(){

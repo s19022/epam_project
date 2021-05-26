@@ -23,10 +23,11 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     private static final String GET_ALL_BY_FACULTY_ID = "SELECT s.id, s.name, r_s.minimal_grade " +
                                                         "FROM subject s, required_subject r_s " +
                                                         "WHERE faculty_id = ? and s.id = r_s.subject_id";
-    private final DataSource dataSource;
 
-    public JDBCRequiredSubjectDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private final Connection connection;
+
+    public JDBCRequiredSubjectDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -55,15 +56,16 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     }
 
     @Override
-    public List<RequiredSubject> getAllByFacultyId(int facultyId) {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_FACULTY_ID)){
+    public Connection getConnection() {
+        return connection;
+    }
+
+    @Override
+    public List<RequiredSubject> getAllByFacultyId(int facultyId) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_FACULTY_ID)){
             statement.setInt(1, facultyId);
             ResultSet rs = statement.executeQuery();
             return parseRequiredSubjects(rs);
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
         }
     }
 

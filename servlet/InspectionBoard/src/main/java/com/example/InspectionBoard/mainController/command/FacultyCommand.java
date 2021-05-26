@@ -3,6 +3,8 @@ package com.example.InspectionBoard.mainController.command;
 import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.entity.Faculty;
+import com.example.InspectionBoard.model.service.FacultyService;
+import com.example.InspectionBoard.model.service.SubjectService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,10 +26,10 @@ public class FacultyCommand implements Command{
     }
 
     private List<Faculty> getAll(){
-        return DaoFactory.getInstance().createFacultyDao().findAll();
+        return FacultyService.findAll();
     }
 
     private Faculty getByName(String name) throws NoSuchFacultyException {
-        return DaoFactory.getInstance().createFacultyDao().getByName(name).orElseThrow(NoSuchFacultyException::new);
+        return FacultyService.getByName(name);
     }
 }

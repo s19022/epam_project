@@ -34,4 +34,9 @@ public class ServiceUtility {
         byte[] decoded = Base64.getDecoder().decode(toDecode.getBytes(StandardCharsets.UTF_8));
         return new String(decoded);
     }
+
+    public static boolean isValid(String toCheck){
+        return !(toCheck == null || toCheck.trim().isEmpty());
+    }
+
 }

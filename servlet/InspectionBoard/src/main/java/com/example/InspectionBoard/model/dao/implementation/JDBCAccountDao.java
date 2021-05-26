@@ -5,25 +5,21 @@ import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
-
 import com.example.InspectionBoard.model.service.ServiceUtility;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public class JDBCAccountDao implements AccountDao {
-    private static final Logger LOGGER = LogManager.getLogger(JDBCAccountDao.class.getName());
     private static final int USER_ROLE_ID = 1;
     private static final String FIND_ACCOUNT =  "SELECT a.blocked, a.id, r.name " +
                                                 "FROM account a, role r " +
                                                 "WHERE login = ? AND password = ? AND a.role_id = r.id";
-   private static final String INSERT_ACCOUNT =
-           "insert into account(login, password, role_id) values (?, ?," + USER_ROLE_ID + " )";
+    private static final String INSERT_ACCOUNT ="insert into account(login, password, role_id)" +
+           " values (?, ?," + USER_ROLE_ID + " )";
     private static final String INSERT_ENROLLEE = "insert into enrollee(id, first_name, father_name," +
                                                     " last_name, email," +
                                                     " city, region, school_name) " +
@@ -34,16 +30,16 @@ public class JDBCAccountDao implements AccountDao {
             " and role_id = "  + USER_ROLE_ID;
 
 
-    private final DataSource dataSource;
+    private final Connection connection;
 
-    public JDBCAccountDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JDBCAccountDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
-    public Optional<Account> getAccount(String login, String password) throws AccountIsBlockedException {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
+    public Optional<Account> getAccount(String login, String password)
+            throws SQLException, AccountIsBlockedException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
             statement.setString(1, login);
             statement.setString(2, password);
             try(ResultSet rs = statement.executeQuery()) {
@@ -52,73 +48,26 @@ public class JDBCAccountDao implements AccountDao {
                 }
                 return Optional.empty();
             }
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
         }
     }
 
     @Override
-    public void createEnrollee(SaveEnrolleeDto enrollee) throws InsertException {
-        try(Connection connection = dataSource.getConnection()){
-            connection.setAutoCommit(false);
-            try {
-                int accountId = insertAccount(connection, enrollee);
-                insertEnrollee(connection, enrollee, accountId);
-                connection.commit();
-            } catch (Exception ex) {
-                connection.rollback();
-                throw new InsertException(ex);
-            }
-            connection.setAutoCommit(true);
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public void blockEnrollee(String login){
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(BLOCK_ENROLLEE)){
+    public void blockEnrollee(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(BLOCK_ENROLLEE)){
             statement.setString(1, login);
             statement.executeUpdate();
-            //todo check if blocked
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-            //todo one method to exception handling
         }
     }
 
     @Override
-    public void unblockEnrollee(String login){
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(UNBLOCK_ENROLLEE)){
+    public void unblockEnrollee(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(UNBLOCK_ENROLLEE)){
             statement.setString(1, login);
             statement.executeUpdate();
-            //todo check if blocked
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-            //todo one method to exception handling
         }
     }
 
-    private int insertAccount(Connection connection, SaveEnrolleeDto enrollee) throws SQLException{
-        try(PreparedStatement statement =
-                    connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
-            String passwordHashed = ServiceUtility.hash(enrollee.getPassword());
-            statement.setString(1, enrollee.getLogin());
-            statement.setString(2, passwordHashed);
-            statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
-            return rs.getInt(1);
-        }
-    }
-
-    private void insertEnrollee(Connection connection, SaveEnrolleeDto enrollee, int id) throws SQLException {
+    public void insertEnrollee(SaveEnrolleeDto enrollee, int id) throws SQLException {
         try (PreparedStatement statement =
                      connection.prepareStatement(INSERT_ENROLLEE)) {
             statement.setInt(1, id);
@@ -132,6 +81,19 @@ public class JDBCAccountDao implements AccountDao {
             statement.executeUpdate();
             //todo save scan
 //            statement.setBinaryStream(9, new ByteArrayInputStream(enrollee.getCertificateScan()));
+        }
+    }
+
+    public int insertAccount(SaveEnrolleeDto enrollee) throws SQLException{
+        try(PreparedStatement statement =
+                    connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
+            String passwordHashed = ServiceUtility.hash(enrollee.getPassword());
+            statement.setString(1, enrollee.getLogin());
+            statement.setString(2, passwordHashed);
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            return rs.getInt(1);
         }
     }
 
@@ -169,5 +131,10 @@ public class JDBCAccountDao implements AccountDao {
     @Override
     public List<Account> findAll() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 }

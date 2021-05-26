@@ -1,29 +1,24 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JDBCFacultyDao implements FacultyDao {
-    private static final Logger LOGGER = LogManager.getLogger(JDBCFacultyDao.class.getName());
-
     private static final String FIND_ALL_FACULTIES = "SELECT id, name, budget_places, all_places FROM faculty";
     private static final String FIND_BY_NAME = FIND_ALL_FACULTIES + " WHERE name = ?";
-    private final DataSource dataSource;
 
-    public JDBCFacultyDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private final Connection connection;
+
+    public JDBCFacultyDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -47,31 +42,28 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public List<Faculty> findAll(){
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+    public List<Faculty> findAll() throws SQLException {
+        try(Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(FIND_ALL_FACULTIES)){
             return parseFaculties(rs);
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
         }
     }
 
     @Override
-    public Optional<Faculty> getByName(String name) {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME)){
+    public Optional<Faculty> getByName(String name) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME)){
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
-                return Optional.ofNullable(parseFaculty(rs));
+                return Optional.of(parseFaculty(rs));
             }
             return Optional.empty();
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
         }
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 
     private static List<Faculty> parseFaculties(ResultSet rs) throws SQLException {

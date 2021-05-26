@@ -1,10 +1,8 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.SubjectDao;
 import com.example.InspectionBoard.model.entity.Subject;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,18 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 public class JDBCSubjectDao implements SubjectDao {
-    private static final Logger LOGGER = LogManager.getLogger(JDBCSubjectDao.class.getName());
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
-    private final DataSource dataSource;
 
-    public JDBCSubjectDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private final Connection connection;
+
+    public JDBCSubjectDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -48,15 +44,16 @@ public class JDBCSubjectDao implements SubjectDao {
     }
 
     @Override
-    public List<Subject> findAll(){
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+    public List<Subject> findAll() throws SQLException {
+        try(Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(GET_ALL_SUBJECTS)){
             return parseSubjects(rs);
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
         }
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 
     private static List<Subject> parseSubjects(ResultSet rs) throws SQLException {

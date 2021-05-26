@@ -1,7 +1,5 @@
 package com.example.InspectionBoard.mainController.command;
 
-import com.example.InspectionBoard.model.dao.DaoFactory;
-import com.example.InspectionBoard.model.dao.implementation.JDBCAccountDao;
 import com.example.InspectionBoard.model.service.AccountService;
 
 import javax.servlet.http.HttpServletRequest;
