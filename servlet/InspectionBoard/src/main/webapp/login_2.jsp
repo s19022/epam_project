@@ -1,97 +1,123 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 14.05.2021
-  Time: 8:20
-  To change this template use File | Settings | File Templates.
-
-  // fixme send data using xmlhttprequest
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/tld/mytag.tld" prefix="m" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="loginPage.login" bundle="${lang}" var = "login"/>
+<fmt:message key="loginPage.userName" bundle="${lang}" var="userName"/>
+<fmt:message key="loginPage.password" bundle="${lang}" var="password"/>
+<fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
+<fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
+<fmt:message key="loginPage.errorMessage.emptyLogin" bundle="${lang}" var="emptyLogin"/>
+<fmt:message key="loginPage.errorMessage.emptyPassword" bundle="${lang}" var="emptyPassword"/>
+<fmt:message key="loginPage.errorMessage.accountIsBlocked" bundle="${lang}" var="accountBlocked"/>
+<fmt:message key="loginPage.errorMessage.alreadyLoggedIn" bundle="${lang}" var="alreadyLoggedIn"/>
+<fmt:message key="loginPage.errorMessage.wrongLoginPassword" bundle="${lang}" var="wrongLoginPassword"/>
+
+
 <html lang="en">
 <head>
+    <link rel="icon" href="data:,"> <%--    prevent favicon loading--%>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>${login}</title>
 </head>
 <body>
+<style>
+    #errorField{
+        color: red;
+        font-style: italic;
+    }
+</style>
+<%--<form id="loginForm" method="post" action="${pageContext.request.contextPath}/login">--%>
 <table>
     <tr>
-        <td><label for="login">Login</label></td>
-        <td><input type="text" id="login" name="login"></td>
-    </tr>
-    <tr>
-        <td><label for = "password">Password</label></td>
-        <td><input type="password" id = "password" name="password"></td>
-        <td><input type="checkbox" id = 'showPassword' >Show Password</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="button" name="btn" value="Submit" id="submit">
+        <td>${userName}</td>
+        <td>
+            <input id = "login" type="text" size="50" name = "login">
         </td>
     </tr>
     <tr>
-        <td colspan="3">
-            <p id = 'errorField' style="color: red; font-style: italic"></p>
+        <td>${password}</td>
+        <td>
+            <input id = "pass" type="password" size="50" name = "pass">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input id = "submit" value=${login} type="submit">
         </td>
     </tr>
 </table>
-<p>Don't have an account yet? Click <a href="/register" >here to register</a> </p>
+<div>
+    <input type="radio" id="langEn"
+           name="lang" value="EN" checked>
+    <label for="langEn">${langEn}</label>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
-
+    <input type="radio" id="langUa"
+           name="lang" value="UA">
+    <label for="langUa">${langUa}</label>
+</div>
+<%--</form>--%>
+<p id = "errorField"></p>
 <script>
-    document
-        .getElementById('showPassword')
-        .addEventListener('click', function (e) {
-            // e.preventDefault();
-            let x = document.getElementById("password");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        });
+    const login = document.getElementById('login');
+    const password = document.getElementById('pass');
+    const errorField = document.getElementById('errorField');
+    function setErrorMessage(message){
+        errorField.innerText = message;
+    }
     document
         .getElementById('submit')
         .addEventListener('click', function (e) {
-            e.preventDefault()
-
-            let login = document.getElementById('login').value;
-            let password = document.getElementById('password').value;
-            let errorField = document.getElementById('errorField');
-
-            if (login === ''){
-                errorField.innerText = 'Login field is empty';
+            e.preventDefault();
+            if (login.value === '') {
+                setErrorMessage("${emptyLogin}");
                 return;
             }
-            if (password === ''){
-                errorField.innerText = 'Password field is empty';
+            if (password.value === '') {
+                setErrorMessage("${emptyPassword}");
                 return;
             }
-            errorField.innerText = '';
+            setErrorMessage('');
+            let request = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append('login', login.value);
+            formData.append('pass', password.value);
 
-
-            const formData = new FormData();
-            formData.append("username", "Groucho");
-            formData.append("accountnum", 123456);
-            const request = new XMLHttpRequest();
-            request.open("POST", "http://localhost:8080/api/");
+            request.open("POST", "${pageContext.request.contextPath}/login", true);
             request.send(formData);
             request.onload = function () {
-                if (request.status === 200){
-                    window.location.href = request.responseURL;
-                    return;
+                const url = request.responseURL;
+                console.log(document.location)
+                console.log(url)
+                console.log(!url.includes("/login"))
+                if (!url.includes("/login")){
+                    document.location = url;
+                }else {
                 }
-                if (request.status === 400){
-                    errorField.innerText = 'Wrong login/password combination';
-                    return;
-                }
-
             };
-            request.send();
         });
 </script>
+<%--
+<c:set var="login_status" value="${requestScope.login_status}"/>
+<c:if test="${login_status ne null}">
+    <c:choose>
+        <c:when test="${fn:contains(login_status.getClass().name, 'AccountIsBlockedException')}">
+&lt;%&ndash;            setErrorMessage("${accountBlocked}");&ndash;%&gt;
+            <script>setErrorMessage("${accountBlocked}")</script>
+        </c:when>
+        <c:when test="${fn:contains(login_status.getClass().name, 'WrongLoginPasswordException')}">
+                            <script>setErrorMessage("${wrongLoginPassword}")</script>
+        </c:when>
+        <c:when test="${fn:contains(login_status.getClass().name, 'UserAlreadyLoggedInException')}">
+                            <script>setErrorMessage("${alreadyLoggedIn}")</script>
+        </c:when>
+        <c:otherwise>
+            <c:out value="${login_status.getClass().name}"/>
+        </c:otherwise>
+    </c:choose>
+</c:if>--%>
 </body>
 </html>

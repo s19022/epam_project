@@ -45,8 +45,10 @@ public class JDBCAccountDao implements AccountDao {
         }
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
+            login = DaoUtility.decode(login);
+            password = DaoUtility.decode(password);
             statement.setString(1, login);
-            statement.setString(2, HashUtility.encodePassword(password));
+            statement.setString(2, DaoUtility.hash(password));
             try(ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     return parseAccount(rs);
@@ -110,7 +112,7 @@ public class JDBCAccountDao implements AccountDao {
     private int insertAccount(Connection connection, SaveEnrollee enrollee) throws SQLException{
         try(PreparedStatement statement =
                     connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
-            String passwordHashed = HashUtility.encodePassword(enrollee.getPassword());
+            String passwordHashed = DaoUtility.hash(enrollee.getPassword());
             statement.setString(1, enrollee.getLogin());
             statement.setString(2, passwordHashed);
             statement.executeUpdate();

@@ -60,7 +60,7 @@
         <label for="langUa">${langUa}</label>
     </div>
 </form>
-<p id = "errorField"/>
+<p id = "errorField"></p>
 <script>
     const login = document.getElementById('login');
     const password = document.getElementById('pass');
@@ -68,8 +68,6 @@
     function setErrorMessage(message){
         errorField.innerText = message;
     }
-</script>
-<script>
     document
         .getElementById('submit')
         .addEventListener('click', function (e) {
@@ -84,26 +82,28 @@
                 return;
             }
             setErrorMessage('');
+            login.hidden = true;
+            password.hidden = true;
+            login.value = btoa(login.value);
+            password.value = btoa(password.value);
         });
 </script>
-
 <c:set var="login_status" value="${requestScope.login_status}"/>
-    <c:if test="${login_status ne null}">
-        <c:choose>
-            <c:when test="${fn:contains(login_status.getClass().name, 'AccountIsBlockedException')}">
-                <script>setErrorMessage("${accountBlocked}")</script>
-            </c:when>
-            <c:when test="${fn:contains(login_status.getClass().name, 'WrongLoginPasswordException')}">
-                <script>setErrorMessage("${wrongLoginPassword}")</script>
-            </c:when>
-            <c:when test="${fn:contains(login_status.getClass().name, 'UserAlreadyLoggedInException')}">
-                <script>setErrorMessage("${alreadyLoggedIn}")</script>
-            </c:when>
-            <c:otherwise>
-                <c:out value="${login_status.getClass().name}"/>
-            </c:otherwise>
-        </c:choose>
-
-    </c:if>
+<c:if test="${login_status ne null}">
+    <c:choose>
+        <c:when test="${fn:contains(login_status.getClass().name, 'AccountIsBlockedException')}">
+            <script>setErrorMessage("${accountBlocked}")</script>
+        </c:when>
+        <c:when test="${fn:contains(login_status.getClass().name, 'WrongLoginPasswordException')}">
+                            <script>setErrorMessage("${wrongLoginPassword}")</script>
+        </c:when>
+        <c:when test="${fn:contains(login_status.getClass().name, 'UserAlreadyLoggedInException')}">
+                            <script>setErrorMessage("${alreadyLoggedIn}")</script>
+        </c:when>
+        <c:otherwise>
+            <c:out value="${login_status.getClass().name}"/>
+        </c:otherwise>
+    </c:choose>
+</c:if>
 </body>
 </html>

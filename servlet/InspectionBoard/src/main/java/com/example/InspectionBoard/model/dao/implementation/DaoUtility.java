@@ -2,12 +2,14 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Base64;
 
-public class HashUtility {
-    private static final Logger LOGGER = LogManager.getLogger(HashUtility.class.getName());
-
-    public static String encodePassword(String password) {
+public class DaoUtility {
+    private static final Logger LOGGER = LogManager.getLogger(DaoUtility.class.getName());
+    public static String hash(String password) {
         //stole from stackoverflow, seems to work correctly
         try {
             byte[] unencodedPassword = password.getBytes();
@@ -27,5 +29,9 @@ public class HashUtility {
             LOGGER.error(e);
             return password;
         }
+    }
+    public static String decode(String toDecode){
+        byte[] decoded = Base64.getDecoder().decode(toDecode.getBytes(StandardCharsets.UTF_8));
+        return new String(decoded);
     }
 }
