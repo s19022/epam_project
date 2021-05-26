@@ -5,6 +5,7 @@ import com.example.InspectionBoard.exceptions.ValidationException;
 import com.example.InspectionBoard.model.DTO.SaveEnrollee;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.implementation.JDBCAccountDao;
+import com.example.InspectionBoard.model.service.AccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,7 @@ public class RegisterCommand implements Command{
     private String executePost(HttpServletRequest request){
         try{
             SaveEnrollee enrollee = parseSaveEnrollee(request);
-            DaoFactory.getInstance().createAccountDao().createEnrollee(enrollee);
+            AccountService.createEnrollee(enrollee);
         }catch (ValidationException | InsertException ex){
             LOGGER.warn(ex);
             return "/WEB-INF/error/400.jsp";

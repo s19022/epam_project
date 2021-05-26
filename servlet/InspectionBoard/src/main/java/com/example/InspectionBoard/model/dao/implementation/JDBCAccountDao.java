@@ -6,6 +6,7 @@ import com.example.InspectionBoard.model.DTO.SaveEnrollee;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
+import com.example.InspectionBoard.model.service.ServiceUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -13,6 +14,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCAccountDao implements AccountDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCAccountDao.class.getName());
@@ -38,43 +40,37 @@ public class JDBCAccountDao implements AccountDao {
         this.dataSource = dataSource;
     }
 
-    public Account getAccount(String login, String password)
-            throws WrongLoginPasswordException, AccountIsBlockedException {
-        if (! isValid(login) && isValid(password)){
-            throw new WrongLoginPasswordException("wrong login/password");
-        }
+    @Override
+    public Optional<Account> getAccount(String login, String password) throws AccountIsBlockedException {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
-            login = DaoUtility.decode(login);
-            password = DaoUtility.decode(password);
             statement.setString(1, login);
-            statement.setString(2, DaoUtility.hash(password));
+            statement.setString(2, password);
             try(ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return parseAccount(rs);
+                if (rs.next()){
+                    return Optional.of(parseAccount(rs));
                 }
+                return Optional.empty();
             }
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
-        throw new WrongLoginPasswordException("wrong login/password");
     }
 
     @Override
-    public int createEnrollee(SaveEnrollee enrollee) throws InsertException {
+    public void createEnrollee(SaveEnrollee enrollee) throws InsertException {
         try(Connection connection = dataSource.getConnection()){
             connection.setAutoCommit(false);
             try {
                 int accountId = insertAccount(connection, enrollee);
                 insertEnrollee(connection, enrollee, accountId);
                 connection.commit();
-                connection.setAutoCommit(true);
-                return accountId;
             } catch (Exception ex) {
                 connection.rollback();
                 throw new InsertException(ex);
             }
+            connection.setAutoCommit(true);
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
@@ -112,7 +108,7 @@ public class JDBCAccountDao implements AccountDao {
     private int insertAccount(Connection connection, SaveEnrollee enrollee) throws SQLException{
         try(PreparedStatement statement =
                     connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
-            String passwordHashed = DaoUtility.hash(enrollee.getPassword());
+            String passwordHashed = ServiceUtility.hash(enrollee.getPassword());
             statement.setString(1, enrollee.getLogin());
             statement.setString(2, passwordHashed);
             statement.executeUpdate();
@@ -148,10 +144,6 @@ public class JDBCAccountDao implements AccountDao {
         AccountRole role = AccountRole.valueOf(rs.getString(3));
 
         return new Account(id, role);
-    }
-
-    private boolean isValid(String toCheck){
-        return !(toCheck == null || toCheck.trim().isEmpty());
     }
 
     @Override

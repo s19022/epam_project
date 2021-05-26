@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.model.dao.implementation;
+package com.example.InspectionBoard.model.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,8 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
-public class DaoUtility {
-    private static final Logger LOGGER = LogManager.getLogger(DaoUtility.class.getName());
+public class ServiceUtility {
+    private static final Logger LOGGER = LogManager.getLogger(ServiceUtility.class.getName());
     public static String hash(String password) {
         //stole from stackoverflow, seems to work correctly
         try {

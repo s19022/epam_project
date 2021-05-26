@@ -6,6 +6,7 @@ import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.entity.Subject;
 import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
+import com.example.InspectionBoard.model.service.AccountService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,7 @@ public class LoginCommand implements Command{
             throws WrongLoginPasswordException, AccountIsBlockedException {
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
-        return DaoFactory.getInstance().createAccountDao().getAccount(login, password);
+        return AccountService.getAccount(login, password);
     }
 
     private void addAccountToSession(HttpSession session, Account account){

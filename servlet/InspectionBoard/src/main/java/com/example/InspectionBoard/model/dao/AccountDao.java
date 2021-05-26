@@ -6,10 +6,12 @@ import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.DTO.SaveEnrollee;
 import com.example.InspectionBoard.model.entity.Account;
 
+import java.util.Optional;
+
 public interface AccountDao extends GenericDao<Account> {
-    Account getAccount(String login, String password)
+    Optional<Account> getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException;
-    int createEnrollee(SaveEnrollee s) throws InsertException;
+    void createEnrollee(SaveEnrollee s) throws InsertException;
     void blockEnrollee(String login);
     void unblockEnrollee(String login);
 
