@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +43,7 @@ public class JDBCSubjectDao implements SubjectDao {
     }
 
     @Override
-    public Subject findById(int id) {
+    public Optional<Subject> findById(int id) {
         throw new NotImplementedException();
     }
 

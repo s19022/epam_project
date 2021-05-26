@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCRequiredSubjectDao.class.getName());
@@ -44,7 +45,7 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     }
 
     @Override
-    public RequiredSubject findById(int id) {
+    public Optional<RequiredSubject> findById(int id) {
         throw new NotImplementedException();
     }
 

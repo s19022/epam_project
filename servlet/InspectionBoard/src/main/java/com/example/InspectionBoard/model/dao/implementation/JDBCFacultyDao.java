@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCFacultyDao implements FacultyDao {
     private static final Logger LOGGER = LogManager.getLogger(JDBCFacultyDao.class.getName());
@@ -41,7 +42,7 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public Faculty findById(int id) {
+    public Optional<Faculty> findById(int id) {
         throw new NotImplementedException();
     }
 
@@ -58,13 +59,15 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public Faculty getByName(String name) {
+    public Optional<Faculty> getByName(String name) {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME)){
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
-            rs.next();
-            return parseFaculty(rs);
+            if(rs.next()){
+                return Optional.ofNullable(parseFaculty(rs));
+            }
+            return Optional.empty();
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

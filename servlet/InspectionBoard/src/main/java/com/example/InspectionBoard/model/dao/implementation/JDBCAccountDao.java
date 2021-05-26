@@ -162,7 +162,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Account findById(int id) {
+    public Optional<Account> findById(int id) {
         throw new NotImplementedException();
     }
 
