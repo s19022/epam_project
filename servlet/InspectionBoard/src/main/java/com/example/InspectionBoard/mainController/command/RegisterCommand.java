@@ -2,9 +2,7 @@ package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.ValidationException;
-import com.example.InspectionBoard.model.DTO.SaveEnrollee;
-import com.example.InspectionBoard.model.dao.DaoFactory;
-import com.example.InspectionBoard.model.dao.implementation.JDBCAccountDao;
+import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.service.AccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +28,7 @@ public class RegisterCommand implements Command{
 
     private String executePost(HttpServletRequest request){
         try{
-            SaveEnrollee enrollee = parseSaveEnrollee(request);
+            SaveEnrolleeDto enrollee = parseSaveEnrollee(request);
             AccountService.createEnrollee(enrollee);
         }catch (ValidationException | InsertException ex){
             LOGGER.warn(ex);
@@ -39,7 +37,7 @@ public class RegisterCommand implements Command{
         return REDIRECT_KEYWORD + "/login.jsp";
     }
 
-    private SaveEnrollee parseSaveEnrollee(HttpServletRequest request) throws ValidationException {
+    private SaveEnrolleeDto parseSaveEnrollee(HttpServletRequest request) throws ValidationException {
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
         String firstName = request.getParameter("firstName");
@@ -50,7 +48,7 @@ public class RegisterCommand implements Command{
         String region = request.getParameter("region");
         String schoolName = request.getParameter("schoolName");
         byte[] certificateScan = {};
-        return SaveEnrollee.getInstance(login, password, firstName, fatherName,
+        return SaveEnrolleeDto.getInstance(login, password, firstName, fatherName,
                 lastName, email, city, region, schoolName, certificateScan);
     }
 

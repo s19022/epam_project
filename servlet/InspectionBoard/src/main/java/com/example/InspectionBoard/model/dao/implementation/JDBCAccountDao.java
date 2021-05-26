@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
-import com.example.InspectionBoard.model.DTO.SaveEnrollee;
+import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
@@ -59,7 +59,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public void createEnrollee(SaveEnrollee enrollee) throws InsertException {
+    public void createEnrollee(SaveEnrolleeDto enrollee) throws InsertException {
         try(Connection connection = dataSource.getConnection()){
             connection.setAutoCommit(false);
             try {
@@ -105,7 +105,7 @@ public class JDBCAccountDao implements AccountDao {
         }
     }
 
-    private int insertAccount(Connection connection, SaveEnrollee enrollee) throws SQLException{
+    private int insertAccount(Connection connection, SaveEnrolleeDto enrollee) throws SQLException{
         try(PreparedStatement statement =
                     connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
             String passwordHashed = ServiceUtility.hash(enrollee.getPassword());
@@ -118,7 +118,7 @@ public class JDBCAccountDao implements AccountDao {
         }
     }
 
-    private void insertEnrollee(Connection connection, SaveEnrollee enrollee, int id) throws SQLException {
+    private void insertEnrollee(Connection connection, SaveEnrolleeDto enrollee, int id) throws SQLException {
         try (PreparedStatement statement =
                      connection.prepareStatement(INSERT_ENROLLEE)) {
             statement.setInt(1, id);

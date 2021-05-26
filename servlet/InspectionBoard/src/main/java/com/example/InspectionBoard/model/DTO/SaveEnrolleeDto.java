@@ -5,7 +5,10 @@ import com.example.InspectionBoard.exceptions.ValidationException;
 
 import java.util.Arrays;
 
-public class SaveEnrollee {
+import static com.example.InspectionBoard.model.DTO.DtoUtils.validate;
+import static com.example.InspectionBoard.model.DTO.DtoUtils.validateString;
+
+public class SaveEnrolleeDto {
     private final String login;
     private final String password;
     private final String firstName;
@@ -17,8 +20,8 @@ public class SaveEnrollee {
     private final String schoolName;
     private final byte[] certificateScan;
 
-    private SaveEnrollee(String login, String password, String firstName, String fatherName, String lastName,
-                         String email, String city, String region, String schoolName, byte[] certificateScan) {
+    private SaveEnrolleeDto(String login, String password, String firstName, String fatherName, String lastName,
+                            String email, String city, String region, String schoolName, byte[] certificateScan) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -72,23 +75,14 @@ public class SaveEnrollee {
     }
 
     //was forbidden to use @NotNull for some reason
-    public static SaveEnrollee getInstance(String login, String password,
-                                           String firstName, String fatherName, String lastName,
-                                           String email, String city, String region, String schoolName,
-                                           byte[] certificateScan) throws ValidationException{
-        String[] arr = {login, password, firstName, fatherName, lastName, email, city, region, schoolName};
-        for (String item : arr){
-            validate(item);
-        }
-        return new SaveEnrollee(login, password, firstName, fatherName,
+    public static SaveEnrolleeDto getInstance(
+            String login, String password, String firstName, String fatherName, String lastName,
+            String email, String city, String region, String schoolName, byte[] certificateScan)
+            throws ValidationException{
+        validate(login, password, firstName, fatherName, lastName, email, city, region, schoolName);
+        return new SaveEnrolleeDto(login, password, firstName, fatherName,
                 lastName, email, city, region, schoolName, certificateScan);
     }
-    private static void validate(String toCheck) throws ValidationException{
-        if(toCheck == null || toCheck.trim().isEmpty()){
-            throw new ValidationException("Not valid");
-        }
-    }
-
     @Override
     public String toString() {
         return "SaveEnrollee{" +

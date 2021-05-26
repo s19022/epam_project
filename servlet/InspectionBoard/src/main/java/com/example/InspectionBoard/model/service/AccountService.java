@@ -3,7 +3,7 @@ package com.example.InspectionBoard.model.service;
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
-import com.example.InspectionBoard.model.DTO.SaveEnrollee;
+import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.entity.Account;
 
@@ -20,7 +20,7 @@ public class AccountService {
                 .getAccount(decodedLogin, hashedPassword)
                 .orElseThrow(WrongLoginPasswordException::new);
     }
-    public static void createEnrollee(SaveEnrollee s) throws InsertException{
+    public static void createEnrollee(SaveEnrolleeDto s) throws InsertException{
         DaoFactory.getInstance().createAccountDao().createEnrollee(s);
     }
     public static void blockEnrollee(String login){
