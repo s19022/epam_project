@@ -8,7 +8,6 @@ import com.example.InspectionBoard.model.service.FacultyRegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Map;
 
 import static com.example.InspectionBoard.Constants.REDIRECT_KEYWORD;
 
@@ -17,14 +16,9 @@ public class RegisterToFacultyCommand implements Command{
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String enrolleeLogin = request.getParameter("enrolleeLogin");
         String facultyName = request.getParameter("facultyName");
-        System.out.println("ENROLEE " + enrolleeLogin);
         try {
             FacultyRegistrationService.register(enrolleeLogin, facultyName);
-        } catch (NoSuchAccountException e) {
-            e.printStackTrace();
-        } catch (NoSuchFacultyException e) {
-            e.printStackTrace();
-        } catch (CannotRegisterToFacultyException e) {
+        } catch (NoSuchAccountException | NoSuchFacultyException | CannotRegisterToFacultyException e) {
             e.printStackTrace();
         }
         return REDIRECT_KEYWORD + AccountRole.USER.getRedirectPath();
