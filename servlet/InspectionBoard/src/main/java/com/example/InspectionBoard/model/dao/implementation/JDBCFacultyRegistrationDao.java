@@ -55,6 +55,6 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
 
     @Override
     public Connection getConnection() {
-        return null;
+        return connection;
     }
 }

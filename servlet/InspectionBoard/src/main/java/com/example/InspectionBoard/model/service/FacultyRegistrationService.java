@@ -22,7 +22,7 @@ public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
 
     public static void register(String accountLogin, String facultyName)
-            throws NoSuchAccountException, NoSuchFacultyException {
+            throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException {
         try(
                 EnrolleeSubjectDao enrolleeSubjectDao = DaoFactory.getInstance().createEnrolleeSubjectDao();
                 Connection connection = enrolleeSubjectDao.getConnection();
@@ -47,7 +47,7 @@ public class FacultyRegistrationService {
             }finally{
                 enrolleeSubjectDao.getConnection().setAutoCommit(true);
             }
-        }catch (SQLException | CannotRegisterToFacultyException ex){
+        }catch (SQLException ex){
             LOGGER.error(ex);
             ex.printStackTrace();
             throw new SQLExceptionWrapper(ex);
@@ -56,6 +56,7 @@ public class FacultyRegistrationService {
 
     private static int getEnrolleeId(Connection connection, String login) throws NoSuchAccountException, SQLException {
         AccountDao accountDao = DaoFactory.getInstance().createAccountDao(connection);
+        LOGGER.info(login);
         ParseAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
         if (account.getRole() != AccountRole.USER) {
             throw new NoSuchAccountException();
