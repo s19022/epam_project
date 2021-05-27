@@ -9,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JDBCFactory extends DaoFactory {
@@ -56,6 +57,26 @@ public class JDBCFactory extends DaoFactory {
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
+    }
+
+    @Override
+    public AccountDao createAccountDao(Connection connection) {
+        return new JDBCAccountDao(connection);
+    }
+
+    @Override
+    public FacultyDao createFacultyDao(Connection connection) {
+        return new JDBCFacultyDao(connection);
+    }
+
+    @Override
+    public SubjectDao createSubjectDao(Connection connection) {
+        return new JDBCSubjectDao(connection);
+    }
+
+    @Override
+    public RequiredSubjectDao createRequiredSubjectDao(Connection connection) {
+        return new JDBCRequiredSubjectDao(connection);
     }
 
     public static JDBCFactory getInstance(){
