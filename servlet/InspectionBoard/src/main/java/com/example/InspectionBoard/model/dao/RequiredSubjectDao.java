@@ -1,6 +1,5 @@
 package com.example.InspectionBoard.model.dao;
 
-import com.example.InspectionBoard.model.dao.GenericDao;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
 
 import java.sql.SQLException;

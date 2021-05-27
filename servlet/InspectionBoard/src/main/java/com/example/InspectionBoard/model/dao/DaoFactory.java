@@ -13,11 +13,15 @@ public abstract class DaoFactory {
     public abstract FacultyDao createFacultyDao();
     public abstract SubjectDao createSubjectDao();
     public abstract RequiredSubjectDao createRequiredSubjectDao();
+    public abstract EnrolleeSubjectDao createEnrolleeSubjectDao();
+    public abstract FacultyRegistrationDao createFacultyRegistrationDao();
 
     public abstract AccountDao createAccountDao(Connection connection);
     public abstract FacultyDao createFacultyDao(Connection connection);
     public abstract SubjectDao createSubjectDao(Connection connection);
     public abstract RequiredSubjectDao createRequiredSubjectDao(Connection connection);
+    public abstract EnrolleeSubjectDao createEnrolleeSubjectDao(Connection connection);
+    public abstract FacultyRegistrationDao createFacultyRegistrationDao(Connection connection);
 
     public static DaoFactory getInstance(){
         if (daoFactory == null){

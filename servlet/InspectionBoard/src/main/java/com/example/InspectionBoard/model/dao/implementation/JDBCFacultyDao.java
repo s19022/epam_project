@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL_FACULTIES = "SELECT id, name, budget_places, all_places FROM faculty";
-    private static final String FIND_BY_NAME = FIND_ALL_FACULTIES + " WHERE name = ?";
+    private static final String FIND_BY_NAME = FIND_ALL_FACULTIES + " WHERE name = ? FOR UPDATE ";
 
     private final Connection connection;
 

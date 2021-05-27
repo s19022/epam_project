@@ -60,6 +60,26 @@ public class JDBCFactory extends DaoFactory {
     }
 
     @Override
+    public EnrolleeSubjectDao createEnrolleeSubjectDao() {
+        try{
+            return new JDBCEnrolleeSubjectDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    @Override
+    public FacultyRegistrationDao createFacultyRegistrationDao() {
+        try{
+            return new JDBCFacultyRegistrationDao(dataSource.getConnection());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    @Override
     public AccountDao createAccountDao(Connection connection) {
         return new JDBCAccountDao(connection);
     }
@@ -77,6 +97,16 @@ public class JDBCFactory extends DaoFactory {
     @Override
     public RequiredSubjectDao createRequiredSubjectDao(Connection connection) {
         return new JDBCRequiredSubjectDao(connection);
+    }
+
+    @Override
+    public EnrolleeSubjectDao createEnrolleeSubjectDao(Connection connection) {
+        return new JDBCEnrolleeSubjectDao(connection);
+    }
+
+    @Override
+    public FacultyRegistrationDao createFacultyRegistrationDao(Connection connection) {
+        return new JDBCFacultyRegistrationDao(connection);
     }
 
     public static JDBCFactory getInstance(){

@@ -14,9 +14,13 @@ import java.util.Optional;
 
 public class JDBCAccountDao implements AccountDao {
     private static final int USER_ROLE_ID = 1;
-    private static final String FIND_ACCOUNT =  "SELECT a.blocked, a.id, r.name " +
+    private static final String FIND_BY_LOGIN_AND_PASSWORD =  "SELECT a.blocked, a.id, r.name " +
                                                 "FROM account a, role r " +
                                                 "WHERE login = ? AND password = ? AND a.role_id = r.id";
+    private static final String FIND_BY_LOGIN =  "SELECT a.blocked, a.id, r.name " +
+            "FROM account a, role r " +
+            "WHERE login = ? AND a.role_id = r.id";
+
     private static final String INSERT_ACCOUNT ="insert into account(login, password, role_id)" +
            " values (?, ?," + USER_ROLE_ID + " )";
     private static final String INSERT_ENROLLEE = "insert into enrollee(id, first_name, father_name," +
@@ -36,8 +40,8 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Optional<ParseAccountDto> getAccount(String login, String password) throws SQLException{
-        try(PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
+    public Optional<ParseAccountDto> findByLoginAndPassword(String login, String password) throws SQLException{
+        try(PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD)){
             statement.setString(1, login);
             statement.setString(2, password);
             try(ResultSet rs = statement.executeQuery()) {
@@ -95,6 +99,20 @@ public class JDBCAccountDao implements AccountDao {
             rs.next();
             return rs.getInt(1);
         }
+    }
+
+    @Override
+    public Optional<ParseAccountDto> findByLogin(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN)){
+            statement.setString(1, login);
+            try(ResultSet rs = statement.executeQuery()) {
+                if (rs.next()){
+                    return Optional.of(parseAccount(rs));
+                }
+                return Optional.empty();
+            }
+        }
+
     }
 
     @Override

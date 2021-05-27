@@ -30,7 +30,7 @@ public class AccountService {
 
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             ParseAccountDto accountDto =
-                    dao.getAccount(decodedLogin, hashedPassword).orElseThrow(WrongLoginPasswordException::new);
+                    dao.findByLoginAndPassword(decodedLogin, hashedPassword).orElseThrow(WrongLoginPasswordException::new);
             return toAccount(accountDto);
         }catch (SQLException ex){
             LOGGER.error(ex);
