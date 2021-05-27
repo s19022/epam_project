@@ -14,7 +14,7 @@ public class FacultyInfoCommand implements Command {
         String facultyName = request.getParameter("name");
         try {
             Faculty f =  FacultyService.getByName(facultyName);
-            request.setAttribute("facultyInfo", f);
+            request.getSession().setAttribute("facultyInfo", f);
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }
