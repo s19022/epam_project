@@ -25,8 +25,8 @@ public class MainServlet extends HttpServlet {
         commands.put("register", new RegisterCommand());
         commands.put("admin/enrollee/block", new BlockEnrolleeCommand());
         commands.put("admin/enrollee/unblock", new UnblockEnrolleeCommand());
-        commands.put("faculty", new FacultyCommand());
-        commands.put("faculty/register", new RegisterToFacultyCommand());
+        commands.put("faculties", new FacultyCommand());
+        commands.put("faculties/register", new RegisterToFacultyCommand());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MainServlet extends HttpServlet {
         String path = request.getRequestURI();
         path = path.replaceAll(".*/" + APP_NAME +"/" , "");
         Command command = commands.getOrDefault(path,
-                (r, i)-> DEFAULT_PATH);
+                (r, i)-> REDIRECT_KEYWORD + DEFAULT_PATH);
         String page = command.execute(request, requestType);
 
         LOGGER.info("Path: " + path + "; request method: " + requestType.name() +

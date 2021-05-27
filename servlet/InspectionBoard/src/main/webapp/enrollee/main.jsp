@@ -7,6 +7,7 @@
 <fmt:message key="enrolleePage.title" bundle="${lang}" var = "title"/>
 <fmt:message key="enrolleePage.welcome" bundle="${lang}" var = "welcome"/>
 <fmt:message key="enrolleePage.subject" bundle="${lang}" var = "subject"/>
+<fmt:message key="enrolleePage.ourFaculties" bundle="${lang}" var = "ourFaculties"/>
 <fmt:message key="indexPage.logout" bundle="${lang}" var = "logout"/>
 <html>
 <head>
@@ -24,5 +25,8 @@
         </tr>
     </c:forEach>
 </table>
+<a href="${pageContext.request.contextPath}/faculties">
+    <button>${ourFaculties}</button>
+</a>
 </body>
 </html>
