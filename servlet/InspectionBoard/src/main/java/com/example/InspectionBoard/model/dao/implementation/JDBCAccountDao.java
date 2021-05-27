@@ -1,9 +1,8 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
-import com.example.InspectionBoard.model.entity.Account;
+import com.example.InspectionBoard.model.dto.parse.ParseAccountDto;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.model.service.ServiceUtility;
 
@@ -37,8 +36,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Optional<Account> getAccount(String login, String password)
-            throws SQLException, AccountIsBlockedException {
+    public Optional<ParseAccountDto> getAccount(String login, String password) throws SQLException{
         try(PreparedStatement statement = connection.prepareStatement(FIND_ACCOUNT)){
             statement.setString(1, login);
             statement.setString(2, password);
@@ -67,6 +65,7 @@ public class JDBCAccountDao implements AccountDao {
         }
     }
 
+    @Override
     public void insertEnrollee(SaveEnrolleeDto enrollee, int id) throws SQLException {
         try (PreparedStatement statement =
                      connection.prepareStatement(INSERT_ENROLLEE)) {
@@ -84,6 +83,7 @@ public class JDBCAccountDao implements AccountDao {
         }
     }
 
+    @Override
     public int insertAccount(SaveEnrolleeDto enrollee) throws SQLException{
         try(PreparedStatement statement =
                     connection.prepareStatement(INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS)){
@@ -97,24 +97,23 @@ public class JDBCAccountDao implements AccountDao {
         }
     }
 
-    private Account parseAccount(ResultSet rs) throws SQLException, AccountIsBlockedException{
-        boolean blocked = rs.getBoolean(1);
-        if (blocked){
-            throw new AccountIsBlockedException("Account is blocked");
-        }
-        int id = rs.getInt(2);
-        AccountRole role = AccountRole.valueOf(rs.getString(3));
-
-        return new Account(id, role);
-    }
-
     @Override
-    public int create(Account account) {
+    public List<ParseAccountDto> findAll() {
         throw new NotImplementedException();
     }
 
     @Override
-    public int update(Account account) {
+    public Connection getConnection() {
+        return connection;
+    }
+
+    @Override
+    public int create(ParseAccountDto parseAccountDto) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int update(ParseAccountDto parseAccountDto) {
         throw new NotImplementedException();
     }
 
@@ -124,17 +123,15 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Optional<Account> findById(int id) {
-        throw new NotImplementedException();
+    public Optional<ParseAccountDto> findById(int id) {
+        return Optional.empty();
     }
 
-    @Override
-    public List<Account> findAll() {
-        throw new NotImplementedException();
-    }
+    private ParseAccountDto parseAccount(ResultSet rs) throws SQLException{
+        boolean blocked = rs.getBoolean(1);
+        int id = rs.getInt(2);
+        AccountRole role = AccountRole.valueOf(rs.getString(3));
 
-    @Override
-    public Connection getConnection() {
-        return connection;
+        return new ParseAccountDto(id, role, blocked);
     }
 }
