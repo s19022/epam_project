@@ -57,7 +57,7 @@
         <url-pattern>/enrollee/*</url-pattern>
         <url-pattern>/admin/*</url-pattern>
         <url-pattern>/logout/*</url-pattern>
-    </filter-mapping>
+     </filter-mapping>
 
     <filter>
         <filter-name>Admin</filter-name>
@@ -74,6 +74,7 @@
     <filter-mapping>
         <filter-name>Enrollee</filter-name>
         <url-pattern>/enrollee/*</url-pattern>
+        <url-pattern>/faculty/register/*</url-pattern>
     </filter-mapping>
 <!--    -->
 <!--  ERROR PAGES  -->
