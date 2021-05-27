@@ -2,7 +2,7 @@ package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.ValidationException;
-import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
+import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.service.AccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

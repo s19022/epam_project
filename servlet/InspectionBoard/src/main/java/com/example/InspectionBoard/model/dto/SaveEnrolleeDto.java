@@ -1,12 +1,11 @@
-package com.example.InspectionBoard.model.DTO;
+package com.example.InspectionBoard.model.dto;
 
 
 import com.example.InspectionBoard.exceptions.ValidationException;
 
 import java.util.Arrays;
 
-import static com.example.InspectionBoard.model.DTO.DtoUtils.validate;
-import static com.example.InspectionBoard.model.DTO.DtoUtils.validateString;
+import static com.example.InspectionBoard.model.dto.DtoUtils.validate;
 
 public class SaveEnrolleeDto {
     private final String login;

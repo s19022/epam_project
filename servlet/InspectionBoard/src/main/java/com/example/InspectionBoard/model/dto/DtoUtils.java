@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.model.DTO;
+package com.example.InspectionBoard.model.dto;
 
 import com.example.InspectionBoard.exceptions.ValidationException;
 

@@ -1,9 +1,8 @@
 package com.example.InspectionBoard.model.dao;
 
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
-import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
-import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
+import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.entity.Account;
 
 import java.sql.SQLException;

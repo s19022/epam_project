@@ -4,7 +4,7 @@ import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
-import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
+import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.dao.AccountDao;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.entity.Account;

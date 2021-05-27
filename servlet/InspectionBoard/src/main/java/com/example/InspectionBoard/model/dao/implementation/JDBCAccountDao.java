@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
-import com.example.InspectionBoard.model.DTO.SaveEnrolleeDto;
+import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.model.service.ServiceUtility;
