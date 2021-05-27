@@ -1,6 +1,5 @@
 package com.example.InspectionBoard.mainController.command;
 
-import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.ValidationException;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.service.AccountService;
@@ -30,7 +29,7 @@ public class RegisterCommand implements Command{
         try{
             SaveEnrolleeDto enrollee = parseSaveEnrollee(request);
             AccountService.createEnrollee(enrollee);
-        }catch (ValidationException | InsertException ex){
+        }catch (ValidationException ex){
             LOGGER.warn(ex);
             return "/WEB-INF/error/400.jsp";
         }

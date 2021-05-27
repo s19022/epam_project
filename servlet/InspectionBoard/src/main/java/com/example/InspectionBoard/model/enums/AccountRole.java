@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.enums;
 
 public enum AccountRole {
-    USER{
+    ENROLLEE {
         @Override
         public String getRedirectPath(){
             return /*"/WEB-INF"*/"/enrollee/main.jsp";

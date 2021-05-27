@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 //fixme
 public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
@@ -26,26 +25,6 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     @Override
     public Connection getConnection() {
         return connection;
-    }
-
-    @Override
-    public int create(ParseEnrolleeSubjectDto parseEnrolleeSubjectDto) {
-        return 0;
-    }
-
-    @Override
-    public int update(ParseEnrolleeSubjectDto parseEnrolleeSubjectDto) {
-        return 0;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return false;
-    }
-
-    @Override
-    public Optional<ParseEnrolleeSubjectDto> findById(int id) {
-        return Optional.empty();
     }
 
     @Override

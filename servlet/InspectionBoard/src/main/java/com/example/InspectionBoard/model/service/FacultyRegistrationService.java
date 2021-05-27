@@ -58,7 +58,7 @@ public class FacultyRegistrationService {
         AccountDao accountDao = DaoFactory.getInstance().createAccountDao(connection);
         LOGGER.info(login);
         ParseAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
-        if (account.getRole() != AccountRole.USER) {
+        if (account.getRole() != AccountRole.ENROLLEE) {
             throw new NoSuchAccountException();
         }
         return account.getId();

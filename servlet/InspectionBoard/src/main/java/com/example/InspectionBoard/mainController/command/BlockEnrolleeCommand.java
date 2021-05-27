@@ -12,6 +12,7 @@ public class BlockEnrolleeCommand implements Command{
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String login = request.getParameter("login");
         AccountService.blockEnrollee(login);
+        //fixme invalidate session
         return REDIRECT_KEYWORD + ADMIN.getRedirectPath();
     }
 }

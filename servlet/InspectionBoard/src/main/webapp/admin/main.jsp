@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="/WEB-INF/tld/mytag.tld" prefix="m" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
 <fmt:message key="adminPage.admin_home_page" bundle="${lang}" var = "homePage"/>

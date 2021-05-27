@@ -1,25 +1,18 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
 import com.example.InspectionBoard.model.entity.Subject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
-    private static final Logger LOGGER = LogManager.getLogger(JDBCRequiredSubjectDao.class.getName());
-
     private static final String GET_ALL_BY_FACULTY_ID = "SELECT s.id, s.name, r_s.minimal_grade " +
                                                         "FROM subject s, required_subject r_s " +
                                                         "WHERE faculty_id = ? and s.id = r_s.subject_id";
@@ -28,26 +21,6 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
 
     public JDBCRequiredSubjectDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public int create(RequiredSubject requiredSubject) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public int update(RequiredSubject requiredSubject) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean delete(int id) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<RequiredSubject> findById(int id) {
-        throw new NotImplementedException();
     }
 
     @Override

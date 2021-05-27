@@ -2,7 +2,6 @@ package com.example.InspectionBoard.model.dao;
 
 
 import com.example.InspectionBoard.model.dao.implementation.JDBCFactory;
-import com.example.InspectionBoard.model.entity.RequiredSubject;
 
 import java.sql.Connection;
 

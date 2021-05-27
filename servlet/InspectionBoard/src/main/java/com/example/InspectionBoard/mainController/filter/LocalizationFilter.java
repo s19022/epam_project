@@ -14,12 +14,9 @@ public class LocalizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        Map<String, String[]> m = request.getParameterMap();
-        for (Map.Entry<String, String[]> item : m.entrySet()){
-            System.out.println(item.getKey() + ", " + item.getValue()[0]);
-        }
         String lang = request.getParameter("lang");
         String locale = (String) request.getSession().getAttribute("locale");
+
         if (lang == null){
             if (locale == null){
                 setLocale(request, response, DEFAULT.getLanguage());
@@ -27,7 +24,6 @@ public class LocalizationFilter implements Filter {
         }else {
             setLocale(request, response, lang);
         }
-        System.out.println(request.getSession().getAttribute("locale"));
         filterChain.doFilter(request, servletResponse);
     }
 

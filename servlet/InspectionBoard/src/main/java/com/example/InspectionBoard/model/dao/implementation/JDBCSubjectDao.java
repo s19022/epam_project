@@ -9,10 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 
 public class JDBCSubjectDao implements SubjectDao {
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
@@ -21,26 +17,6 @@ public class JDBCSubjectDao implements SubjectDao {
 
     public JDBCSubjectDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public int create(Subject subject) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public int update(Subject subject) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean delete(int id) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<Subject> findById(int id) {
-        throw new NotImplementedException();
     }
 
     @Override

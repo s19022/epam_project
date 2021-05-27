@@ -39,7 +39,7 @@ public class LoginCommand implements Command{
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
             List<Subject> subjects = SubjectService.findAll();
-            request.getSession().setAttribute("myList", subjects);
+            request.getSession().setAttribute("myList", subjects);             //fixme
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
             request.setAttribute("login_status", ex);
@@ -62,7 +62,7 @@ public class LoginCommand implements Command{
     private void addAccountToContext(ServletContext context, Account account) throws UserAlreadyLoggedInException {
         HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
         if (isLoggedIn(loggedUsers, account.getId())){
-            throw new UserAlreadyLoggedInException("Already logged in to the system");
+            throw new UserAlreadyLoggedInException();
         }
         loggedUsers.add(account.getId());
         context.setAttribute(LOGGED_USERS, loggedUsers);

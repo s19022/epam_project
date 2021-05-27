@@ -124,27 +124,6 @@ public class JDBCAccountDao implements AccountDao {
     public Connection getConnection() {
         return connection;
     }
-
-    @Override
-    public int create(ParseAccountDto parseAccountDto) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public int update(ParseAccountDto parseAccountDto) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean delete(int id) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<ParseAccountDto> findById(int id) {
-        return Optional.empty();
-    }
-
     private ParseAccountDto parseAccount(ResultSet rs) throws SQLException{
         boolean blocked = rs.getBoolean(1);
         int id = rs.getInt(2);

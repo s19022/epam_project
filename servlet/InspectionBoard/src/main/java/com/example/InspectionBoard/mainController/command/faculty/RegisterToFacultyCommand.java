@@ -22,7 +22,8 @@ public class RegisterToFacultyCommand implements Command {
             FacultyRegistrationService.register(enrolleeLogin, facultyName);
         } catch (NoSuchAccountException | NoSuchFacultyException | CannotRegisterToFacultyException e) {
             e.printStackTrace();
+            //fixme
         }
-        return REDIRECT_KEYWORD + AccountRole.USER.getRedirectPath();
+        return REDIRECT_KEYWORD + AccountRole.ENROLLEE.getRedirectPath();
     }
 }

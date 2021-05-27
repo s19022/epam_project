@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static com.example.InspectionBoard.Constants.USER_ROLE;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
-import static com.example.InspectionBoard.model.enums.AccountRole.USER;
+import static com.example.InspectionBoard.model.enums.AccountRole.ENROLLEE;
 
 public class EnrolleeFilter implements Filter {
 
@@ -22,7 +22,7 @@ public class EnrolleeFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse) res;
         AccountRole role = getAccountRole(request.getSession().getAttribute(USER_ROLE));
-        if (role == USER){
+        if (role == ENROLLEE){
             filterChain.doFilter(req, res);
             return;
         }

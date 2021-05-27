@@ -4,7 +4,6 @@ import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,26 +18,6 @@ public class JDBCFacultyDao implements FacultyDao {
 
     public JDBCFacultyDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public int create(Faculty faculty) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public int update(Faculty faculty) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean delete(int id) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<Faculty> findById(int id) {
-        throw new NotImplementedException();
     }
 
     @Override

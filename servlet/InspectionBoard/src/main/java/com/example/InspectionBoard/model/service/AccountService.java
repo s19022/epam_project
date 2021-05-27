@@ -1,7 +1,6 @@
 package com.example.InspectionBoard.model.service;
 
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
-import com.example.InspectionBoard.exceptions.InsertException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
@@ -38,7 +37,7 @@ public class AccountService {
         }
     }
 
-    public static void createEnrollee(SaveEnrolleeDto s) throws InsertException{
+    public static void createEnrollee(SaveEnrolleeDto s){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.getConnection().setAutoCommit(false);
             try{

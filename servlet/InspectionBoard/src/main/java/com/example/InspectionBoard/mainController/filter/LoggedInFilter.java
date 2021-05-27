@@ -25,7 +25,7 @@ public class LoggedInFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         AccountRole role = getAccountRole(session.getAttribute(USER_ROLE));
-        if (role == AccountRole.USER || role == AccountRole.ADMIN) {
+        if (role == AccountRole.ENROLLEE || role == AccountRole.ADMIN) {
             filterChain.doFilter(request, response);
             return;
         }
