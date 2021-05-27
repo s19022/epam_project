@@ -17,11 +17,11 @@
 <h1>${welcome}</h1>
 <a href="${pageContext.request.contextPath}/logout">${logout}</a>
 <table border="2">
-    <c:forEach items="${sessionScope.myList}" var="element">
+    <c:forEach items="${sessionScope.myList}" var="faculties">
         <tr>
             <td>${subject}</td>
-            <td>${element.id}</td>
-            <td>${element.name}</td>
+            <td>${faculties.id}</td>
+            <td>${faculties.name}</td>
         </tr>
     </c:forEach>
 </table>
