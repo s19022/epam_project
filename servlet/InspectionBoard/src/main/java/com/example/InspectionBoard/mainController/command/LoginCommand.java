@@ -55,16 +55,16 @@ public class LoginCommand implements Command{
     }
 
     private void addAccountToSession(HttpSession session, Account account){
-        session.setAttribute("id", account.getId());
+        session.setAttribute("login", account.getLogin());
         session.setAttribute(USER_ROLE, account.getRole().name());
     }
 
     private void addAccountToContext(ServletContext context, Account account) throws UserAlreadyLoggedInException {
-        HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
-        if (isLoggedIn(loggedUsers, account.getId())){
+        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute(LOGGED_USERS);
+        if (isLoggedIn(loggedUsers, account.getLogin())){
             throw new UserAlreadyLoggedInException();
         }
-        loggedUsers.add(account.getId());
+        loggedUsers.add(account.getLogin());
         context.setAttribute(LOGGED_USERS, loggedUsers);
     }
 }

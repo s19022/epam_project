@@ -72,7 +72,7 @@ public class FacultyRegistrationService {
 
     private static boolean canRegister(List<RequiredSubject> requiredSubjects, List<ParseEnrolleeSubjectDto> enrolleeSubjects){
         for (RequiredSubject subject : requiredSubjects){
-            boolean contains = enrolleeSubjects.stream().anyMatch(s -> subject.getSubject().getId() == s.getId() && subject.getMinimalGrade() < s.getMark());
+            boolean contains = enrolleeSubjects.stream().anyMatch(s -> subject.getSubject().getId() == s.getId() && subject.getMinimalGrade() <= s.getMark());
             if (!contains){
                 return false;
             }

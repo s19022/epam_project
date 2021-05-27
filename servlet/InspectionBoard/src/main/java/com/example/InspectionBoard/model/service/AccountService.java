@@ -76,6 +76,6 @@ public class AccountService {
         if (dto.isBlocked()){
             throw new AccountIsBlockedException();
         }
-        return new Account(dto.getId(), dto.getRole());
+        return new Account(dto.getRole(), dto.getLogin());
     }
 }

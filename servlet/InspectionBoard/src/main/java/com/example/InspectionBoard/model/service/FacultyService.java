@@ -28,7 +28,7 @@ public class FacultyService {
 
     public static Faculty getByName(String name) throws NoSuchFacultyException {
         if (!isValid(name)){
-            throw new ValidationException("Name field is null");
+            throw new NoSuchFacultyException();
         }
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return dao.getByName(name).orElseThrow(NoSuchFacultyException::new);

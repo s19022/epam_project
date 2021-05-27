@@ -1,25 +1,24 @@
 package com.example.InspectionBoard.model.entity;
 
-
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import java.util.Objects;
 
 public class Account {
-    private final int id;
     private final AccountRole role;
+    private final String login;
 
-    public Account(int id, AccountRole role) {
-        this.id = id;
+    public Account(AccountRole role, String login) {
         this.role = role;
-    }
-
-    public int getId() {
-        return id;
+        this.login = login;
     }
 
     public AccountRole getRole() {
         return role;
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     @Override
@@ -27,19 +26,19 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return id == account.id && role == account.role;
+        return getRole() == account.getRole() && getLogin().equals(account.getLogin());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role);
+        return Objects.hash(getRole(), getLogin());
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
-                ", role=" + role +
+                "role=" + role +
+                ", login='" + login + '\'' +
                 '}';
     }
 }

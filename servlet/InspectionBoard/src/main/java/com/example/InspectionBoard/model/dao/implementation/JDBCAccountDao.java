@@ -14,10 +14,10 @@ import java.util.Optional;
 
 public class JDBCAccountDao implements AccountDao {
     private static final int USER_ROLE_ID = 1;
-    private static final String FIND_BY_LOGIN_AND_PASSWORD =  "SELECT a.blocked, a.id, r.name " +
+    private static final String FIND_BY_LOGIN_AND_PASSWORD =  "SELECT a.blocked, a.id, r.name, a.login " +
                                                 "FROM account a, role r " +
                                                 "WHERE login = ? AND password = ? AND a.role_id = r.id";
-    private static final String FIND_BY_LOGIN =  "SELECT a.blocked, a.id, r.name " +
+    private static final String FIND_BY_LOGIN =  "SELECT a.blocked, a.id, r.name, a.login " +
             "FROM account a, role r " +
             "WHERE login = ? AND a.role_id = r.id";
 
@@ -128,7 +128,7 @@ public class JDBCAccountDao implements AccountDao {
         boolean blocked = rs.getBoolean(1);
         int id = rs.getInt(2);
         AccountRole role = AccountRole.valueOf(rs.getString(3));
-
-        return new ParseAccountDto(id, role, blocked);
+        String login = rs.getString(4);
+        return new ParseAccountDto(id, role, blocked, login);
     }
 }

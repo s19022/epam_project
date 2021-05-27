@@ -16,10 +16,10 @@ public class LogoutCommand implements Command{
     public String execute(HttpServletRequest request, RequestType requestType) {
         ServletContext context = request.getServletContext();
         HttpSession session = request.getSession();
-        HashSet<Integer> loggedUsers = (HashSet<Integer>) context.getAttribute(LOGGED_USERS);
-        Integer userId = (Integer) session.getAttribute("id");
-        if (isLoggedIn(loggedUsers, userId)){
-            loggedUsers.remove(userId);
+        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute(LOGGED_USERS);
+        String login  = (String) session.getAttribute("login");
+        if (isLoggedIn(loggedUsers, login)){
+            loggedUsers.remove(login);
             context.setAttribute(LOGGED_USERS, loggedUsers);
             session.setAttribute("userRole", AccountRole.UNKNOWN);
         }
