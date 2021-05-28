@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public final class Mapper {
     public static Account toAccount(DbAccountDto dto){
-        return new Account(dto.getRole(), dto.getLogin()/*, dto.isBlocked()*/);
+        return new Account(dto.getRole(), dto.getLogin(), dto.isBlocked());
     }
 
     public static List<Faculty> toFaculty(List<DbFacultyDto> dto){
@@ -18,18 +18,17 @@ public final class Mapper {
     }
 
     public static Faculty toFaculty(DbFacultyDto dto){
-        int id = dto.getId();
         String name = dto.getName();
         int budgetPlaces = dto.getBudgetPlaces();
         int allPlaces = dto.getAllPlaces();
         List<DbRequiredSubjectDto> requiredSubjectsDto = dto.getRequiredSubject();
         List<RequiredSubject> requiredSubjects = requiredSubjectsDto.stream()
                 .map(Mapper::toRequiredSubject).collect(Collectors.toList());
-        return new Faculty(id, name, budgetPlaces, allPlaces, requiredSubjects);
+        return new Faculty(name, budgetPlaces, allPlaces, requiredSubjects);
     }
 
     public static RequiredSubject toRequiredSubject(DbRequiredSubjectDto dto){
-        return new RequiredSubject(new Subject(dto.getId(), dto.getName()), dto.getMinimalGrade());
+        return new RequiredSubject(dto.getName(), dto.getMinimalGrade());
     }
 
 
@@ -38,6 +37,6 @@ public final class Mapper {
     }
 
     public static Subject toSubject(DbSubjectDto dto){
-        return new Subject(dto.getId(), dto.getName());
+        return new Subject(dto.getName());
     }
 }

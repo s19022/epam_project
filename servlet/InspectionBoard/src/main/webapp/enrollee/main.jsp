@@ -19,7 +19,6 @@
     <c:forEach items="${sessionScope.myList}" var="faculties">
         <tr>
             <td>${subject}</td>
-            <td>${faculties.id}</td>
             <td>${faculties.name}</td>
         </tr>
     </c:forEach>

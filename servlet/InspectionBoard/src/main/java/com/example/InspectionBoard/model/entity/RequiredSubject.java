@@ -1,17 +1,18 @@
 package com.example.InspectionBoard.model.entity;
 
 public class RequiredSubject {
-    private final Subject subject;
+    private final String name;
     private final int minimalGrade;
 
-    public RequiredSubject(Subject subject, int minimalGrade) {
-        this.subject = subject;
+    public RequiredSubject(String name, int minimalGrade) {
+        this.name = name;
         this.minimalGrade = minimalGrade;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public String getName() {
+        return name;
     }
+
 
     public int getMinimalGrade() {
         return minimalGrade;
@@ -20,7 +21,7 @@ public class RequiredSubject {
     @Override
     public String toString() {
         return "RequiredSubject{" +
-                "subject=" + subject +
+                "name='" + name + '\'' +
                 ", minimalGrade=" + minimalGrade +
                 '}';
     }

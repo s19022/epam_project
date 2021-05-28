@@ -27,7 +27,7 @@
       </tr>
       <c:forEach items="${faculty.requiredSubjects}" var="element">
         <tr>
-          <td>${element.subject.name}</td>
+          <td>${element.name}</td>
           <td>${element.minimalGrade}</td>
         </tr>
       </c:forEach>

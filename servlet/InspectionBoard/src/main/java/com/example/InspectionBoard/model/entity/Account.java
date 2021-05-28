@@ -7,10 +7,12 @@ import java.util.Objects;
 public class Account {
     private final AccountRole role;
     private final String login;
+    private final boolean isBlocked;
 
-    public Account(AccountRole role, String login) {
+    public Account(AccountRole role, String login, boolean isBlocked) {
         this.role = role;
         this.login = login;
+        this.isBlocked = isBlocked;
     }
 
     public AccountRole getRole() {
@@ -19,6 +21,10 @@ public class Account {
 
     public String getLogin() {
         return login;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
     @Override
