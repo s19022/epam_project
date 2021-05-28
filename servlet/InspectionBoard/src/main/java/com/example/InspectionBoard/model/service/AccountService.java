@@ -30,7 +30,11 @@ public class AccountService {
 
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             DbAccountDto accountDto =
-                    dao.findByLoginAndPassword(decodedLogin, hashedPassword).orElseThrow(WrongLoginPasswordException::new);
+                    dao.findByLoginAndPassword(decodedLogin, hashedPassword)
+                            .orElseThrow(WrongLoginPasswordException::new);
+            if (accountDto.isBlocked()){
+                throw new AccountIsBlockedException();
+            }
             return toAccount(accountDto);
         }catch (SQLException ex){
             LOGGER.error(ex);

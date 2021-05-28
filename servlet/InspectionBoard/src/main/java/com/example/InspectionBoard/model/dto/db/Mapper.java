@@ -1,6 +1,5 @@
 package com.example.InspectionBoard.model.dto.db;
 
-import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
@@ -10,12 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class Mapper {
-    public static Account toAccount(DbAccountDto dto) throws AccountIsBlockedException {
-        //fixme remove throwing ex
-        if (dto.isBlocked()){
-            throw new AccountIsBlockedException();
-        }
-        return new Account(dto.getRole(), dto.getLogin());
+    public static Account toAccount(DbAccountDto dto){
+        return new Account(dto.getRole(), dto.getLogin()/*, dto.isBlocked()*/);
     }
 
     public static List<Faculty> toFaculty(List<DbFacultyDto> dto){
