@@ -5,11 +5,7 @@ import com.example.InspectionBoard.exceptions.NoSuchAccountException;
 import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.*;
-import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
-import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationDto;
-import com.example.InspectionBoard.model.dto.db.DbParseAccountDto;
-import com.example.InspectionBoard.model.dto.db.DbParseEnrolleeSubjectDto;
-import com.example.InspectionBoard.model.entity.Faculty;
+import com.example.InspectionBoard.model.dto.db.*;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +61,7 @@ public class FacultyRegistrationService {
 
     private static int getFacultyId(Connection connection, String facultyName) throws SQLException, NoSuchFacultyException {
         FacultyDao dao = DaoFactory.getInstance().createFacultyDao(connection);
-        Faculty faculty = dao.getByName(facultyName).orElseThrow(NoSuchFacultyException::new);
+        DbFacultyDto faculty = dao.getByName(facultyName).orElseThrow(NoSuchFacultyException::new);
         return faculty.getId();
     }
 

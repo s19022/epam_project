@@ -2,16 +2,13 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
+import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
-import com.example.InspectionBoard.model.entity.Faculty;
-import com.example.InspectionBoard.model.entity.RequiredSubject;
-import com.example.InspectionBoard.model.entity.Subject;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL_FACULTIES = "SELECT id, name, budget_places, all_places FROM faculty";
@@ -24,7 +21,7 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public List<Faculty> findAll() throws SQLException {
+    public List<DbFacultyDto> findAll() throws SQLException {
         try(Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(FIND_ALL_FACULTIES)){
             return parseFaculties(rs);
@@ -32,7 +29,7 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public Optional<Faculty> getByName(String name) throws SQLException {
+    public Optional<DbFacultyDto> getByName(String name) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME)){
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
@@ -48,26 +45,20 @@ public class JDBCFacultyDao implements FacultyDao {
         return connection;
     }
 
-    private static List<Faculty> parseFaculties(ResultSet rs) throws SQLException {
-        List<Faculty> faculties = new ArrayList<>();
+    private static List<DbFacultyDto> parseFaculties(ResultSet rs) throws SQLException {
+        List<DbFacultyDto> faculties = new ArrayList<>();
         while (rs.next()){
             faculties.add(parseFaculty(rs));
         }
         return faculties;
     }
 
-    private static Faculty parseFaculty(ResultSet rs) throws SQLException{
+    private static DbFacultyDto parseFaculty(ResultSet rs) throws SQLException{
         int id = rs.getInt(1);
         String name = rs.getString(2);
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
-        List<DbRequiredSubjectDto> requiredSubjects =
-                DaoFactory.getInstance().createRequiredSubjectDao().getAllByFacultyId(id);
-        return new Faculty(id, name, budgetPlaces, allPlaces,
-                requiredSubjects.stream()
-                        .map(r_s -> new RequiredSubject(
-                                        new Subject(r_s.getId(), r_s.getName())
-                                    , r_s.getMinimalGrade()))
-                        .collect(Collectors.toList()));
+        List<DbRequiredSubjectDto> requiredSubjects = DaoFactory.getInstance().createRequiredSubjectDao().getAllByFacultyId(id);
+        return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 }
