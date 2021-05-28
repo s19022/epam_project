@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyRegistrationDao;
-import com.example.InspectionBoard.model.dto.parse.FacultyRegistrationDto;
+import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
 
 
     @Override
-    public void register(FacultyRegistrationDto dto) throws SQLException {
+    public void register(DbFacultyRegistrationDto dto) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(REGISTER)){
             statement.setInt(1, dto.getEnrolleeId());
             statement.setInt(2, dto.getFacultyId());
@@ -27,7 +27,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<FacultyRegistrationDto> findAll() throws SQLException {
+    public List<DbFacultyRegistrationDto> findAll() throws SQLException {
         return null;
     }
 

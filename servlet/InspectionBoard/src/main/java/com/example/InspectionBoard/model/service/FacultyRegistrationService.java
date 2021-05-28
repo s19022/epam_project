@@ -5,10 +5,10 @@ import com.example.InspectionBoard.exceptions.NoSuchAccountException;
 import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.*;
-import com.example.InspectionBoard.model.dto.parse.DbRequiredSubjectDto;
-import com.example.InspectionBoard.model.dto.parse.FacultyRegistrationDto;
-import com.example.InspectionBoard.model.dto.parse.ParseAccountDto;
-import com.example.InspectionBoard.model.dto.parse.ParseEnrolleeSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationDto;
+import com.example.InspectionBoard.model.dto.db.DbParseAccountDto;
+import com.example.InspectionBoard.model.dto.db.DbParseEnrolleeSubjectDto;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import org.apache.logging.log4j.LogManager;
@@ -35,12 +35,12 @@ public class FacultyRegistrationService {
                 int facultyId = getFacultyId(connection, facultyName);
 
                 List<DbRequiredSubjectDto> requiredSubjects = requiredSubjectDao.getAllByFacultyId(facultyId);
-                List<ParseEnrolleeSubjectDto> enrolleeSubjects = enrolleeSubjectDao.getAllByEnrolleeId(enrolleeId);
+                List<DbParseEnrolleeSubjectDto> enrolleeSubjects = enrolleeSubjectDao.getAllByEnrolleeId(enrolleeId);
 
                 if (!canRegister(requiredSubjects, enrolleeSubjects)){
                     throw new CannotRegisterToFacultyException();
                 }
-                registrationDao.register(new FacultyRegistrationDto(enrolleeId, facultyId));
+                registrationDao.register(new DbFacultyRegistrationDto(enrolleeId, facultyId));
             }catch (Exception ex) {
                 connection.rollback();
                 throw ex;
@@ -56,7 +56,7 @@ public class FacultyRegistrationService {
 
     private static int getEnrolleeId(Connection connection, String login) throws NoSuchAccountException, SQLException {
         AccountDao accountDao = DaoFactory.getInstance().createAccountDao(connection);
-        ParseAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
+        DbParseAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
         if (account.getRole() != AccountRole.ENROLLEE) {
             throw new NoSuchAccountException();
         }
@@ -69,7 +69,7 @@ public class FacultyRegistrationService {
         return faculty.getId();
     }
 
-    private static boolean canRegister(List<DbRequiredSubjectDto> requiredSubjects, List<ParseEnrolleeSubjectDto> enrolleeSubjects){
+    private static boolean canRegister(List<DbRequiredSubjectDto> requiredSubjects, List<DbParseEnrolleeSubjectDto> enrolleeSubjects){
         for (DbRequiredSubjectDto subject : requiredSubjects){
             boolean contains = enrolleeSubjects.stream().anyMatch(s -> subject.getId() == s.getId() && subject.getMinimalGrade() <= s.getMark());
             if (!contains){

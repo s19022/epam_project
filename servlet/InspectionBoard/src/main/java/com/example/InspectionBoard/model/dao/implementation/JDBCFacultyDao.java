@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
-import com.example.InspectionBoard.model.dto.parse.DbRequiredSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
 import com.example.InspectionBoard.model.entity.Subject;

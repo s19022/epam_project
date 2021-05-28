@@ -1,10 +1,10 @@
-package com.example.InspectionBoard.model.dto.parse;
+package com.example.InspectionBoard.model.dto.db;
 
-public class FacultyRegistrationDto {
+public class DbFacultyRegistrationDto {
     private final int enrolleeId;
     private final int facultyId;
 
-    public FacultyRegistrationDto(int enrolleeId, int facultyId) {
+    public DbFacultyRegistrationDto(int enrolleeId, int facultyId) {
         this.enrolleeId = enrolleeId;
         this.facultyId = facultyId;
     }

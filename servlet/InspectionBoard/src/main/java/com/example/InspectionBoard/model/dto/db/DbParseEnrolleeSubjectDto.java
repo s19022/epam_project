@@ -1,10 +1,10 @@
-package com.example.InspectionBoard.model.dto.parse;
+package com.example.InspectionBoard.model.dto.db;
 
-public class ParseEnrolleeSubjectDto {
+public class DbParseEnrolleeSubjectDto {
     private final int id;
     private final int mark;
 
-    public ParseEnrolleeSubjectDto(int id, int mark) {
+    public DbParseEnrolleeSubjectDto(int id, int mark) {
         this.id = id;
         this.mark = mark;
     }

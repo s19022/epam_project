@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
-import com.example.InspectionBoard.model.dto.parse.DbRequiredSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;

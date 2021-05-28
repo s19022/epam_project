@@ -6,7 +6,7 @@ import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.dao.AccountDao;
 import com.example.InspectionBoard.model.dao.DaoFactory;
-import com.example.InspectionBoard.model.dto.parse.ParseAccountDto;
+import com.example.InspectionBoard.model.dto.db.DbParseAccountDto;
 import com.example.InspectionBoard.model.entity.Account;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class AccountService {
         String hashedPassword = ServiceUtility.hash(decodedPassword);
 
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
-            ParseAccountDto accountDto =
+            DbParseAccountDto accountDto =
                     dao.findByLoginAndPassword(decodedLogin, hashedPassword).orElseThrow(WrongLoginPasswordException::new);
             return toAccount(accountDto);
         }catch (SQLException ex){
@@ -72,7 +72,7 @@ public class AccountService {
         }
     }
 
-    private static Account toAccount(ParseAccountDto dto) throws AccountIsBlockedException {
+    private static Account toAccount(DbParseAccountDto dto) throws AccountIsBlockedException {
         if (dto.isBlocked()){
             throw new AccountIsBlockedException();
         }

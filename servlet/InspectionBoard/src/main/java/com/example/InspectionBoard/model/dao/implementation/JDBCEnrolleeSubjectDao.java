@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.EnrolleeSubjectDao;
-import com.example.InspectionBoard.model.dto.parse.ParseEnrolleeSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbParseEnrolleeSubjectDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,29 +28,29 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     }
 
     @Override
-    public List<ParseEnrolleeSubjectDto> findAll() throws SQLException {
+    public List<DbParseEnrolleeSubjectDto> findAll() throws SQLException {
         return null;
     }
 
     @Override
-    public List<ParseEnrolleeSubjectDto> getAllByEnrolleeId(int id) throws SQLException {
+    public List<DbParseEnrolleeSubjectDto> getAllByEnrolleeId(int id) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_LOGIN)){
             statement.setInt(1, id);
             return parseSubjects(statement.executeQuery());
         }
     }
 
-    private static List<ParseEnrolleeSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
-        List<ParseEnrolleeSubjectDto> out = new ArrayList<>();
+    private static List<DbParseEnrolleeSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
+        List<DbParseEnrolleeSubjectDto> out = new ArrayList<>();
         while (rs.next()){
             out.add(parseSubject(rs));
         }
         return out;
     }
 
-    private static ParseEnrolleeSubjectDto parseSubject(ResultSet rs) throws SQLException {
+    private static DbParseEnrolleeSubjectDto parseSubject(ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
         int mark = rs.getInt(2);
-        return new ParseEnrolleeSubjectDto(id, mark);
+        return new DbParseEnrolleeSubjectDto(id, mark);
     }
 }

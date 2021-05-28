@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
-import com.example.InspectionBoard.model.dto.parse.ParseAccountDto;
+import com.example.InspectionBoard.model.dto.db.DbParseAccountDto;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.model.service.ServiceUtility;
 
@@ -40,7 +40,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Optional<ParseAccountDto> findByLoginAndPassword(String login, String password) throws SQLException{
+    public Optional<DbParseAccountDto> findByLoginAndPassword(String login, String password) throws SQLException{
         try(PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD)){
             statement.setString(1, login);
             statement.setString(2, password);
@@ -102,7 +102,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public Optional<ParseAccountDto> findByLogin(String login) throws SQLException {
+    public Optional<DbParseAccountDto> findByLogin(String login) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN)){
             statement.setString(1, login);
             try(ResultSet rs = statement.executeQuery()) {
@@ -116,7 +116,7 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     @Override
-    public List<ParseAccountDto> findAll() {
+    public List<DbParseAccountDto> findAll() {
         throw new NotImplementedException();
     }
 
@@ -124,11 +124,11 @@ public class JDBCAccountDao implements AccountDao {
     public Connection getConnection() {
         return connection;
     }
-    private ParseAccountDto parseAccount(ResultSet rs) throws SQLException{
+    private DbParseAccountDto parseAccount(ResultSet rs) throws SQLException{
         boolean blocked = rs.getBoolean(1);
         int id = rs.getInt(2);
         AccountRole role = AccountRole.valueOf(rs.getString(3));
         String login = rs.getString(4);
-        return new ParseAccountDto(id, role, blocked, login);
+        return new DbParseAccountDto(id, role, blocked, login);
     }
 }

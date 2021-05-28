@@ -3,7 +3,7 @@ package com.example.InspectionBoard.model.service;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
-import com.example.InspectionBoard.model.dto.parse.DbRequiredSubjectDto;
+import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import com.example.InspectionBoard.model.entity.RequiredSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

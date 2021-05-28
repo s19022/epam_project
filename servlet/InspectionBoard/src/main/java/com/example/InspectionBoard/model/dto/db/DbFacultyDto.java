@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.model.dto.parse;
+package com.example.InspectionBoard.model.dto.db;
 
 import java.util.Collections;
 import java.util.List;
