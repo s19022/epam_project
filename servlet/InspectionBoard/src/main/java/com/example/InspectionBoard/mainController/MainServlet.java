@@ -53,8 +53,9 @@ public class MainServlet extends HttpServlet {
                 (r, i)-> REDIRECT_KEYWORD + DEFAULT_PATH);
         String page = command.execute(request, requestType);
 
-        LOGGER.info("Path: " + path + "; request method: " + requestType.name() +
-                "; redirect/forward to:" + page);
+        LOGGER.info(requestType.name() + ": " + path + " -> " + page);
+//        LOGGER.info("Path: " + path + "; request method: " + requestType.name() +
+//                "; redirect/forward to:" + page);
 
         if(page.contains("redirect:")){
             response.sendRedirect(page.replace(REDIRECT_KEYWORD, "/" + APP_NAME));

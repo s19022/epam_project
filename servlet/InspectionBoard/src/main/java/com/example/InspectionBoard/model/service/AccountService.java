@@ -20,7 +20,7 @@ public class AccountService {
 
     public static Account getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException{
-        if (! isValid(login) && isValid(password)){
+        if (! (isValid(login) || isValid(password))){
             throw new WrongLoginPasswordException();
         }
         String decodedLogin = ServiceUtility.decode(login);
