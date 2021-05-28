@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.SubjectDao;
-import com.example.InspectionBoard.model.entity.Subject;
+import com.example.InspectionBoard.model.dto.db.DbSubjectDto;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class JDBCSubjectDao implements SubjectDao {
     }
 
     @Override
-    public List<Subject> findAll() throws SQLException {
+    public List<DbSubjectDto> findAll() throws SQLException {
         try(Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(GET_ALL_SUBJECTS)){
             return parseSubjects(rs);
@@ -32,17 +32,17 @@ public class JDBCSubjectDao implements SubjectDao {
         return connection;
     }
 
-    private static List<Subject> parseSubjects(ResultSet rs) throws SQLException {
-        List<Subject> subjects = new ArrayList<>();
+    private static List<DbSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
+        List<DbSubjectDto> subjects = new ArrayList<>();
         while (rs.next()){
             subjects.add(parseSubject(rs));
         }
         return subjects;
     }
 
-    private static Subject parseSubject(ResultSet rs) throws SQLException{
+    private static DbSubjectDto parseSubject(ResultSet rs) throws SQLException{
         int id = rs.getInt(1);
         String name = rs.getString(2);
-        return new Subject(id, name);
+        return new DbSubjectDto(id, name);
     }
 }

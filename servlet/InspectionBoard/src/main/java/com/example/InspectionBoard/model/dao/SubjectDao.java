@@ -1,6 +1,6 @@
 package com.example.InspectionBoard.model.dao;
 
-import com.example.InspectionBoard.model.entity.Subject;
+import com.example.InspectionBoard.model.dto.db.DbSubjectDto;
 
-public interface SubjectDao extends GenericDao<Subject>{
+public interface SubjectDao extends GenericDao<DbSubjectDto>{
 }
