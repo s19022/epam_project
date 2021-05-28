@@ -2,13 +2,13 @@ package com.example.InspectionBoard.model.dto.db;
 
 import com.example.InspectionBoard.model.enums.AccountRole;
 
-public class DbParseAccountDto {
+public class DbAccountDto {
     private final int id;
     private final AccountRole role;
     private final boolean isBlocked;
     private final String login;
 
-    public DbParseAccountDto(int id, AccountRole role, boolean isBlocked, String login) {
+    public DbAccountDto(int id, AccountRole role, boolean isBlocked, String login) {
         this.id = id;
         this.role = role;
         this.isBlocked = isBlocked;

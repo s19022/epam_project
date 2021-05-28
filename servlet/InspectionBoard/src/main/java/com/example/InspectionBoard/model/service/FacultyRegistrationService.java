@@ -31,7 +31,7 @@ public class FacultyRegistrationService {
                 int facultyId = getFacultyId(connection, facultyName);
 
                 List<DbRequiredSubjectDto> requiredSubjects = requiredSubjectDao.getAllByFacultyId(facultyId);
-                List<DbParseEnrolleeSubjectDto> enrolleeSubjects = enrolleeSubjectDao.getAllByEnrolleeId(enrolleeId);
+                List<DbEnrolleeSubjectDto> enrolleeSubjects = enrolleeSubjectDao.getAllByEnrolleeId(enrolleeId);
 
                 if (!canRegister(requiredSubjects, enrolleeSubjects)){
                     throw new CannotRegisterToFacultyException();
@@ -52,7 +52,7 @@ public class FacultyRegistrationService {
 
     private static int getEnrolleeId(Connection connection, String login) throws NoSuchAccountException, SQLException {
         AccountDao accountDao = DaoFactory.getInstance().createAccountDao(connection);
-        DbParseAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
+        DbAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
         if (account.getRole() != AccountRole.ENROLLEE) {
             throw new NoSuchAccountException();
         }
@@ -65,7 +65,7 @@ public class FacultyRegistrationService {
         return faculty.getId();
     }
 
-    private static boolean canRegister(List<DbRequiredSubjectDto> requiredSubjects, List<DbParseEnrolleeSubjectDto> enrolleeSubjects){
+    private static boolean canRegister(List<DbRequiredSubjectDto> requiredSubjects, List<DbEnrolleeSubjectDto> enrolleeSubjects){
         for (DbRequiredSubjectDto subject : requiredSubjects){
             boolean contains = enrolleeSubjects.stream().anyMatch(s -> subject.getId() == s.getId() && subject.getMinimalGrade() <= s.getMark());
             if (!contains){
