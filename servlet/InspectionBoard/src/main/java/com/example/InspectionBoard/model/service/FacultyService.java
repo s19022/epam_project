@@ -26,6 +26,19 @@ public class FacultyService {
         }
     }
 
+    public static void deleteByFacultyName(String facultyName){
+        if (!isValid(facultyName)){
+            LOGGER.warn("Empty faculty name");
+            return;
+        }
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            dao.deleteByFacultyName(facultyName);
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
     public static Faculty getByName(String name) throws NoSuchFacultyException {
         if (!isValid(name)){
             throw new NoSuchFacultyException();

@@ -2,6 +2,7 @@ package com.example.InspectionBoard.mainController;
 
 
 import com.example.InspectionBoard.mainController.command.*;
+import com.example.InspectionBoard.mainController.command.faculty.DeleteFacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyInfoCommand;
 import com.example.InspectionBoard.mainController.command.faculty.RegisterToFacultyCommand;
@@ -31,6 +32,7 @@ public class MainServlet extends HttpServlet {
         commands.put("faculties", new FacultyCommand());
         commands.put("faculties/register", new RegisterToFacultyCommand());
         commands.put("faculties/info", new FacultyInfoCommand());
+        commands.put("faculties/delete", new DeleteFacultyCommand());
     }
 
     @Override

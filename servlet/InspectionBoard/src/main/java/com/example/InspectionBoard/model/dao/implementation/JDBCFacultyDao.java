@@ -13,6 +13,7 @@ import java.util.Optional;
 public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL_FACULTIES = "SELECT id, name, budget_places, all_places FROM faculty";
     private static final String FIND_BY_NAME = FIND_ALL_FACULTIES + " WHERE name = ? FOR UPDATE ";
+    private static final String DELETE_BY_FACULTY_NAME = "DELETE FROM faculty WHERE name = ?";
 
     private final Connection connection;
 
@@ -37,6 +38,14 @@ public class JDBCFacultyDao implements FacultyDao {
                 return Optional.of(parseFaculty(rs));
             }
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteByFacultyName(String facultyName) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(DELETE_BY_FACULTY_NAME)){
+            statement.setString(1, facultyName);
+            statement.executeUpdate();
         }
     }
 
