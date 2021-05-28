@@ -74,7 +74,7 @@
     <filter-mapping>
         <filter-name>Enrollee</filter-name>
         <url-pattern>/enrollee/*</url-pattern>
-        <url-pattern>/faculty/register/*</url-pattern>
+        <url-pattern>/faculties/register/*</url-pattern>
     </filter-mapping>
 <!--    -->
 <!--  ERROR PAGES  -->

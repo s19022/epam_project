@@ -6,7 +6,16 @@
 <%--todo add localization--%>
 <html>
 <head>
-    <title>Title</title>
+  <title></title>
+  <style>
+    td{
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<title>Title</title>
   <c:if test="${faculty ne null}">
     <table border="2">
       <tr>
@@ -23,11 +32,19 @@
         </tr>
       </c:forEach>
     </table>
-    <form method="post" action="${pageContext.request.contextPath}/faculties/register">
-      <input name="enrolleeLogin" value="${sessionScope.login}" hidden>
-      <input name="facultyName" value="${faculty.name}" hidden>
-      <button>Register</button>
-    </form>
+      <c:choose>
+        <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
+          If you want to apply to faculty, please
+          <a href="${pageContext.request.contextPath}/register"> register</a>
+        </c:when>
+        <c:otherwise>
+          <form method="post" action="${pageContext.request.contextPath}/faculties/register">
+            <input name="enrolleeLogin" value="${sessionScope.login}" hidden>
+            <input name="facultyName" value="${faculty.name}" hidden>
+            <button >Register</button>
+          </form>
+        </c:otherwise>
+      </c:choose>
   </c:if>
   <c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
   <c:if test="${status ne null}">
@@ -42,15 +59,12 @@
         <c:out value="Not enough points"/>
       </c:when>
       <c:otherwise>
-        Successfully registres!
+        Successfully registered!
           <a href="${pageContext.request.contextPath}/enrollee/main.jsp">
             click here to go to the home page
           </a>
        </c:otherwise>
     </c:choose>
   </c:if>
-</head>
-<body>
-
 </body>
 </html>

@@ -14,7 +14,7 @@ public class FacultyCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, RequestType type) {
         setFaculties(request, getAll());
-        return REDIRECT_KEYWORD + "/faculty/main.jsp";
+        return "/faculty/main.jsp";
     }
 
     private List<Faculty> getAll(){

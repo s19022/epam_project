@@ -6,15 +6,20 @@
 <head>
     <title>Title</title>
 </head>
+<style>
+    td{
+        text-align: center;
+    }
+</style>
 <body>
 <table>
     <c:forEach items="${sessionScope.faculties}" var="faculties">
         <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/faculties/info?name=${faculties.name}">
-                    ${faculties.name}
-                </a>
-            </td>
+            <form method="post" action="${pageContext.request.contextPath}/faculties/info">
+                <td>${faculties.name}</td>
+                <td><button>View info</button></td>
+                <input name="name" value="${faculties.name}" hidden>
+            </form>
         </tr>
     </c:forEach>
 </table>
