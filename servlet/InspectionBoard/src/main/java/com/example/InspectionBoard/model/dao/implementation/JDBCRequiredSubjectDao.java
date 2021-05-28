@@ -1,8 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
-import com.example.InspectionBoard.model.entity.RequiredSubject;
-import com.example.InspectionBoard.model.entity.Subject;
+import com.example.InspectionBoard.model.dto.parse.DbRequiredSubjectDto;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
@@ -24,7 +23,7 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     }
 
     @Override
-    public List<RequiredSubject> findAll() {
+    public List<DbRequiredSubjectDto> findAll() {
         throw new NotImplementedException();
     }
 
@@ -34,7 +33,7 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     }
 
     @Override
-    public List<RequiredSubject> getAllByFacultyId(int facultyId) throws SQLException {
+    public List<DbRequiredSubjectDto> getAllByFacultyId(int facultyId) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_FACULTY_ID)){
             statement.setInt(1, facultyId);
             ResultSet rs = statement.executeQuery();
@@ -42,18 +41,18 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
         }
     }
 
-    private List<RequiredSubject> parseRequiredSubjects(ResultSet rs) throws SQLException{
-        List<RequiredSubject> list = new ArrayList<>();
+    private List<DbRequiredSubjectDto> parseRequiredSubjects(ResultSet rs) throws SQLException{
+        List<DbRequiredSubjectDto> list = new ArrayList<>();
         while (rs.next()){
             list.add(parseRequiredSubject(rs));
         }
         return list;
     }
 
-    private RequiredSubject parseRequiredSubject(ResultSet rs) throws SQLException{
+    private DbRequiredSubjectDto parseRequiredSubject(ResultSet rs) throws SQLException{
         int subjectId = rs.getInt(1);
         String subjectName = rs.getString(2);
         int grade = rs.getInt(3);
-        return new RequiredSubject(new Subject(subjectId, subjectName), grade);
+        return new DbRequiredSubjectDto(subjectId, subjectName, grade);
     }
 }
