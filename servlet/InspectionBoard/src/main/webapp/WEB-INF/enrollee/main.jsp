@@ -32,6 +32,20 @@
         </tr>
     </c:forEach>
 </table>
+
+<table border="2">
+    <thead>
+    <tr>
+        <td>Registered faculties</td>
+    </tr>
+    </thead>
+    <c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
+        <tr>
+            <td>${registeredFaculty.name}</td>
+        </tr>
+    </c:forEach>
+</table>
+
 <a href="${pageContext.request.contextPath}/faculties">
     <button>${ourFaculties}</button>
 </a>

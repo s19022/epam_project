@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
-    private static final String REGISTER = "insert into registration(enrolle_id, faculty_id) values (?, ?)";
+    private static final String REGISTER = "insert into registration(enrollee_id, faculty_id) values (?, ?)";
     private final Connection connection;
 
     public JDBCFacultyRegistrationDao (Connection connection) {

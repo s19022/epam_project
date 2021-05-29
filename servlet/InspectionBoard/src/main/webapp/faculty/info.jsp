@@ -60,7 +60,7 @@
       </c:when>
       <c:otherwise>
         Successfully registered!
-          <a href="${pageContext.request.contextPath}/enrollee/main.jsp">
+          <a href="${pageContext.request.contextPath}/enrollee/main">
             click here to go to the home page
           </a>
        </c:otherwise>
