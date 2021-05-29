@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCFacultyDao implements FacultyDao {
-    private static final String FIND_ALL = "SELECT id, name, budget_places, all_places FROM faculty";
+    private static final String FIND_ALL = "SELECT id, name, budget_places, all_places, deleted FROM faculty";
     private static final String FIND_BY_NAME = FIND_ALL + " WHERE name = ? FOR UPDATE ";
     private static final String DELETE_BY_FACULTY_NAME = "DELETE FROM faculty WHERE name = ?";
     private static final String FIND_ALL_ORDER_BY_NAME_ASC = FIND_ALL + " ORDER by name asc";
@@ -89,7 +89,8 @@ public class JDBCFacultyDao implements FacultyDao {
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
         List<DbRequiredSubjectDto> requiredSubjects = RequiredSubjectService.getAllByFacultyId(id);
-        return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
+        boolean isDeleted = rs.getBoolean(5);
+        return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects, isDeleted);
     }
 
     private List<DbFacultyDto> executeQuery(String query) throws SQLException{
