@@ -89,8 +89,7 @@ public class JDBCFacultyDao implements FacultyDao {
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
         List<DbRequiredSubjectDto> requiredSubjects = RequiredSubjectService.getAllByFacultyId(id);
-        boolean isDeleted = rs.getBoolean(5);
-        return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects, isDeleted);
+        return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 
     private List<DbFacultyDto> executeQuery(String query) throws SQLException{

@@ -9,15 +9,13 @@ public class DbFacultyDto {
     private final int budgetPlaces;
     private final int allPlaces;
     private final List<DbRequiredSubjectDto> requiredSubject;
-    private final boolean isDeleted;
 
-    public DbFacultyDto(int id, String name, int budgetPlaces, int allPlaces, List<DbRequiredSubjectDto> requiredSubject, boolean isDeleted) {
+    public DbFacultyDto(int id, String name, int budgetPlaces, int allPlaces, List<DbRequiredSubjectDto> requiredSubject) {
         this.id = id;
         this.name = name;
         this.budgetPlaces = budgetPlaces;
         this.allPlaces = allPlaces;
         this.requiredSubject = requiredSubject;
-        this.isDeleted = isDeleted;
     }
 
     public int getId() {
@@ -34,10 +32,6 @@ public class DbFacultyDto {
 
     public int getAllPlaces() {
         return allPlaces;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
     }
 
     public List<DbRequiredSubjectDto> getRequiredSubject() {
