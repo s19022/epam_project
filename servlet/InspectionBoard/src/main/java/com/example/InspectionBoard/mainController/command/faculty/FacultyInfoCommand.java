@@ -13,7 +13,7 @@ public class FacultyInfoCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String facultyName = request.getParameter("name");
         try {
-            Faculty f =  FacultyService.getByName(facultyName);
+            Faculty f =  FacultyService.findByName(facultyName);
             request.getSession().setAttribute("facultyInfo", f);
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();

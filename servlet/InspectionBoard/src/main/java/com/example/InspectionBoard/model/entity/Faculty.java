@@ -52,7 +52,7 @@ public class Faculty {
                 "name='" + name + '\'' +
                 ", budgetPlaces=" + budgetPlaces +
                 ", allPlaces=" + allPlaces +
-                ", requiredSubjects=" + requiredSubjects +
+//                ", requiredSubjects=" + requiredSubjects +
                 '}';
     }
 }

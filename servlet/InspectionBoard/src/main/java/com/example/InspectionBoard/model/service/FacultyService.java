@@ -26,6 +26,43 @@ public class FacultyService {
         }
     }
 
+    public static List<Faculty> findAllOrderByNameDesc(){
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            return toFaculty(dao.findAllOrderByNameDesc());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+
+    public static List<Faculty> findAllOrderByNameAsc(){
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            return toFaculty(dao.findAllOrderByNameAsc());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    public static List<Faculty> findAllOrderByBudgetPlacesAsc(){
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            return toFaculty(dao.findAllOrderByBudgetPlacesAsc());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    public static List<Faculty> findAllOrderByAllPlacesAsc(){
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            return toFaculty(dao.findAllOrderByAllPlacesAsc());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
     public static void deleteByFacultyName(String facultyName){
         if (!isValid(facultyName)){
             LOGGER.warn("Empty faculty name");
@@ -39,12 +76,12 @@ public class FacultyService {
         }
     }
 
-    public static Faculty getByName(String name) throws NoSuchFacultyException {
+    public static Faculty findByName(String name) throws NoSuchFacultyException {
         if (!isValid(name)){
             throw new NoSuchFacultyException();
         }
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
-            return toFaculty(dao.getByName(name).orElseThrow(NoSuchFacultyException::new));
+            return toFaculty(dao.findByName(name).orElseThrow(NoSuchFacultyException::new));
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

@@ -61,7 +61,7 @@ public class FacultyRegistrationService {
 
     private static int getFacultyId(Connection connection, String facultyName) throws SQLException, NoSuchFacultyException {
         FacultyDao dao = DaoFactory.getInstance().createFacultyDao(connection);
-        DbFacultyDto faculty = dao.getByName(facultyName).orElseThrow(NoSuchFacultyException::new);
+        DbFacultyDto faculty = dao.findByName(facultyName).orElseThrow(NoSuchFacultyException::new);
         return faculty.getId();
     }
 

@@ -48,6 +48,7 @@
         text-align: center;
     }
     .faculty {
+        position: center;
         background-color: Transparent;
         background-repeat:no-repeat;
         border: none;
@@ -57,7 +58,21 @@
     }
 </style>
 <body>
+<form method="post" action="${pageContext.request.contextPath}/faculties">
+    <select name="facultyOrder" onchange="this.form.submit()">
+        <option value="nameAsc">order by name(a-z)</option>
+        <option value="nameDesc" <c:if test="${requestScope.facultyOrder eq 'nameDesc'}">selected</c:if>>order by name(z-a)</option>
+        <option value="allPlacesAsc" <c:if test="${requestScope.facultyOrder eq 'allPlacesAsc'}">selected</c:if>>order by all places</option>
+        <option value="budgetPlacesAsc" <c:if test="${requestScope.facultyOrder eq 'budgetPlacesAsc'}">selected</c:if>>order by budget places</option>
+    </select>
+</form>
+
 <table>
+    <tr>
+        <td>Faculty name</td>
+        <td>All places</td>
+        <td>Budget places</td>
+    </tr>
     <c:forEach items="${sessionScope.faculties}" var="faculties">
         <tr>
             <td>
@@ -65,6 +80,8 @@
                     <button class="faculty" name="name" value="${faculties.name}">${faculties.name}</button>
                 </form>
             </td>
+            <td>${faculties.allPlaces}</td>
+            <td>${faculties.budgetPlaces}</td>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
                 <td>
                     <button id = "modify">Modify</button>
