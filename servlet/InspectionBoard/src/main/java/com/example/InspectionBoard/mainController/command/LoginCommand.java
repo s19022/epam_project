@@ -2,17 +2,14 @@ package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.model.entity.Account;
-import com.example.InspectionBoard.model.entity.Subject;
 import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.service.AccountService;
-import com.example.InspectionBoard.model.service.SubjectService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
-import java.util.List;
 
 import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
@@ -30,7 +27,7 @@ public class LoginCommand implements Command{
     }
 
     private String executeGet(){
-        return REDIRECT_KEYWORD + "/login.jsp";
+        return "/login.jsp";
     }
 
     private String executePost(HttpServletRequest request){
@@ -38,8 +35,6 @@ public class LoginCommand implements Command{
             Account account = getAccount(request);
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
-            List<Subject> subjects = SubjectService.findAll();
-            request.getSession().setAttribute("myList", subjects);             //fixme
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
             request.setAttribute("login_status", ex);

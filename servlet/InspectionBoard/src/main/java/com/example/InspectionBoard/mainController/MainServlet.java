@@ -2,6 +2,7 @@ package com.example.InspectionBoard.mainController;
 
 
 import com.example.InspectionBoard.mainController.command.*;
+import com.example.InspectionBoard.mainController.command.enrollee.EnrolleeMainCommand;
 import com.example.InspectionBoard.mainController.command.faculty.DeleteFacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyInfoCommand;
@@ -33,6 +34,7 @@ public class MainServlet extends HttpServlet {
         commands.put("faculties/register", new RegisterToFacultyCommand());
         commands.put("faculties/info", new FacultyInfoCommand());
         commands.put("faculties/delete", new DeleteFacultyCommand());
+        commands.put("enrollee/main", new EnrolleeMainCommand());
     }
 
     @Override
@@ -56,8 +58,6 @@ public class MainServlet extends HttpServlet {
         String page = command.execute(request, requestType);
 
         LOGGER.info(requestType.name() + ": " + path + " -> " + page);
-//        LOGGER.info("Path: " + path + "; request method: " + requestType.name() +
-//                "; redirect/forward to:" + page);
 
         if(page.contains("redirect:")){
             response.sendRedirect(page.replace(REDIRECT_KEYWORD, "/" + APP_NAME));
