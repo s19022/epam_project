@@ -10,11 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//fixme
 public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
-    private static final String FIND_ALL_BY_ENROLLEE_LOGIN =    "SELECT m.subject_id, m.mark " +
-                                                                "FROM mark m " +
-                                                                "WHERE m.enrollee_id = ? " +
+    private static final String FIND_ALL_BY_ENROLLEE_LOGIN =    "SELECT m.subject_id, s.name, m.mark " +
+                                                                "FROM mark m, subject s " +
+                                                                "WHERE m.enrollee_id = ? and s.id = m.subject_id " +
                                                                 "FOR UPDATE ";
     private final Connection connection;
 
@@ -28,8 +27,8 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     }
 
     @Override
-    public List<DbEnrolleeSubjectDto> findAll() throws SQLException {
-        return null;
+    public List<DbEnrolleeSubjectDto> findAll(){
+        return new ArrayList<>();
     }
 
     @Override
@@ -50,7 +49,8 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
 
     private static DbEnrolleeSubjectDto parseSubject(ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
-        int mark = rs.getInt(2);
-        return new DbEnrolleeSubjectDto(id, mark);
+        String name = rs.getString(2);
+        int mark = rs.getInt(3);
+        return new DbEnrolleeSubjectDto(id, name, mark);
     }
 }
