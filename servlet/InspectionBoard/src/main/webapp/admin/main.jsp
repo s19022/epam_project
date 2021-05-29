@@ -14,5 +14,9 @@
 <body>
 ${homePage}
 <a href="${pageContext.request.contextPath}/logout">${logout}</a>
+<a href="${pageContext.request.contextPath}/faculties">
+    Faculties
+</a>
+
 </body>
 </html>

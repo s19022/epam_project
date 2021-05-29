@@ -11,6 +11,6 @@ public class DeleteFacultyCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String facultyName = request.getParameter("facultyName");
         FacultyService.deleteByFacultyName(facultyName);
-        return "faculties";
+        return "/faculties";
     }
 }

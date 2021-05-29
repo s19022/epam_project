@@ -75,6 +75,7 @@
     <filter-mapping>
         <filter-name>Admin</filter-name>
         <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/faculties/delete/*</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>Enrollee</filter-name>
