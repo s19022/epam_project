@@ -1,9 +1,6 @@
 package com.example.InspectionBoard.model.dto.db;
 
-import com.example.InspectionBoard.model.entity.Account;
-import com.example.InspectionBoard.model.entity.Faculty;
-import com.example.InspectionBoard.model.entity.RequiredSubject;
-import com.example.InspectionBoard.model.entity.Subject;
+import com.example.InspectionBoard.model.entity.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,5 +35,13 @@ public final class Mapper {
 
     public static Subject toSubject(DbSubjectDto dto){
         return new Subject(dto.getName());
+    }
+
+    public static List<EnrolleeSubject> toEnrolleeSubject(List<DbEnrolleeSubjectDto> dto){
+        return dto.stream().map(Mapper::toEnrolleeSubject).collect(Collectors.toList());
+    }
+
+    public static EnrolleeSubject toEnrolleeSubject(DbEnrolleeSubjectDto dto){
+        return new EnrolleeSubject(dto.getName(), dto.getMark());
     }
 }
