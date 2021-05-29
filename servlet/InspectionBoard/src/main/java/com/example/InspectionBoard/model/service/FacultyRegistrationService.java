@@ -19,14 +19,15 @@ public class FacultyRegistrationService {
 
     public static void register(String accountLogin, String facultyName)
             throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException {
+        DaoFactory factory = DaoFactory.getInstance();
         try(
-                EnrolleeSubjectDao enrolleeSubjectDao = DaoFactory.getInstance().createEnrolleeSubjectDao();
-                Connection connection = enrolleeSubjectDao.getConnection();
-                RequiredSubjectDao requiredSubjectDao = DaoFactory.getInstance().createRequiredSubjectDao(connection);
-                FacultyRegistrationDao registrationDao = DaoFactory.getInstance().createFacultyRegistrationDao(connection)
+                Connection connection = factory.getConnection();
+                EnrolleeSubjectDao enrolleeSubjectDao = factory.createEnrolleeSubjectDao(connection);
+                RequiredSubjectDao requiredSubjectDao = factory.createRequiredSubjectDao(connection);
+                FacultyRegistrationDao registrationDao = factory.createFacultyRegistrationDao(connection)
             ){
             try{
-                enrolleeSubjectDao.getConnection().setAutoCommit(false);
+                connection.setAutoCommit(false);
                 int enrolleeId = getEnrolleeId(connection, accountLogin);
                 int facultyId = getFacultyId(connection, facultyName);
 
@@ -41,7 +42,7 @@ public class FacultyRegistrationService {
                 connection.rollback();
                 throw ex;
             }finally{
-                enrolleeSubjectDao.getConnection().setAutoCommit(true);
+                connection.setAutoCommit(true);
             }
         }catch (SQLException ex){
             LOGGER.error(ex);
