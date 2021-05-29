@@ -20,59 +20,9 @@ public class JDBCFactory extends DaoFactory {
     }
 
     @Override
-    public AccountDao createAccountDao() {
+    public Connection getConnection(){
         try{
-            return new JDBCAccountDao(dataSource.getConnection());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public FacultyDao createFacultyDao() {
-        try{
-            return new JDBCFacultyDao(dataSource.getConnection());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public SubjectDao createSubjectDao() {
-        try{
-            return new JDBCSubjectDao(dataSource.getConnection());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public RequiredSubjectDao createRequiredSubjectDao() {
-        try{
-            return new JDBCRequiredSubjectDao(dataSource.getConnection());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public EnrolleeSubjectDao createEnrolleeSubjectDao() {
-        try{
-            return new JDBCEnrolleeSubjectDao(dataSource.getConnection());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
-    @Override
-    public FacultyRegistrationDao createFacultyRegistrationDao() {
-        try{
-            return new JDBCFacultyRegistrationDao(dataSource.getConnection());
+            return dataSource.getConnection();
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

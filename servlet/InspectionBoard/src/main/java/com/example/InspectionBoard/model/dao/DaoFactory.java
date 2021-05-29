@@ -8,12 +8,7 @@ import java.sql.Connection;
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
-    public abstract AccountDao createAccountDao();
-    public abstract FacultyDao createFacultyDao();
-    public abstract SubjectDao createSubjectDao();
-    public abstract RequiredSubjectDao createRequiredSubjectDao();
-    public abstract EnrolleeSubjectDao createEnrolleeSubjectDao();
-    public abstract FacultyRegistrationDao createFacultyRegistrationDao();
+    public abstract Connection getConnection();
 
     public abstract AccountDao createAccountDao(Connection connection);
     public abstract FacultyDao createFacultyDao(Connection connection);
@@ -21,6 +16,31 @@ public abstract class DaoFactory {
     public abstract RequiredSubjectDao createRequiredSubjectDao(Connection connection);
     public abstract EnrolleeSubjectDao createEnrolleeSubjectDao(Connection connection);
     public abstract FacultyRegistrationDao createFacultyRegistrationDao(Connection connection);
+
+
+    public AccountDao createAccountDao() {
+        return createAccountDao(getConnection());
+    }
+
+    public FacultyDao createFacultyDao() {
+        return createFacultyDao(getConnection());
+    }
+
+    public SubjectDao createSubjectDao() {
+        return createSubjectDao(getConnection());
+    }
+
+    public RequiredSubjectDao createRequiredSubjectDao() {
+        return createRequiredSubjectDao(getConnection());
+    }
+
+    public EnrolleeSubjectDao createEnrolleeSubjectDao() {
+        return createEnrolleeSubjectDao(getConnection());
+    }
+
+    public FacultyRegistrationDao createFacultyRegistrationDao() {
+        return createFacultyRegistrationDao(getConnection());
+    }
 
     public static DaoFactory getInstance(){
         if (daoFactory == null){
