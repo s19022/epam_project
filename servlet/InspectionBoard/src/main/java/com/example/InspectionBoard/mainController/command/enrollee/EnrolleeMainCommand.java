@@ -13,6 +13,6 @@ public class EnrolleeMainCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         List<Subject> subjects = SubjectService.findAll();
         request.getSession().setAttribute("myList", subjects);             //fixme
-        return "/enrollee/main.jsp";
+        return "/WEB-INF/enrollee/main.jsp";
     }
 }
