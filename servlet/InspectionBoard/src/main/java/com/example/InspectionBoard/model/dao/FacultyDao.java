@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface FacultyDao extends GenericDao<DbFacultyDto>{
     Optional<DbFacultyDto> findByName(String name) throws SQLException;
     void deleteByFacultyName(String facultyName) throws SQLException;
-    List<DbFacultyDto> findAllOrderByNameDesc() throws SQLException;
     List<DbFacultyDto> findAllOrderByNameAsc() throws SQLException;
-    List<DbFacultyDto> findAllOrderByBudgetPlacesAsc() throws SQLException;
-    List<DbFacultyDto> findAllOrderByAllPlacesAsc() throws SQLException;
+    List<DbFacultyDto> findAllOrderByNameDesc() throws SQLException;
+    List<DbFacultyDto> findAllOrderByBudgetPlacesDesc() throws SQLException;
+    List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException;
 }

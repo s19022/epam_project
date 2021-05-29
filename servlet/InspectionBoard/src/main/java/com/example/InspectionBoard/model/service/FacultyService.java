@@ -17,15 +17,6 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 public class FacultyService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyService.class.getName());
 
-    public static List<Faculty> findAll(){
-        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
-            return toFaculty(dao.findAll());
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
     public static List<Faculty> findAllOrderByNameDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByNameDesc());
@@ -45,18 +36,18 @@ public class FacultyService {
         }
     }
 
-    public static List<Faculty> findAllOrderByBudgetPlacesAsc(){
+    public static List<Faculty> findAllOrderByBudgetPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
-            return toFaculty(dao.findAllOrderByBudgetPlacesAsc());
+            return toFaculty(dao.findAllOrderByBudgetPlacesDesc());
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
     }
 
-    public static List<Faculty> findAllOrderByAllPlacesAsc(){
+    public static List<Faculty> findAllOrderByAllPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
-            return toFaculty(dao.findAllOrderByAllPlacesAsc());
+            return toFaculty(dao.findAllOrderByAllPlacesDesc());
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

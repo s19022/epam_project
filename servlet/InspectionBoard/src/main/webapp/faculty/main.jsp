@@ -58,12 +58,12 @@
     }
 </style>
 <body>
-<form method="post" action="${pageContext.request.contextPath}/faculties">
+<form method="get" action="${pageContext.request.contextPath}/faculties">
     <select name="facultyOrder" onchange="this.form.submit()">
         <option value="nameAsc">order by name(a-z)</option>
-        <option value="nameDesc" <c:if test="${requestScope.facultyOrder eq 'nameDesc'}">selected</c:if>>order by name(z-a)</option>
-        <option value="allPlacesAsc" <c:if test="${requestScope.facultyOrder eq 'allPlacesAsc'}">selected</c:if>>order by all places</option>
-        <option value="budgetPlacesAsc" <c:if test="${requestScope.facultyOrder eq 'budgetPlacesAsc'}">selected</c:if>>order by budget places</option>
+        <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>order by name(z-a)</option>
+        <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>order by all places</option>
+        <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>order by budget places</option>
     </select>
 </form>
 

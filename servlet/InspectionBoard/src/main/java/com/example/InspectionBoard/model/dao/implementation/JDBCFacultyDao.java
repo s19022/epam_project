@@ -1,9 +1,9 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
-import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
+import com.example.InspectionBoard.model.service.RequiredSubjectService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL = "SELECT id, name, budget_places, all_places FROM faculty";
     private static final String FIND_BY_NAME = FIND_ALL + " WHERE name = ? FOR UPDATE ";
     private static final String DELETE_BY_FACULTY_NAME = "DELETE FROM faculty WHERE name = ?";
-    private static final String FIND_ALL_ORDER_BY_NAME_DESC ="SELECT id, name, budget_places, all_places FROM faculty ORDER by name desc";
     private static final String FIND_ALL_ORDER_BY_NAME_ASC = FIND_ALL + " ORDER by name asc";
-    private static final String FIND_ALL_ORDER_BY_BUDGET_PLACES_ASC = FIND_ALL + " ORDER by budget_places asc";
-    private static final String FIND_ALL_ORDER_BY_ALL_PLACES_ASC = FIND_ALL + " ORDER by all_places asc";
+    private static final String FIND_ALL_ORDER_BY_NAME_DESC =FIND_ALL + " ORDER by name desc";
+    private static final String FIND_ALL_ORDER_BY_BUDGET_PLACES_DESC = FIND_ALL + " ORDER by budget_places desc";
+    private static final String FIND_ALL_ORDER_BY_ALL_PLACES_DESC = FIND_ALL + " ORDER by all_places desc";
 
     private final Connection connection;
 
@@ -61,13 +61,13 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public List<DbFacultyDto> findAllOrderByBudgetPlacesAsc() throws SQLException {
-        return executeQuery(FIND_ALL_ORDER_BY_BUDGET_PLACES_ASC);
+    public List<DbFacultyDto> findAllOrderByBudgetPlacesDesc() throws SQLException {
+        return executeQuery(FIND_ALL_ORDER_BY_BUDGET_PLACES_DESC);
     }
 
     @Override
-    public List<DbFacultyDto> findAllOrderByAllPlacesAsc() throws SQLException {
-        return executeQuery(FIND_ALL_ORDER_BY_ALL_PLACES_ASC);
+    public List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException {
+        return executeQuery(FIND_ALL_ORDER_BY_ALL_PLACES_DESC);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class JDBCFacultyDao implements FacultyDao {
         String name = rs.getString(2);
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
-        List<DbRequiredSubjectDto> requiredSubjects = DaoFactory.getInstance().createRequiredSubjectDao().getAllByFacultyId(id);
+        List<DbRequiredSubjectDto> requiredSubjects = RequiredSubjectService.getAllByFacultyId(id);
         return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 
