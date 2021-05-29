@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCFacultyDao implements FacultyDao {
-    private static final String FIND_ALL = "SELECT id, name, budget_places, all_places, deleted FROM faculty";
-    private static final String FIND_BY_NAME = FIND_ALL + " WHERE name = ? FOR UPDATE ";
-    private static final String DELETE_BY_FACULTY_NAME = "DELETE FROM faculty WHERE name = ?";
+    private static final String FIND_ALL = "SELECT id, name, budget_places, all_places, deleted" +
+            " FROM faculty " +
+            " WHERE deleted = false ";
+    private static final String FIND_BY_NAME = FIND_ALL + " and name = ? FOR UPDATE ";
+    private static final String DELETE_BY_FACULTY_NAME = "UPDATE faculty SET deleted = true WHERE name = ?";
     private static final String FIND_ALL_ORDER_BY_NAME_ASC = FIND_ALL + " ORDER by name asc";
     private static final String FIND_ALL_ORDER_BY_NAME_DESC =FIND_ALL + " ORDER by name desc";
     private static final String FIND_ALL_ORDER_BY_BUDGET_PLACES_DESC = FIND_ALL + " ORDER by budget_places desc";
