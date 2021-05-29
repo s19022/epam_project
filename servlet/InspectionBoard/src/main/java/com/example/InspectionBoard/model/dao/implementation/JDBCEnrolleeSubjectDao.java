@@ -11,10 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
-    private static final String FIND_ALL_BY_ENROLLEE_LOGIN =    "SELECT m.subject_id, s.name, m.mark " +
-                                                                "FROM mark m, subject s " +
-                                                                "WHERE m.enrollee_id = ? and s.id = m.subject_id " +
-                                                                "FOR UPDATE ";
+    private static final String FIND_ALL_BY_ENROLLEE_ID =
+            "SELECT m.subject_id, s.name, m.mark " +
+            "FROM mark m, subject s " +
+            "WHERE m.enrollee_id = ? and s.id = m.subject_id " +
+            "FOR UPDATE ";
+
+    private static final String FIND_ALL_BY_ENROLLEE_LOGIN =
+            "SELECT m.subject_id, s.name, m.mark " +
+            "FROM mark m, subject s, account a " +
+            "WHERE a.login = ? and a.id = m.enrollee_id and s.id = m.subject_id " +
+            "FOR UPDATE ";
+
     private final Connection connection;
 
     public JDBCEnrolleeSubjectDao(Connection connection) {
@@ -33,8 +41,16 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
 
     @Override
     public List<DbEnrolleeSubjectDto> getAllByEnrolleeId(int id) throws SQLException {
-        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_LOGIN)){
+        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_ID)){
             statement.setInt(1, id);
+            return parseSubjects(statement.executeQuery());
+        }
+    }
+
+    @Override
+    public List<DbEnrolleeSubjectDto> getAllByEnrolleeLogin(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_LOGIN)){
+            statement.setString(1, login);
             return parseSubjects(statement.executeQuery());
         }
     }

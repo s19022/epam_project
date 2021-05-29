@@ -16,10 +16,19 @@
 <h1>${welcome}</h1>
 <a href="${pageContext.request.contextPath}/logout">${logout}</a>
 <table border="2">
-    <c:forEach items="${sessionScope.myList}" var="faculties">
+    <thead>
         <tr>
-            <td>${subject}</td>
-            <td>${faculties.name}</td>
+            <td colspan="2">Your subjects</td>
+        </tr>
+        <tr>
+            <td>Subject name</td>
+            <td>Mark</td>
+        </tr>
+    </thead>
+    <c:forEach items="${requestScope.subjects}" var="subject">
+        <tr>
+            <td>${subject.name}</td>
+            <td>${subject.mark}</td>
         </tr>
     </c:forEach>
 </table>

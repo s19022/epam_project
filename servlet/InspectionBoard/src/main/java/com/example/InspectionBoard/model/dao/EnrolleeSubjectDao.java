@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface EnrolleeSubjectDao extends GenericDao<DbEnrolleeSubjectDto>{
     List<DbEnrolleeSubjectDto> getAllByEnrolleeId(int id) throws SQLException;
+    List<DbEnrolleeSubjectDto> getAllByEnrolleeLogin(String login) throws SQLException;
 }
