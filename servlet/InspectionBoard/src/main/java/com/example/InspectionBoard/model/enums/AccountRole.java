@@ -10,7 +10,7 @@ public enum AccountRole {
     ADMIN{
         @Override
         public String getRedirectPath(){
-            return /*"/WEB-INF"*/"/admin/main.jsp";
+            return "/admin/main";
         }
     },
     UNKNOWN;
