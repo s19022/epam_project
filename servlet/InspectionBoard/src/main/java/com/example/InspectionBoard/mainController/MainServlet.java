@@ -2,6 +2,9 @@ package com.example.InspectionBoard.mainController;
 
 
 import com.example.InspectionBoard.mainController.command.*;
+import com.example.InspectionBoard.mainController.command.admin.AdminMainCommand;
+import com.example.InspectionBoard.mainController.command.admin.BlockEnrolleeCommand;
+import com.example.InspectionBoard.mainController.command.admin.UnblockEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.enrollee.EnrolleeMainCommand;
 import com.example.InspectionBoard.mainController.command.faculty.DeleteFacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyCommand;
