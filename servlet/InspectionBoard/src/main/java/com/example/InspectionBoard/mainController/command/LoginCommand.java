@@ -27,7 +27,7 @@ public class LoginCommand implements Command{
     }
 
     private String executeGet(){
-        return "/login.jsp";
+        return "/WEB-INF/login.jsp";
     }
 
     private String executePost(HttpServletRequest request){
@@ -38,7 +38,7 @@ public class LoginCommand implements Command{
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
             request.setAttribute("login_status", ex);
-            return "login.jsp";
+            return "/WEB-INF/login.jsp";
         }
     }
 

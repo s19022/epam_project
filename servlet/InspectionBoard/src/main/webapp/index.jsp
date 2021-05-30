@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1>${h1}</h1>
-<a href="login.jsp">${login}</a>
+<a href="login">${login}</a>
 <%--//fixme--%>
 </body>
 </html>
