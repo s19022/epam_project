@@ -11,7 +11,7 @@
   <c:forEach items="${requestScope.enrollee}" var="enrollees">
     <tr>
       <td>
-        ${enrollees.firstName}, ${enrollees.lastName}
+        ${enrollees.login} : ${enrollees.firstName}, ${enrollees.lastName}
       </td>
       <td>
       <c:if test="${enrollees.blocked}">

@@ -10,5 +10,11 @@
 </head>
 <body>
     ${forbidden}
+
+    <script>
+        setTimeout(function(){
+            window.location.href = "${pageContext.request.contextPath}/login";
+        }, 5000);
+    </script>
 </body>
 </html>
