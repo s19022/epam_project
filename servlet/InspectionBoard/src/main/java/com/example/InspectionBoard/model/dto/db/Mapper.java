@@ -44,4 +44,19 @@ public final class Mapper {
     public static EnrolleeSubject toEnrolleeSubject(DbEnrolleeSubjectDto dto){
         return new EnrolleeSubject(dto.getName(), dto.getMark());
     }
+
+    public static List<Enrollee> toEnrollee(List<DbEnrolleeDto> dto){
+        return dto.stream().map(Mapper::toEnrollee).collect(Collectors.toList());
+    }
+
+    public static Enrollee toEnrollee(DbEnrolleeDto dto){
+        return new Enrollee(
+                dto.getFirstName(),
+                dto.getLastName(),
+                dto.getFatherName(),
+                dto.getEmail(),
+                dto.getCity(),
+                dto.getRegion(),
+                dto.getSchoolName());
+    }
 }

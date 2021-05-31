@@ -16,7 +16,7 @@ public abstract class DaoFactory {
     public abstract RequiredSubjectDao createRequiredSubjectDao(Connection connection);
     public abstract EnrolleeSubjectDao createEnrolleeSubjectDao(Connection connection);
     public abstract FacultyRegistrationDao createFacultyRegistrationDao(Connection connection);
-
+    public abstract EnrolleeDao createEnrolleeDao(Connection connection);
 
     public AccountDao createAccountDao() {
         return createAccountDao(getConnection());
@@ -40,6 +40,10 @@ public abstract class DaoFactory {
 
     public FacultyRegistrationDao createFacultyRegistrationDao() {
         return createFacultyRegistrationDao(getConnection());
+    }
+
+    public EnrolleeDao createEnrolleeDao(){
+        return createEnrolleeDao(getConnection());
     }
 
     public static DaoFactory getInstance(){

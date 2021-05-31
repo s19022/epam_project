@@ -2,6 +2,7 @@ package com.example.InspectionBoard.mainController;
 
 
 import com.example.InspectionBoard.mainController.command.*;
+import com.example.InspectionBoard.mainController.command.admin.AdminEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.admin.AdminMainCommand;
 import com.example.InspectionBoard.mainController.command.admin.BlockEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.admin.UnblockEnrolleeCommand;
@@ -31,13 +32,17 @@ public class MainServlet extends HttpServlet {
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("register", new RegisterCommand());
+
         commands.put("admin/main", new AdminMainCommand());
-        commands.put("admin/enrollee/block", new BlockEnrolleeCommand());
-        commands.put("admin/enrollee/unblock", new UnblockEnrolleeCommand());
+        commands.put("admin/enrollees", new AdminEnrolleeCommand());
+        commands.put("admin/enrollees/block", new BlockEnrolleeCommand());
+        commands.put("admin/enrollees/unblock", new UnblockEnrolleeCommand());
+
         commands.put("faculties", new FacultyCommand());
         commands.put("faculties/register", new RegisterToFacultyCommand());
         commands.put("faculties/info", new FacultyInfoCommand());
         commands.put("faculties/delete", new DeleteFacultyCommand());
+
         commands.put("enrollee/main", new EnrolleeMainCommand());
     }
 

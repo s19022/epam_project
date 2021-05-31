@@ -59,6 +59,11 @@ public class JDBCFactory extends DaoFactory {
         return new JDBCFacultyRegistrationDao(connection);
     }
 
+    @Override
+    public EnrolleeDao createEnrolleeDao(Connection connection) {
+        return new JDBCEnrolleeDao(connection);
+    }
+
     public static JDBCFactory getInstance(){
         try{
             Context init = new InitialContext();

@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.mainController.filter;
+package com.example.InspectionBoard.mainController.filter.admin;
 
 import com.example.InspectionBoard.model.enums.AccountRole;
 
@@ -11,7 +11,7 @@ import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
 import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
-public class AdminFilter implements Filter {
+public class AdminAccessFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig){

@@ -41,7 +41,9 @@
           <form method="post" action="${pageContext.request.contextPath}/faculties/register">
             <input name="enrolleeLogin" value="${sessionScope.login}" hidden>
             <input name="facultyName" value="${faculty.name}" hidden>
-            <button >Register</button>
+            <c:if test="${sessionScope.userRole eq 'ENROLLEE'}">
+              <button >Register</button>
+            </c:if>
           </form>
         </c:otherwise>
       </c:choose>
