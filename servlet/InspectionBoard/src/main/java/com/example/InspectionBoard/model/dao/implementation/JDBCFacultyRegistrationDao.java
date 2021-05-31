@@ -6,6 +6,7 @@ import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
@@ -27,8 +28,8 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<DbFacultyRegistrationDto> findAll() throws SQLException {
-        return null;
+    public List<DbFacultyRegistrationDto> findAll(){
+        return new ArrayList<>();
     }
 
     @Override

@@ -46,7 +46,6 @@ public class FacultyRegistrationService {
             }
         }catch (SQLException ex){
             LOGGER.error(ex);
-            ex.printStackTrace();
             throw new SQLExceptionWrapper(ex);
         }
     }
