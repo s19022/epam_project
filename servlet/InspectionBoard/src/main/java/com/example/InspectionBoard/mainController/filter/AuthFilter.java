@@ -31,6 +31,7 @@ public class AuthFilter implements Filter {
         unknownRoleCanAccess.add("index.jsp");
         unknownRoleCanAccess.add("login");
         unknownRoleCanAccess.add("register.jsp");
+        unknownRoleCanAccess.add("register");
         //fixme
 
         loggedInCanAccess.add("logout");
@@ -43,9 +44,9 @@ public class AuthFilter implements Filter {
         adminRoleCanAccess.addAll(allCanAccess);
         adminRoleCanAccess.addAll(loggedInCanAccess);
         adminRoleCanAccess.add("admin/main");
-        adminRoleCanAccess.add("admin/enrollees");
-        adminRoleCanAccess.add("admin/enrollees/block");
-        adminRoleCanAccess.add("admin/enrollees/unblock");
+        adminRoleCanAccess.add("admin/enrollee");
+        adminRoleCanAccess.add("admin/enrollee/block");
+        adminRoleCanAccess.add("admin/enrollee/unblock");
         adminRoleCanAccess.add("faculties/delete");
 
         supportedUrlList.addAll(allCanAccess);

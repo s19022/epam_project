@@ -34,9 +34,9 @@ public class MainServlet extends HttpServlet {
         commands.put("register", new RegisterCommand());
 
         commands.put("admin/main", new AdminMainCommand());
-        commands.put("admin/enrollees", new AdminEnrolleeCommand());
-        commands.put("admin/enrollees/block", new BlockEnrolleeCommand());
-        commands.put("admin/enrollees/unblock", new UnblockEnrolleeCommand());
+        commands.put("admin/enrollee", new AdminEnrolleeCommand());
+        commands.put("admin/enrollee/block", new BlockEnrolleeCommand());
+        commands.put("admin/enrollee/unblock", new UnblockEnrolleeCommand());
 
         commands.put("faculties", new FacultyCommand());
         commands.put("faculties/register", new RegisterToFacultyCommand());
@@ -63,7 +63,7 @@ public class MainServlet extends HttpServlet {
         String path = request.getRequestURI();
         path = path.replaceAll(".*/" + APP_NAME +"/" , "");
         Command command = commands.getOrDefault(path,
-                (r, i)-> REDIRECT_KEYWORD + DEFAULT_PATH);
+                (r, i)-> REDIRECT_KEYWORD + DEFAULT_PATH);  //shouldn't happen if filter works correctly
         String page = command.execute(request, requestType);
 
         LOGGER.info(requestType.name() + ": " + path + " -> " + page);
