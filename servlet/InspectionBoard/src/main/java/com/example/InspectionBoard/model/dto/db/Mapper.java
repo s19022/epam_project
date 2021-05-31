@@ -51,6 +51,8 @@ public final class Mapper {
 
     public static Enrollee toEnrollee(DbEnrolleeDto dto){
         return new Enrollee(
+                dto.getLogin(),
+                dto.isBlocked(),
                 dto.getFirstName(),
                 dto.getLastName(),
                 dto.getFatherName(),

@@ -12,8 +12,9 @@ import java.util.List;
 
 public class JDBCEnrolleeDao implements EnrolleeDao {
     private static final String FIND_ALL =
-            "SELECT id, first_name, last_name, father_name, email, city, region, school_name " +
-            "FROM enrollee ";
+            "SELECT a.id, a.login, a.blocked, first_name, last_name, father_name, email, city, region, school_name " +
+            "FROM enrollee e, account a " +
+            "WHERE e.id = a.id";
 
     private static final String FIND_ALL_LIMIT_AND_OFFSET = FIND_ALL + " LIMIT ? OFFSET ? ";
     private final Connection connection;
@@ -53,13 +54,15 @@ public class JDBCEnrolleeDao implements EnrolleeDao {
 
     private static DbEnrolleeDto parseEnrollee(ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
-        String firstName = rs.getString(2);
-        String lastName = rs.getString(3);
-        String fatherName = rs.getString(4);
-        String email = rs.getString(5);
-        String city = rs.getString(6);
-        String region = rs.getString(7);
-        String schoolName = rs.getString(8);
-        return new DbEnrolleeDto(id, firstName, lastName, fatherName, email, city, region, schoolName);
+        String login = rs.getString(2);
+        boolean isBlocked = rs.getBoolean(3);
+        String firstName = rs.getString(4);
+        String lastName = rs.getString(5);
+        String fatherName = rs.getString(6);
+        String email = rs.getString(7);
+        String city = rs.getString(8);
+        String region = rs.getString(9);
+        String schoolName = rs.getString(10);
+        return new DbEnrolleeDto(id, login, isBlocked, firstName, lastName, fatherName, email, city, region, schoolName);
     }
 }

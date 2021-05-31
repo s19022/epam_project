@@ -8,9 +8,27 @@
 <body>
 
 <table>
-  <c:forEach items="${requestScope.enrollees}" var="enrollees">
+  <c:forEach items="${requestScope.enrollee}" var="enrollees">
     <tr>
-      <td>${enrollees.fatherName}</td>
+      <td>
+        ${enrollees.firstName}, ${enrollees.lastName}
+      </td>
+      <td>
+      <c:if test="${enrollees.blocked}">
+        <a href="${pageContext.request.contextPath}/admin/enrollee/unblock?login=${enrollees.login}">
+          <button>
+            Unblock
+          </button>
+        </a>
+      </c:if>
+      <c:if test="${!enrollees.blocked}">
+        <a href="${pageContext.request.contextPath}/admin/enrollee/block?login=${enrollees.login}">
+          <button>
+            Block
+          </button>
+        </a>
+      </c:if>
+      </td>
     </tr>
   </c:forEach>
 </table>

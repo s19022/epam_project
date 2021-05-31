@@ -17,6 +17,10 @@ ${homePage}
 <a href="${pageContext.request.contextPath}/faculties">
     Faculties
 </a>
-
+<form method="get" action="${pageContext.request.contextPath}/admin/enrollee">
+    <input type="number" name="pageNumber" value="1" hidden>
+    <input type="number" name="itemsPerPage" value="5" hidden>
+    <button>Show all enrollees</button>
+</form>
 </body>
 </html>

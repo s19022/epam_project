@@ -1,6 +1,8 @@
 package com.example.InspectionBoard.model.entity;
 
 public class Enrollee {
+    private final String login;
+    private final boolean isBlocked;
     private final String firstName;
     private final String lastName;
     private final String fatherName;
@@ -9,8 +11,9 @@ public class Enrollee {
     private final String region;
     private final String schoolName;
 
-    public Enrollee(String firstName, String lastName, String fatherName, String email,
-                    String city, String region, String schoolName) {
+    public Enrollee(String login, boolean isBlocked, String firstName, String lastName, String fatherName, String email, String city, String region, String schoolName) {
+        this.login = login;
+        this.isBlocked = isBlocked;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fatherName = fatherName;
@@ -46,5 +49,13 @@ public class Enrollee {
 
     public String getSchoolName() {
         return schoolName;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
     }
 }

@@ -2,6 +2,8 @@ package com.example.InspectionBoard.model.dto.db;
 
 public class DbEnrolleeDto {
     private final int id;
+    private final String login;
+    private final boolean isBlocked;
     private final String firstName;
     private final String lastName;
     private final String fatherName;
@@ -10,8 +12,12 @@ public class DbEnrolleeDto {
     private final String region;
     private final String schoolName;
 
-    public DbEnrolleeDto(int id, String firstName, String lastName, String fatherName, String email, String city, String region, String schoolName) {
+    public DbEnrolleeDto(int id, String login, boolean isBlocked, String firstName,
+                         String lastName, String fatherName, String email, String city,
+                         String region, String schoolName) {
         this.id = id;
+        this.login = login;
+        this.isBlocked = isBlocked;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fatherName = fatherName;
@@ -51,5 +57,13 @@ public class DbEnrolleeDto {
 
     public String getSchoolName() {
         return schoolName;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
     }
 }
