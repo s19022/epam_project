@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.InspectionBoard.Constants.APP_NAME;
-import static com.example.InspectionBoard.Constants.USER_ROLE;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
 
 public class AuthFilter implements Filter {
@@ -60,7 +59,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        AccountRole role = getAccountRole(request.getSession().getAttribute(USER_ROLE));
+        AccountRole role = getAccountRole(request);
         String path = request.getRequestURI();
         path = path.replaceAll(".*/" + APP_NAME +"/" , "");
         if (!isSupported(path)){
