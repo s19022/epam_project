@@ -10,6 +10,11 @@
     <title>404</title>
 </head>
 <body>
+<script>
+    setTimeout(function(){
+        window.location.href = "${pageContext.request.contextPath}/login";
+    }, 5000);
+</script>
     ${notFound}
 </body>
 </html>
