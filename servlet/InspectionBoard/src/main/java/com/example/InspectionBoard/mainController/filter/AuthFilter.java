@@ -1,9 +1,5 @@
 package com.example.InspectionBoard.mainController.filter;
 
-import com.example.InspectionBoard.mainController.command.admin.AdminEnrolleeCommand;
-import com.example.InspectionBoard.mainController.command.admin.AdminMainCommand;
-import com.example.InspectionBoard.mainController.command.admin.BlockEnrolleeCommand;
-import com.example.InspectionBoard.mainController.command.admin.UnblockEnrolleeCommand;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import javax.servlet.*;
@@ -23,6 +19,7 @@ public class AuthFilter implements Filter {
     private final List<String> loggedInCanAccess = new ArrayList<>();
     private final List<String> enrolleeRoleCanAccess = new ArrayList<>();
     private final List<String> adminRoleCanAccess = new ArrayList<>();
+    private final List<String> supportedUrlList = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig){
@@ -51,6 +48,11 @@ public class AuthFilter implements Filter {
         adminRoleCanAccess.add("admin/enrollees/unblock");
         adminRoleCanAccess.add("faculties/delete");
 
+        supportedUrlList.addAll(allCanAccess);
+        supportedUrlList.addAll(loggedInCanAccess);
+        supportedUrlList.addAll(unknownRoleCanAccess);
+        supportedUrlList.addAll(enrolleeRoleCanAccess);
+        supportedUrlList.addAll(adminRoleCanAccess);
     }
 
     @Override
@@ -60,12 +62,15 @@ public class AuthFilter implements Filter {
         AccountRole role = getAccountRole(request.getSession().getAttribute(USER_ROLE));
         String path = request.getRequestURI();
         path = path.replaceAll(".*/" + APP_NAME +"/" , "");
-        System.out.println(path);
-        if (canAccess(role, path)){
-            filterChain.doFilter(request, response);
-        }else{
-            response.sendError(403);
+        if (!isSupported(path)){
+            response.sendError(404);
+            return;
         }
+        if (canAccess(role, path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        response.sendError(403);
     }
 
     @Override
@@ -82,5 +87,9 @@ public class AuthFilter implements Filter {
                 return unknownRoleCanAccess.contains(path);
         }
         return false;
+    }
+
+    private boolean isSupported(String path){
+        return supportedUrlList.contains(path);
     }
 }
