@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.InspectionBoard.Constants.APP_NAME;
+import static com.example.InspectionBoard.Constants.USER_ROLE;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
 
 public class AuthFilter implements Filter {
@@ -62,6 +63,7 @@ public class AuthFilter implements Filter {
         AccountRole role = getAccountRole(request);
         String path = request.getRequestURI();
         path = path.replaceAll(".*/" + APP_NAME +"/" , "");
+        setDefaultRole(request, role);
         if (!isSupported(path)){
             response.sendError(404);
             return;
@@ -91,5 +93,14 @@ public class AuthFilter implements Filter {
 
     private boolean isSupported(String path){
         return supportedUrlList.contains(path);
+    }
+
+    private static void setDefaultRole(HttpServletRequest request, AccountRole actual){
+        if (actual != AccountRole.UNKNOWN){
+            //getAccount method returns UNKNOWN role in case USER_ROLE attribute
+            // is null or can't be parsed to AccountRole
+            return;
+        }
+        request.getSession().setAttribute(USER_ROLE, AccountRole.UNKNOWN);
     }
 }
