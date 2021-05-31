@@ -92,6 +92,20 @@ public class AuthFilter implements Filter {
         return false;
     }
 
+    private boolean isSupported(String path){
+        return supportedUrlList.contains(path);
+    }
+
+    private static void setDefaultRole(HttpServletRequest request, AccountRole actual){
+        if (actual != AccountRole.UNKNOWN){
+            //getAccount method returns UNKNOWN role in case USER_ROLE attribute
+            // is null or can't be parsed to AccountRole
+            return;
+        }
+        request.getSession().setAttribute(USER_ROLE, AccountRole.UNKNOWN);
+    }
+
+
     public static AccountRole getAccountRole(HttpServletRequest request){
         HttpSession session = request.getSession();
         String login  = (String)session.getAttribute("login");
@@ -120,18 +134,5 @@ public class AuthFilter implements Filter {
             }
         } catch (RuntimeException ignore) {}
         return AccountRole.UNKNOWN;
-    }
-
-    private boolean isSupported(String path){
-        return supportedUrlList.contains(path);
-    }
-
-    private static void setDefaultRole(HttpServletRequest request, AccountRole actual){
-        if (actual != AccountRole.UNKNOWN){
-            //getAccount method returns UNKNOWN role in case USER_ROLE attribute
-            // is null or can't be parsed to AccountRole
-            return;
-        }
-        request.getSession().setAttribute(USER_ROLE, AccountRole.UNKNOWN);
     }
 }
