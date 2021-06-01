@@ -47,9 +47,9 @@ public abstract class DaoFactory {
     }
 
     public static DaoFactory getInstance(){
-        if (daoFactory == null){
-            synchronized (DaoFactory.class){
-                if (daoFactory == null){
+        if (daoFactory == null){ //100
+            synchronized (DaoFactory.class){//1
+                if (daoFactory == null){// 1- true ; 99 - false
                     daoFactory = JDBCFactory.getInstance();
                 }
             }

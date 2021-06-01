@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class JDBCFactory extends DaoFactory {
     private static final Logger LOGGER = LogManager.getLogger(JDBCFactory.class.getName());
     private final DataSource dataSource;
-    public JDBCFactory(DataSource dataSource) {
+    private JDBCFactory(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
