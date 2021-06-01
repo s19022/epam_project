@@ -42,13 +42,13 @@ public class LoginCommand implements Command{
 
     private Account getAccount(HttpServletRequest request)
             throws WrongLoginPasswordException, AccountIsBlockedException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("pass");
+        String login = (String)request.getAttribute(LOGIN);
+        String password = (String)request.getAttribute(PASSWORD);
         return AccountService.getAccount(login, password);
     }
 
     private void addAccountToSession(HttpSession session, Account account){
-        session.setAttribute("login", account.getLogin());
+        session.setAttribute(LOGIN, account.getLogin());
         session.setAttribute(USER_ROLE, account.getRole().name());
     }
 

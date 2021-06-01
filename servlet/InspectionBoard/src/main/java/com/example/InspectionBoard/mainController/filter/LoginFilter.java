@@ -55,6 +55,7 @@ public class LoginFilter implements Filter {
             return;
         }
         request.setAttribute(LOGIN, login);
+        request.setAttribute(PASSWORD, password);
         filterChain.doFilter(request, response);
     }
 

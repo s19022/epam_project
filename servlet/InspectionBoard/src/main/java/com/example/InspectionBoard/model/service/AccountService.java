@@ -20,13 +20,11 @@ public class AccountService {
 
     public static Account getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException{
-        String decodedLogin = ServiceUtility.decode(login);
-        String decodedPassword = ServiceUtility.decode(password);
-        String hashedPassword = ServiceUtility.hash(decodedPassword);
+        String hashedPassword = ServiceUtility.hash(password);
 
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             DbAccountDto accountDto =
-                    dao.findByLoginAndPassword(decodedLogin, hashedPassword)
+                    dao.findByLoginAndPassword(login, hashedPassword)
                             .orElseThrow(WrongLoginPasswordException::new);
             if (accountDto.isBlocked()){
                 throw new AccountIsBlockedException();
