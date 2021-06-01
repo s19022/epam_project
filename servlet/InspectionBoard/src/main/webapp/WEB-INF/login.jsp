@@ -87,20 +87,20 @@
             password.value = btoa(password.value);
         });
 </script>
-<c:set var="login_status" value="${requestScope.login_status}"/>
-<c:if test="${login_status ne null}">
+<c:set var="loginStatus" value="${requestScope.loginStatus}"/>
+<c:if test="${loginStatus ne null}">
     <c:choose>
-        <c:when test="${fn:contains(login_status.getClass().name, 'AccountIsBlockedException')}">
+        <c:when test="${fn:contains(loginStatus.getClass().name, 'AccountIsBlockedException')}">
             <script>setErrorMessage("${accountBlocked}")</script>
         </c:when>
-        <c:when test="${fn:contains(login_status.getClass().name, 'WrongLoginPasswordException')}">
+        <c:when test="${fn:contains(loginStatus.getClass().name, 'WrongLoginPasswordException')}">
                             <script>setErrorMessage("${wrongLoginPassword}")</script>
         </c:when>
-        <c:when test="${fn:contains(login_status.getClass().name, 'UserAlreadyLoggedInException')}">
+        <c:when test="${fn:contains(loginStatus.getClass().name, 'UserAlreadyLoggedInException')}">
                             <script>setErrorMessage("${alreadyLoggedIn}")</script>
         </c:when>
         <c:otherwise>
-            <c:out value="${login_status.getClass().name}"/>
+            <c:out value="${loginStatus.getClass().name}"/>
         </c:otherwise>
     </c:choose>
 </c:if>

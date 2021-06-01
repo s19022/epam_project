@@ -37,7 +37,7 @@ public class LoginCommand implements Command{
             addAccountToContext(request.getServletContext(), account);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
         }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
-            request.setAttribute("login_status", ex);
+            request.setAttribute(LOGIN_STATUS, ex);
             return "/WEB-INF/login.jsp";
         }
     }
