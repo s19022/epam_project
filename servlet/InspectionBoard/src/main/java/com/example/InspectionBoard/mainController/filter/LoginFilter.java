@@ -15,6 +15,7 @@ import static com.example.InspectionBoard.Constants.*;
 public class LoginFilter implements Filter {
     private HttpServletRequest request;
     private HttpServletResponse response;
+    private String login, password;
 
 
     @Override
@@ -39,26 +40,21 @@ public class LoginFilter implements Filter {
     }
 
     private void processRequest(FilterChain filterChain) throws IOException, ServletException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("pass");
-        login = decode(login);
-        password = decode(password);
+        login = request.getParameter(LOGIN);
+        password = request.getParameter(PASSWORD);
 
-        if (!(isValid(login))){
-            setLoginStatus(LoginStatus.LOGIN_EMPTY);
-            forwardRequest();
-            return;
-        }
-        if (!isValid(password)){
-            setLoginStatus(LoginStatus.PASS_EMPTY);
-            forwardRequest();
-            return;
-        }
+       if(!validate()){
+           return;
+       }
+       login = decode(login);
+       password = decode(password);
+
         if (isLoggedIn(login)){
             setLoginStatus(LoginStatus.ALREADY_LOGGED_IN);
             forwardRequest();
             return;
         }
+        request.setAttribute(LOGIN, login);
         filterChain.doFilter(request, response);
     }
 
@@ -77,11 +73,29 @@ public class LoginFilter implements Filter {
         request.setAttribute(LOGIN_STATUS, status);
     }
 
-    private static boolean isValid(String toCheck){
-        return !(toCheck == null || toCheck.trim().isEmpty());
+    private boolean validate() throws ServletException, IOException {
+        if (!(isValid(login))){
+            setLoginStatus(LoginStatus.LOGIN_EMPTY);
+            forwardRequest();
+            return false;
+        }
+        if (!isValid(password)){
+            setLoginStatus(LoginStatus.PASS_EMPTY);
+            forwardRequest();
+            return false;
+        }
+        return true;
     }
 
-    public static String decode(String toDecode){
+    private static boolean isValid(String toCheck){
+        if (toCheck == null){
+            return false;
+        }
+        String decoded = decode(toCheck);
+        return !decoded.trim().isEmpty();
+    }
+
+    private static String decode(String toDecode){
         byte[] decoded = Base64.getDecoder().decode(toDecode.getBytes(StandardCharsets.UTF_8));
         return new String(decoded);
     }

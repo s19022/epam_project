@@ -7,5 +7,7 @@ public final class Constants {
     public static final String USER_ROLE = "userRole";
     public static final String DEFAULT_PATH = "/index.jsp";
     public static final String LOGIN_STATUS  = "loginStatus";
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "pass";
 
 }
