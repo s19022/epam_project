@@ -16,7 +16,7 @@ import java.util.List;
 public class EnrolleeService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeService.class.getName());
 
-    public static List<Enrollee> findAllByPage(FindByPageDto page){
+    public List<Enrollee> findAllByPage(FindByPageDto page){
         int limit = page.getItemsPerPage();
         int offset = page.getItemsPerPage() * (page.getPageNumber() - 1);
         try(EnrolleeDao dao = DaoFactory.getInstance().createEnrolleeDao()){

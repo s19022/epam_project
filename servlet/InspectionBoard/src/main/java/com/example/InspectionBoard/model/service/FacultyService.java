@@ -17,7 +17,7 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 public class FacultyService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyService.class.getName());
 
-    public static List<Faculty> findAllOrderByNameDesc(){
+    public List<Faculty> findAllOrderByNameDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByNameDesc());
         }catch (SQLException ex){
@@ -27,7 +27,7 @@ public class FacultyService {
     }
 
 
-    public static List<Faculty> findAllOrderByNameAsc(){
+    public List<Faculty> findAllOrderByNameAsc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByNameAsc());
         }catch (SQLException ex){
@@ -36,7 +36,7 @@ public class FacultyService {
         }
     }
 
-    public static List<Faculty> findAllOrderByBudgetPlacesDesc(){
+    public List<Faculty> findAllOrderByBudgetPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByBudgetPlacesDesc());
         }catch (SQLException ex){
@@ -45,7 +45,7 @@ public class FacultyService {
         }
     }
 
-    public static List<Faculty> findAllOrderByAllPlacesDesc(){
+    public List<Faculty> findAllOrderByAllPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByAllPlacesDesc());
         }catch (SQLException ex){
@@ -54,7 +54,7 @@ public class FacultyService {
         }
     }
 
-    public static void deleteByFacultyName(String facultyName){
+    public void deleteByFacultyName(String facultyName){
         if (!isValid(facultyName)){
             LOGGER.warn("Empty faculty name");
             return;
@@ -67,7 +67,7 @@ public class FacultyService {
         }
     }
 
-    public static Faculty findByName(String name) throws NoSuchFacultyException {
+    public Faculty findByName(String name) throws NoSuchFacultyException {
         if (!isValid(name)){
             throw new NoSuchFacultyException();
         }
@@ -79,7 +79,7 @@ public class FacultyService {
         }
     }
 
-    public static List<Faculty> findByEnrolleeLogin(String login){
+    public List<Faculty> findByEnrolleeLogin(String login){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findByEnrolleeLoginEquals(login));
         }catch (SQLException ex){

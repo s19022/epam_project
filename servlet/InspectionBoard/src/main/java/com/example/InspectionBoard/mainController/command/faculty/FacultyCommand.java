@@ -2,7 +2,7 @@ package com.example.InspectionBoard.mainController.command.faculty;
 
 import com.example.InspectionBoard.mainController.command.Command;
 import com.example.InspectionBoard.mainController.command.CommandUtility;
-import com.example.InspectionBoard.mainController.command.RequestType;
+import com.example.InspectionBoard.model.enums.RequestType;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.service.FacultyService;
 
@@ -30,19 +30,20 @@ public class FacultyCommand implements Command {
     }
 
     private static List<Faculty> getFacultyList(String orderBy){
+        FacultyService service = new FacultyService();
         if (orderBy == null){
-            return FacultyService.findAllOrderByNameAsc();
+            return service.findAllOrderByNameAsc();
         }
         switch (orderBy){
             case "nameDesc":
-                return FacultyService.findAllOrderByNameDesc();
+                return service.findAllOrderByNameDesc();
             case "allPlacesDesc":
-                return FacultyService.findAllOrderByAllPlacesDesc();
+                return service.findAllOrderByAllPlacesDesc();
             case "budgetPlacesDesc":
-                return FacultyService.findAllOrderByBudgetPlacesDesc();
+                return service.findAllOrderByBudgetPlacesDesc();
             case "nameAsc":
             default:
-                return FacultyService.findAllOrderByNameAsc();
+                return service.findAllOrderByNameAsc();
         }
     }
 }

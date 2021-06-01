@@ -18,7 +18,7 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toAccount;
 public class AccountService {
     private static final Logger LOGGER = LogManager.getLogger(AccountService.class.getName());
 
-    public static Account getAccount(String login, String password)
+    public Account getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException{
         String hashedPassword = ServiceUtility.hash(password);
 
@@ -36,7 +36,7 @@ public class AccountService {
         }
     }
 
-    public static void createEnrollee(SaveEnrolleeDto s){
+    public void createEnrollee(SaveEnrolleeDto s){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.getConnection().setAutoCommit(false);
             try{
@@ -54,7 +54,7 @@ public class AccountService {
 
     }
 
-    public static void blockEnrollee(String login){
+    public void blockEnrollee(String login){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.blockEnrollee(login);
         }catch (SQLException ex){
@@ -62,7 +62,7 @@ public class AccountService {
             throw new SQLExceptionWrapper(ex);
         }
     }
-    public static void unblockEnrollee(String login){
+    public void unblockEnrollee(String login){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.unblockEnrollee(login);
         }catch (SQLException ex){

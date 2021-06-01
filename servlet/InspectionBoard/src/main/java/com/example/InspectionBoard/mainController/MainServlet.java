@@ -11,6 +11,7 @@ import com.example.InspectionBoard.mainController.command.faculty.DeleteFacultyC
 import com.example.InspectionBoard.mainController.command.faculty.FacultyCommand;
 import com.example.InspectionBoard.mainController.command.faculty.FacultyInfoCommand;
 import com.example.InspectionBoard.mainController.command.faculty.RegisterToFacultyCommand;
+import com.example.InspectionBoard.model.enums.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

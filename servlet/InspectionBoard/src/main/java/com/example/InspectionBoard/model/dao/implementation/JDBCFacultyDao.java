@@ -102,7 +102,8 @@ public class JDBCFacultyDao implements FacultyDao {
         String name = rs.getString(2);
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
-        List<DbRequiredSubjectDto> requiredSubjects = RequiredSubjectService.getAllByFacultyId(id);
+        //fixme change to dao, now creates 2 transactions
+        List<DbRequiredSubjectDto> requiredSubjects = new RequiredSubjectService().getAllByFacultyId(id);
         return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 

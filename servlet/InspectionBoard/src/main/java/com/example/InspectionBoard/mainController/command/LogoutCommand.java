@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.model.enums.AccountRole;
+import com.example.InspectionBoard.model.enums.RequestType;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import static com.example.InspectionBoard.mainController.command.CommandUtility.
 
 
 public class LogoutCommand implements Command{
+    @SuppressWarnings("unchecked")
     @Override
     public String execute(HttpServletRequest request, RequestType requestType) {
         ServletContext context = request.getServletContext();

@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.mainController.command.enrollee;
 
 import com.example.InspectionBoard.mainController.command.Command;
-import com.example.InspectionBoard.mainController.command.RequestType;
+import com.example.InspectionBoard.model.enums.RequestType;
 import com.example.InspectionBoard.model.entity.EnrolleeSubject;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.service.EnrolleeSubjectService;
@@ -15,8 +15,8 @@ public class EnrolleeMainCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String login = (String)request.getSession().getAttribute("login");
 
-        List<EnrolleeSubject> enrolleeSubjects = EnrolleeSubjectService.findAllByEnrolleeLogin(login);
-        List<Faculty> registeredFaculties = FacultyService.findByEnrolleeLogin(login);
+        List<EnrolleeSubject> enrolleeSubjects = new EnrolleeSubjectService().findAllByEnrolleeLogin(login);
+        List<Faculty> registeredFaculties = new FacultyService().findByEnrolleeLogin(login);
 
         request.setAttribute("subjects", enrolleeSubjects);
         request.setAttribute("registeredFaculties", registeredFaculties);

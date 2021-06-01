@@ -14,7 +14,7 @@ import java.util.List;
 public class RequiredSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(RequiredSubject.class.getName());
 
-    public static List<DbRequiredSubjectDto> getAllByFacultyId(int facultyId) {
+    public List<DbRequiredSubjectDto> getAllByFacultyId(int facultyId) {
         try(RequiredSubjectDao dao = DaoFactory.getInstance().createRequiredSubjectDao()){
             return dao.getAllByFacultyId(facultyId);
         }catch (SQLException ex){

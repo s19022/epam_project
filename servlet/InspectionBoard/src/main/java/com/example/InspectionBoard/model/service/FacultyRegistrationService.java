@@ -17,7 +17,7 @@ import java.util.List;
 public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
 
-    public static void register(String accountLogin, String facultyName)
+    public void register(String accountLogin, String facultyName)
             throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException {
         DaoFactory factory = DaoFactory.getInstance();
         try(

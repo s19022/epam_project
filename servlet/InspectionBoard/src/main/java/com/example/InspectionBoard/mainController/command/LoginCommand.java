@@ -3,6 +3,7 @@ package com.example.InspectionBoard.mainController.command;
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.model.entity.Account;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
+import com.example.InspectionBoard.model.enums.RequestType;
 import com.example.InspectionBoard.model.service.AccountService;
 
 import javax.servlet.ServletContext;
@@ -44,7 +45,7 @@ public class LoginCommand implements Command{
             throws WrongLoginPasswordException, AccountIsBlockedException {
         String login = (String)request.getAttribute(LOGIN);
         String password = (String)request.getAttribute(PASSWORD);
-        return AccountService.getAccount(login, password);
+        return new AccountService().getAccount(login, password);
     }
 
     private void addAccountToSession(HttpSession session, Account account){

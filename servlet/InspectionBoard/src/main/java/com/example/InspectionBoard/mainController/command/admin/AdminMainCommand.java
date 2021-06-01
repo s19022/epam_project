@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.mainController.command.admin;
 
 import com.example.InspectionBoard.mainController.command.Command;
-import com.example.InspectionBoard.mainController.command.RequestType;
+import com.example.InspectionBoard.model.enums.RequestType;
 
 import javax.servlet.http.HttpServletRequest;
 

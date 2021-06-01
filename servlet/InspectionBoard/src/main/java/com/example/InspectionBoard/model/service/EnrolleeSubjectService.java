@@ -15,7 +15,7 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toEnrolleeSubject;
 public class EnrolleeSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
 
-    public static List<EnrolleeSubject> findAllByEnrolleeLogin(String login){
+    public List<EnrolleeSubject> findAllByEnrolleeLogin(String login){
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
             return toEnrolleeSubject(dao.getAllByEnrolleeLogin(login));
         }catch (SQLException ex){

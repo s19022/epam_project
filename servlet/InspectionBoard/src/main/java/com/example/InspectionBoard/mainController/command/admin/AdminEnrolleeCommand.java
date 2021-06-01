@@ -1,7 +1,7 @@
 package com.example.InspectionBoard.mainController.command.admin;
 
 import com.example.InspectionBoard.mainController.command.Command;
-import com.example.InspectionBoard.mainController.command.RequestType;
+import com.example.InspectionBoard.model.enums.RequestType;
 import com.example.InspectionBoard.model.dto.db.FindByPageDto;
 import com.example.InspectionBoard.model.entity.Enrollee;
 import com.example.InspectionBoard.model.service.EnrolleeService;
@@ -17,7 +17,7 @@ public class AdminEnrolleeCommand implements Command {
         int pageNumber = getPage(request.getParameter("pageNumber"));
         int itemsPerPage = getItemsPerPage(request.getParameter("itemsPerPage"));
         FindByPageDto page = new FindByPageDto(pageNumber, itemsPerPage);
-        List<Enrollee> list = EnrolleeService.findAllByPage(page);
+        List<Enrollee> list = new EnrolleeService().findAllByPage(page);
         request.setAttribute("enrollee", list);
         return "/WEB-INF/admin/enrolleeInfo.jsp";
     }
