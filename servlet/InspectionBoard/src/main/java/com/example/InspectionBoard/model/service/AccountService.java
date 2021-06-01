@@ -14,16 +14,12 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 
 import static com.example.InspectionBoard.model.dto.db.Mapper.toAccount;
-import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 
 public class AccountService {
     private static final Logger LOGGER = LogManager.getLogger(AccountService.class.getName());
 
     public static Account getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException{
-        if (! (isValid(login) || isValid(password))){
-            throw new WrongLoginPasswordException();
-        }
         String decodedLogin = ServiceUtility.decode(login);
         String decodedPassword = ServiceUtility.decode(password);
         String hashedPassword = ServiceUtility.hash(decodedPassword);

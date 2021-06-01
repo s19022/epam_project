@@ -90,17 +90,23 @@
 <c:set var="loginStatus" value="${requestScope.loginStatus}"/>
 <c:if test="${loginStatus ne null}">
     <c:choose>
-        <c:when test="${fn:contains(loginStatus.getClass().name, 'AccountIsBlockedException')}">
+        <c:when test="${loginStatus eq 'LOGIN_EMPTY'}">
+            <script>setErrorMessage("${emptyLogin}")</script>
+        </c:when>
+        <c:when test="${loginStatus eq 'PASS_EMPTY'}">
+            <script>setErrorMessage("${emptyPassword}")</script>
+        </c:when>
+        <c:when test="${loginStatus eq 'LOGIN_PASS_WRONG'}">
+            <script>setErrorMessage("${wrongLoginPassword}")</script>
+        </c:when>
+        <c:when test="${loginStatus eq 'ALREADY_LOGGED_IN'}">
+            <script>setErrorMessage("${alreadyLoggedIn}")</script>
+        </c:when>
+        <c:when test="${loginStatus eq 'ACCOUNT_IS_BLOCKED'}">
             <script>setErrorMessage("${accountBlocked}")</script>
         </c:when>
-        <c:when test="${fn:contains(loginStatus.getClass().name, 'WrongLoginPasswordException')}">
-                            <script>setErrorMessage("${wrongLoginPassword}")</script>
-        </c:when>
-        <c:when test="${fn:contains(loginStatus.getClass().name, 'UserAlreadyLoggedInException')}">
-                            <script>setErrorMessage("${alreadyLoggedIn}")</script>
-        </c:when>
         <c:otherwise>
-            <c:out value="${loginStatus.getClass().name}"/>
+            ${loginStatus}
         </c:otherwise>
     </c:choose>
 </c:if>

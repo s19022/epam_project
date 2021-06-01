@@ -2,7 +2,6 @@ package com.example.InspectionBoard.mainController.command;
 
 import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
 import com.example.InspectionBoard.model.entity.Account;
-import com.example.InspectionBoard.exceptions.UserAlreadyLoggedInException;
 import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.service.AccountService;
 
@@ -12,7 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
 import static com.example.InspectionBoard.Constants.*;
-import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
+import static com.example.InspectionBoard.model.enums.LoginStatus.ACCOUNT_IS_BLOCKED;
+import static com.example.InspectionBoard.model.enums.LoginStatus.LOGIN_PASS_WRONG;
 
 public class LoginCommand implements Command{
     @Override
@@ -22,12 +22,8 @@ public class LoginCommand implements Command{
                 return executePost(request);
             case GET:
             default:
-                return executeGet();
+                return "/WEB-INF/login.jsp";
         }
-    }
-
-    private String executeGet(){
-        return "/WEB-INF/login.jsp";
     }
 
     private String executePost(HttpServletRequest request){
@@ -36,10 +32,12 @@ public class LoginCommand implements Command{
             addAccountToSession(request.getSession(), account);
             addAccountToContext(request.getServletContext(), account);
             return REDIRECT_KEYWORD + account.getRole().getRedirectPath();
-        }catch (WrongLoginPasswordException | AccountIsBlockedException | UserAlreadyLoggedInException ex){
-            request.setAttribute(LOGIN_STATUS, ex);
-            return "/WEB-INF/login.jsp";
+        } catch (WrongLoginPasswordException ex){
+            request.setAttribute(LOGIN_STATUS, LOGIN_PASS_WRONG);
+        } catch (AccountIsBlockedException ex){
+            request.setAttribute(LOGIN_STATUS, ACCOUNT_IS_BLOCKED);
         }
+        return "/WEB-INF/login.jsp";
     }
 
     private Account getAccount(HttpServletRequest request)
@@ -54,11 +52,9 @@ public class LoginCommand implements Command{
         session.setAttribute(USER_ROLE, account.getRole().name());
     }
 
-    private void addAccountToContext(ServletContext context, Account account) throws UserAlreadyLoggedInException {
+    @SuppressWarnings("unchecked")
+    private void addAccountToContext(ServletContext context, Account account){
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute(LOGGED_USERS);
-        if (isLoggedIn(loggedUsers, account.getLogin())){
-            throw new UserAlreadyLoggedInException();
-        }
         loggedUsers.add(account.getLogin());
         context.setAttribute(LOGGED_USERS, loggedUsers);
     }

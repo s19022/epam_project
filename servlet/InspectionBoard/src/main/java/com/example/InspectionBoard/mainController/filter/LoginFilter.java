@@ -1,6 +1,6 @@
 package com.example.InspectionBoard.mainController.filter;
 
-
+import com.example.InspectionBoard.model.enums.LoginStatus;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashSet;
 
-import static com.example.InspectionBoard.Constants.LOGGED_USERS;
-import static com.example.InspectionBoard.Constants.LOGIN_STATUS;
+import static com.example.InspectionBoard.Constants.*;
 
 public class LoginFilter implements Filter {
     private HttpServletRequest request;
@@ -42,24 +41,24 @@ public class LoginFilter implements Filter {
     private void processRequest(FilterChain filterChain) throws IOException, ServletException {
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
+        login = decode(login);
+        password = decode(password);
 
         if (!(isValid(login))){
-            setLoginStatus("Login is empty or blank");
+            setLoginStatus(LoginStatus.LOGIN_EMPTY);
             forwardRequest();
             return;
         }
         if (!isValid(password)){
-            setLoginStatus("Password is empty or blank");
+            setLoginStatus(LoginStatus.PASS_EMPTY);
             forwardRequest();
             return;
         }
-        login = decode(login);
         if (isLoggedIn(login)){
-            setLoginStatus("Already logged in");
+            setLoginStatus(LoginStatus.ALREADY_LOGGED_IN);
             forwardRequest();
             return;
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -74,8 +73,8 @@ public class LoginFilter implements Filter {
         return loggedUsers.stream().anyMatch(login::equals);
     }
 
-    private void setLoginStatus(String message){
-        request.setAttribute(LOGIN_STATUS, message);
+    private void setLoginStatus(LoginStatus status){
+        request.setAttribute(LOGIN_STATUS, status);
     }
 
     private static boolean isValid(String toCheck){
