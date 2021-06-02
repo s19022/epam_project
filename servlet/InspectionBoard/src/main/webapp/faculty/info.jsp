@@ -17,11 +17,16 @@
 <fmt:message key="facultyPage.info.status.noSuchFaculty" bundle="${lang}" var = "noSuchFaculty"/>
 <fmt:message key="facultyPage.info.status.cannotRegister" bundle="${lang}" var = "cannotRegister"/>
 <fmt:message key="facultyPage.info.status.alreadyRegistered" bundle="${lang}" var = "alreadyRegistered"/>
+<fmt:message key="navigation.home" bundle="${lang}" var = "home"/>
+<fmt:message key="navigation.login" bundle="${lang}" var = "login"/>
+<fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
+<fmt:message key="navigation.register" bundle="${lang}" var = "navigationRegister"/>
+<fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
 
-<%--todo add localization--%>
 <html>
 <head>
-  <title></title>
+  <title>${title}</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     td{
       text-align: center;
@@ -29,69 +34,85 @@
   </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <ul class="navbar-nav mr-auto">
+    <c:if test="${sessionScope.userRole eq 'ENROLLEE'}">
+      <li class="nav-item p-2">
+        <a class="btn btn-warning" href="${pageContext.request.contextPath}/enrollee/main" role="button">${home}</a>
+      </li>
+    </c:if>
+    <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+      <li class="nav-item p-2">
+        <a class="btn btn-warning" href="${pageContext.request.contextPath}/admin/main" role="button">${home}</a>
+      </li>
+    </c:if>
+      <li class="nav-item p-2">
+        <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
+      </li>
+    <li class="nav-item active p-2">
+      <h3>${requiredSubjects}</h3>
+    </li>
+  </ul>
+  <c:if test="${sessionScope.userRole ne 'UNKNOWN'}">
+    <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
+  </c:if>
+  <c:if test="${sessionScope.userRole eq 'UNKNOWN'}">
+    <a class="btn btn-primary p-2" href="${pageContext.request.contextPath}/login" role="button">${login}</a>
+    <a class="btn btn-success p-2" href="${pageContext.request.contextPath}/register" role="button">${navigationRegister}</a>
+  </c:if>
 
-<title>${title}</title>
+</nav>
   <c:if test="${faculty ne null}">
-    <table border="2">
-      <tr>
-          <th colspan="2">${requiredSubjects}</th>
-      </tr>
-      <tr>
-        <td>${subjectName}</td>
-        <td>${minimalMark}</td>
-      </tr>
+    <table class="table table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">${subjectName}</th>
+          <th scope="col">${minimalMark}</th>
+        </tr>
+      </thead>
+      <tbody>
+      <c:set var="counter" value="1"/>
       <c:forEach items="${faculty.requiredSubjects}" var="element">
         <tr>
+          <th scope="row">${counter}</th>
           <td>${element.name}</td>
           <td>${element.minimalGrade}</td>
         </tr>
+        <c:set var="counter" value="${counter + 1}"/>
       </c:forEach>
+      </tbody>
     </table>
-      <c:choose>
-        <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
-          ${applyToFaculty}
-          <a href="${pageContext.request.contextPath}/register">${register}</a>
-        </c:when>
-        <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
-          <a href="${pageContext.request.contextPath}/faculties/register?facultyName=${faculty.name}">
-            <button>${registerButton}</button>
-          </a>
-        </c:when>
-      </c:choose>
+    <c:choose>
+      <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
+        ${applyToFaculty}
+        <a href="${pageContext.request.contextPath}/register">${register}</a>
+      </c:when>
+      <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
+        <a href="${pageContext.request.contextPath}/faculties/register?facultyName=${faculty.name}">
+          <button class="btn btn-primary">${registerButton}</button>
+        </a>
+      </c:when>
+    </c:choose>
   </c:if>
-<p id = "registrationStatus"></p>
-<script>
-  const registrationStatus = document.getElementById('registrationStatus');
-  function setErrorMessage(message){
-    registrationStatus.style.color = 'red';
-    registrationStatus.innerText = message;
-  }
-  function setSuccessMessage(message){
-    registrationStatus.style.color = 'green';
-    registrationStatus.innerText = message;
-  }
-</script>
 
-  <c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
+<c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
   <c:if test="${status ne null}">
     <c:choose>
       <c:when test="${status eq 'SUCCESSFULLY'}">
-        <script>setSuccessMessage(${successfully})</script>
-        <a href="${pageContext.request.contextPath}/enrollee/main">
-          ${goToHomePage}
-        </a>
+        <h5 style="color:green">${successfully}</h5>
       </c:when>
       <c:when test="${status eq 'NO_SUCH_ACCOUNT'}">
-        <script>setErrorMessage(${noSuchAccount})</script>
+        <h5 style="color: red">${noSuchAccount}</h5>
       </c:when>
       <c:when test="${status eq 'NO_SUCH_FACULTY'}">
-        <script>setErrorMessage(${noSuchFaculty})</script>
+        <h5 style="color: red">${noSuchFaculty}</h5>
       </c:when>
       <c:when test="${status eq 'CANNOT_REGISTER'}">
-        <script>setErrorMessage(${cannotRegister})</script>
+        <h5 style="color: red">${cannotRegister}</h5>
       </c:when>
       <c:when test="${status eq 'ALREADY_REGISTERED'}">
-        <script>setErrorMessage(${alreadyRegistered})</script>
+        <h5 style="color: red">${alreadyRegistered}</h5>
       </c:when>
       <c:otherwise>
         ${status}
