@@ -25,45 +25,39 @@
     <title>${login}</title>
 </head>
 <body>
+<style><%@include file="/WEB-INF/css/login.css"%></style>
+<%--<link rel="stylesheet" href="../css/login.css" />--%>
 <style>
     #errorField{
         color: red;
         font-style: italic;
     }
 </style>
-<form id="loginForm" method="post" action="${pageContext.request.contextPath}/login">
-    <table>
-        <tr>
-            <td>${userName}</td>
-            <td>
-                <input id = "login" type="text" size="50" name = "login">
-            </td>
-        </tr>
-        <tr>
-            <td>${password}</td>
-            <td>
-                <input id = "pass" type="password" size="50" name = "pass">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input id = "submit" value=${login} type="submit">
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="login">
     <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/login">
-        <label for="lang">${language}
+<%--        <label for="lang">${language}--%>
             <select id = "lang" name="lang" onchange="this.form.submit()">
                 <option value="EN">${langEn}</option>
                 <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>
             </select>
-        </label>
+<%--        </label>--%>
     </form>
-<p id = "errorField"></p>
+    <form class="form" id="loginForm" method="post" action="${pageContext.request.contextPath}/login">
+        <input id = "login" name = "login" hidden>
+        <input id = "pass"  name = "pass"  hidden>
+        <input id = "loginPlain" type="text" size="50" placeholder="${userName}">
+        <input id = "passPlain" type="password" size="50" placeholder="${password}">
+        <input id = "submit" value=${login} type="submit">
+    </form>
+    <p id = "errorField"></p>
+</div>
+<div class="shadow"></div>
 <script>
     const login = document.getElementById('login');
     const password = document.getElementById('pass');
+    const loginPlain = document.getElementById('loginPlain');
+    const passwordPlain = document.getElementById('passPlain');
+
     const errorField = document.getElementById('errorField');
     function setErrorMessage(message){
         errorField.innerText = message;
@@ -71,12 +65,12 @@
     document
         .getElementById('submit')
         .addEventListener('click', function (e) {
-            if (login.value === '') {
+            if (loginPlain.value === '') {
                 setErrorMessage("${emptyLogin}");
                 e.preventDefault();
                 return;
             }
-            if (password.value === '') {
+            if (passwordPlain.value === '') {
                 setErrorMessage("${emptyPassword}");
                 e.preventDefault();
                 return;
@@ -84,8 +78,8 @@
             setErrorMessage('');
             login.hidden = true;
             password.hidden = true;
-            login.value = btoa(login.value);
-            password.value = btoa(password.value);
+            login.value = btoa(loginPlain.value);
+            password.value = btoa(passwordPlain.value);
         });
 </script>
 <c:set var="loginStatus" value="${requestScope.loginStatus}"/>
