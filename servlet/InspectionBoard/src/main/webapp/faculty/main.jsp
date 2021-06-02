@@ -3,7 +3,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="navigation.home" bundle="${lang}" var = "home"/>
 <fmt:message key="facultyPage.main.title" bundle="${lang}" var = "title"/>
+<fmt:message key="loginPage.login" bundle="${lang}" var = "login"/>
 <fmt:message key="facultyPage.main.orderByNameAsc" bundle="${lang}" var = "orderByNameAsc"/>
 <fmt:message key="facultyPage.main.orderByNameDesc" bundle="${lang}" var = "orderByNameDesc"/>
 <fmt:message key="facultyPage.main.orderByAllPlacesDesc" bundle="${lang}" var = "orderByAllPlacesDesc"/>
@@ -17,12 +19,16 @@
 <fmt:message key="facultyPage.main.confirmation" bundle="${lang}" var = "confirmation"/>
 <fmt:message key="facultyPage.main.proceed" bundle="${lang}" var = "proceed"/>
 <fmt:message key="facultyPage.main.cancel" bundle="${lang}" var = "cancel"/>
+<fmt:message key="facultyPage.main.register" bundle="${lang}" var = "register"/>
+<fmt:message key="facultyPage.main.logout" bundle="${lang}" var = "logout"/>
+<fmt:message key="facultyPage.main.info" bundle="${lang}" var = "info"/>
 
 <%--//todo add localization--%>
 <html>
 <head>
     <title>${title}</title>
 </head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
     .modal {
         display: none; /* Hidden by default */
@@ -63,59 +69,72 @@
     td{
         text-align: center;
     }
-    .faculty {
-        position: center;
-        background-color: Transparent;
-        background-repeat:no-repeat;
-        border: none;
-        cursor:pointer;
-        overflow: hidden;
-        outline:none;
-    }
 </style>
 <body>
-<form method="get" action="${pageContext.request.contextPath}/faculties">
-    <select name="facultyOrder" onchange="this.form.submit()">
-        <option value="nameAsc">${orderByNameAsc}</option>
-        <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>${orderByNameDesc}</option>
-        <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>${orderByAllPlacesDesc}</option>
-        <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>${orderByBudgetPlacesDesc}</option>
-    </select>
-</form>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <ul class="navbar-nav mr-auto">
+        <c:if test="${sessionScope.userRole eq 'ENROLLEE'}">
+            <li class="nav-item p-2">
+                <a class="btn btn-warning" href="${pageContext.request.contextPath}/enrollee/main" role="button">${home}</a>
+            </li>
+        </c:if>
+        <li class="nav-item p-2">
+            <form  method="get" action="${pageContext.request.contextPath}/faculties">
+                <select class="custom-select" name="facultyOrder" onchange="this.form.submit()">
+                    <option value="nameAsc">${orderByNameAsc}</option>
+                    <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>${orderByNameDesc}</option>
+                    <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>${orderByAllPlacesDesc}</option>
+                    <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>${orderByBudgetPlacesDesc}</option>
+                </select>
+            </form>
+        </li>
+    </ul>
 
-<table>
-    <tr>
-        <td>${facultyName}</td>
-        <td>${allPlaces}</td>
-        <td>${budgetPlaces}</td>
-    </tr>
+    <c:if test="${sessionScope.userRole ne 'UNKNOWN'}">
+        <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
+    </c:if>
+    <c:if test="${sessionScope.userRole eq 'UNKNOWN'}">
+        <a class="btn btn-primary p-2" href="${pageContext.request.contextPath}/login" role="button">${login}</a>
+        <a class="btn btn-success p-2" href="${pageContext.request.contextPath}/register" role="button">${register}</a>
+    </c:if>
+
+</nav>
+
+<div class="container">
+    <c:set value="0" var="counter"/>
     <c:forEach items="${sessionScope.faculties}" var="faculties">
-        <tr>
-            <td>
-                <form method="post" action="${pageContext.request.contextPath}/faculties/info">
-                    <button class="faculty" name="name" value="${faculties.name}">${faculties.name}</button>
-                </form>
-            </td>
-            <td>${faculties.allPlaces}</td>
-            <td>${faculties.budgetPlaces}</td>
+        <c:if test="${counter%3 eq 0}">
+            <div class="row">
+        </c:if>
+        <c:set value="${counter + 1}" var="counter"/>
+        <div class="col-sm-4 p-4" >
+            <h2><b>${facultyName}</b>: ${faculties.name}</h2>
+            <h5><b>${allPlaces}</b>: ${faculties.allPlaces}</h5>
+            <h5><b>${budgetPlaces}</b>: ${faculties.budgetPlaces}</h5>
+            <a class="btn btn-primary"
+               href="${pageContext.request.contextPath}/faculties/info?name=${faculties.name}"
+               role="button">${info}</a>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
-                <td>
-                    <button id = "modify">${modify}</button>
-                </td>
-                <td>
-                    <button onclick="openModal('${faculties.name}')">${delete}</button>
-                </td>
+                    <button class="btn btn-warning" id = "modify">${modify}</button>
+                    <button class="btn btn-danger" onclick="openModal('${faculties.name}')">${delete}</button>
             </c:if>
-        </tr>
+        </div>
+        <c:if test="${counter%3 eq 0}">
+            </div>
+        </c:if>
     </c:forEach>
     <c:if test="${sessionScope.userRole eq 'ADMIN'}">
-        <tr>
-            <td>
-                <button>${createNew}</button>
-            </td>
-        </tr>
-<%--        display confirmation modal --%>
-        <div id="confirmationModal" class="modal">
+        <div class="row">
+            <div class="col-sm-4 p-4  align-self-center">
+                <button class="btn btn-info" id = "createNew">${createNew}</button>
+            </div>
+        </div>
+    </c:if>
+</div>
+</body>
+<c:if test="${sessionScope.userRole eq 'ADMIN'}">
+
+<div id="confirmationModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <p>${confirmation}</p>
@@ -123,9 +142,6 @@
                 <button onclick="closeModal()">${cancel}</button>
             </div>
         </div>
-    </c:if>
-</table>
-</body>
 <script>
     const modal = document.getElementById("confirmationModal");
     let facultyName;
@@ -156,4 +172,5 @@
         }
     }
 </script>
+</c:if>
 </html>
