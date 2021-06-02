@@ -1,9 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<c:set var="locale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="adminPage.enrollee.title" bundle="${lang}" var = "title"/>
+<fmt:message key="adminPage.enrollee.unblock" bundle="${lang}" var = "unblock"/>
+<fmt:message key="adminPage.enrollee.block" bundle="${lang}" var = "block"/>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>${title}</title>
 </head>
 <body>
 
@@ -17,14 +24,14 @@
       <c:if test="${enrollees.blocked}">
         <a href="${pageContext.request.contextPath}/admin/enrollee/unblock?login=${enrollees.login}">
           <button>
-            Unblock
+            ${unblock}
           </button>
         </a>
       </c:if>
       <c:if test="${!enrollees.blocked}">
         <a href="${pageContext.request.contextPath}/admin/enrollee/block?login=${enrollees.login}">
           <button>
-            Block
+            ${block}
           </button>
         </a>
       </c:if>
