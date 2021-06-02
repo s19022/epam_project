@@ -37,15 +37,11 @@
           If you want to apply to faculty, please
           <a href="${pageContext.request.contextPath}/register"> register</a>
         </c:when>
-        <c:otherwise>
-          <form method="post" action="${pageContext.request.contextPath}/faculties/register">
-            <input name="enrolleeLogin" value="${sessionScope.login}" hidden>
-            <input name="facultyName" value="${faculty.name}" hidden>
-            <c:if test="${sessionScope.userRole eq 'ENROLLEE'}">
-              <button >Register</button>
-            </c:if>
-          </form>
-        </c:otherwise>
+        <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
+          <a href="${pageContext.request.contextPath}/faculties/register?facultyName=${faculty.name}">
+            <button >Register</button>
+          </a>
+        </c:when>
       </c:choose>
   </c:if>
   <c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
