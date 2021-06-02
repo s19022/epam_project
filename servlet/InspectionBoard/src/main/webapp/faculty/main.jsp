@@ -1,12 +1,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="facultyPage.main.title" bundle="${lang}" var = "title"/>
+<fmt:message key="facultyPage.main.orderByNameAsc" bundle="${lang}" var = "orderByNameAsc"/>
+<fmt:message key="facultyPage.main.orderByNameDesc" bundle="${lang}" var = "orderByNameDesc"/>
+<fmt:message key="facultyPage.main.orderByAllPlacesDesc" bundle="${lang}" var = "orderByAllPlacesDesc"/>
+<fmt:message key="facultyPage.main.orderByBudgetPlacesDesc" bundle="${lang}" var = "orderByBudgetPlacesDesc"/>
+<fmt:message key="facultyPage.main.facultyName" bundle="${lang}" var = "facultyName"/>
+<fmt:message key="facultyPage.main.allPlaces" bundle="${lang}" var = "allPlaces"/>
+<fmt:message key="facultyPage.main.budgetPlaces" bundle="${lang}" var = "budgetPlaces"/>
+<fmt:message key="facultyPage.main.modify" bundle="${lang}" var = "modify"/>
+<fmt:message key="facultyPage.main.delete" bundle="${lang}" var = "delete"/>
+<fmt:message key="facultyPage.main.createNew" bundle="${lang}" var = "createNew"/>
+<fmt:message key="facultyPage.main.confirmation" bundle="${lang}" var = "confirmation"/>
+<fmt:message key="facultyPage.main.proceed" bundle="${lang}" var = "proceed"/>
+<fmt:message key="facultyPage.main.cancel" bundle="${lang}" var = "cancel"/>
+
 <%--//todo add localization--%>
 <html>
 <head>
-    <title>Title</title>
+    <title>${title}</title>
 </head>
-<%--<link rel="stylesheet" href="http://localhost:8080/api/faculties/css/faculty.css">--%>
 <style>
     .modal {
         display: none; /* Hidden by default */
@@ -60,18 +76,18 @@
 <body>
 <form method="get" action="${pageContext.request.contextPath}/faculties">
     <select name="facultyOrder" onchange="this.form.submit()">
-        <option value="nameAsc">order by name(a-z)</option>
-        <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>order by name(z-a)</option>
-        <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>order by all places</option>
-        <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>order by budget places</option>
+        <option value="nameAsc">${orderByNameAsc}</option>
+        <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>${orderByNameDesc}</option>
+        <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>${orderByAllPlacesDesc}</option>
+        <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>${orderByBudgetPlacesDesc}</option>
     </select>
 </form>
 
 <table>
     <tr>
-        <td>Faculty name</td>
-        <td>All places</td>
-        <td>Budget places</td>
+        <td>${facultyName}</td>
+        <td>${allPlaces}</td>
+        <td>${budgetPlaces}</td>
     </tr>
     <c:forEach items="${sessionScope.faculties}" var="faculties">
         <tr>
@@ -84,10 +100,10 @@
             <td>${faculties.budgetPlaces}</td>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
                 <td>
-                    <button id = "modify">Modify</button>
+                    <button id = "modify">${modify}</button>
                 </td>
                 <td>
-                    <button onclick="openModal('${faculties.name}')">Delete</button>
+                    <button onclick="openModal('${faculties.name}')">${delete}</button>
                 </td>
             </c:if>
         </tr>
@@ -95,16 +111,16 @@
     <c:if test="${sessionScope.userRole eq 'ADMIN'}">
         <tr>
             <td>
-                <button>Create new</button>
+                <button>${createNew}</button>
             </td>
         </tr>
 <%--        display confirmation modal --%>
         <div id="confirmationModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <p>You sure you want to delete this faculty?</p>
-                <button onclick="deleteFaculty()">Yes, proceed</button>
-                <button onclick="closeModal()">No, cancel</button>
+                <p>${confirmation}</p>
+                <button onclick="deleteFaculty()">${proceed}</button>
+                <button onclick="closeModal()">${cancel}</button>
             </div>
         </div>
     </c:if>

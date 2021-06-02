@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <c:set value="${sessionScope.facultyInfo}" var="faculty"/>
 <%--todo add localization--%>
@@ -44,26 +43,39 @@
         </c:when>
       </c:choose>
   </c:if>
+<p id = "registrationStatus"></p>
+<script>
+  const registrationStatus = document.getElementById('registrationStatus');
+  function setErrorMessage(message){
+    registrationStatus.style.color = 'red';
+    registrationStatus.innerText = message;
+  }
+  function setSuccessMessage(message){
+    registrationStatus.style.color = 'green';
+    registrationStatus.innerText = message;
+  }
+</script>
+
   <c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
   <c:if test="${status ne null}">
     <c:choose>
       <c:when test="${status eq 'SUCCESSFULLY'}">
-        Successfully registered!
+        <script>setSuccessMessage('Successfully registered!')</script>
         <a href="${pageContext.request.contextPath}/enrollee/main">
           click here to go to the home page
         </a>
       </c:when>
       <c:when test="${status eq 'NO_SUCH_ACCOUNT'}">
-        No such account
+        <script>setErrorMessage('No such account')</script>
       </c:when>
       <c:when test="${status eq 'NO_SUCH_FACULTY'}">
-        No such faculty
+        <script>setErrorMessage('No such faculty')</script>
       </c:when>
       <c:when test="${status eq 'CANNOT_REGISTER'}">
-        Not enough points
+        <script>setErrorMessage('Not enough points')</script>
       </c:when>
       <c:when test="${status eq 'ALREADY_REGISTERED'}">
-        Already registered
+        <script>setErrorMessage('Already registered')</script>
       </c:when>
       <c:otherwise>
         ${status}
