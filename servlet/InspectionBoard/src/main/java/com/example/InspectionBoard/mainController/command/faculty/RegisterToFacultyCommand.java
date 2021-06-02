@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command.faculty;
 
+import com.example.InspectionBoard.exceptions.AlreadyRegisteredException;
 import com.example.InspectionBoard.exceptions.CannotRegisterToFacultyException;
 import com.example.InspectionBoard.exceptions.NoSuchAccountException;
 import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
@@ -17,7 +18,7 @@ public class RegisterToFacultyCommand implements Command {
         try {
             new FacultyRegistrationService().register(enrolleeLogin, facultyName);
             request.setAttribute("facultyRegistrationStatus", "Success!");
-        } catch (NoSuchAccountException | NoSuchFacultyException | CannotRegisterToFacultyException e) {
+        } catch (NoSuchAccountException | NoSuchFacultyException | CannotRegisterToFacultyException | AlreadyRegisteredException e) {
             request.setAttribute("facultyRegistrationStatus", e);
         }
         return "/faculty/info.jsp";

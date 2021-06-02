@@ -1,9 +1,6 @@
 package com.example.InspectionBoard.model.service;
 
-import com.example.InspectionBoard.exceptions.CannotRegisterToFacultyException;
-import com.example.InspectionBoard.exceptions.NoSuchAccountException;
-import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
+import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.dto.db.*;
 import com.example.InspectionBoard.model.enums.AccountRole;
@@ -16,20 +13,23 @@ import java.util.List;
 
 public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
+    private static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
 
     public void register(String accountLogin, String facultyName)
-            throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException {
+            throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException, AlreadyRegisteredException {
         DaoFactory factory = DaoFactory.getInstance();
         try(
                 Connection connection = factory.getConnection();
                 EnrolleeSubjectDao enrolleeSubjectDao = factory.createEnrolleeSubjectDao(connection);
                 RequiredSubjectDao requiredSubjectDao = factory.createRequiredSubjectDao(connection);
-                FacultyRegistrationDao registrationDao = factory.createFacultyRegistrationDao(connection)
+                FacultyRegistrationDao facultyRegistrationDao = factory.createFacultyRegistrationDao(connection);
+                AccountDao accountDao = factory.createAccountDao(connection);
+                FacultyDao facultyDao = factory.createFacultyDao(connection)
             ){
+            connection.setAutoCommit(false);
             try{
-                connection.setAutoCommit(false);
-                int enrolleeId = getEnrolleeId(connection, accountLogin);
-                int facultyId = getFacultyId(connection, facultyName);
+                int enrolleeId = getEnrolleeId(accountDao, accountLogin);
+                int facultyId = getFacultyId(facultyDao, facultyName);
 
                 List<DbRequiredSubjectDto> requiredSubjects = requiredSubjectDao.getAllByFacultyId(facultyId);
                 List<DbEnrolleeSubjectDto> enrolleeSubjects = enrolleeSubjectDao.getAllByEnrolleeId(enrolleeId);
@@ -37,7 +37,7 @@ public class FacultyRegistrationService {
                 if (!canRegister(requiredSubjects, enrolleeSubjects)){
                     throw new CannotRegisterToFacultyException();
                 }
-                registrationDao.save(new DbFacultyRegistrationDto(enrolleeId, facultyId));
+                saveRegistration(facultyRegistrationDao, enrolleeId, facultyId);
             }catch (Exception ex) {
                 connection.rollback();
                 throw ex;
@@ -50,17 +50,15 @@ public class FacultyRegistrationService {
         }
     }
 
-    private static int getEnrolleeId(Connection connection, String login) throws NoSuchAccountException, SQLException {
-        AccountDao accountDao = DaoFactory.getInstance().createAccountDao(connection);
-        DbAccountDto account = accountDao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
+    private static int getEnrolleeId(AccountDao dao, String login) throws SQLException, NoSuchAccountException {
+        DbAccountDto account = dao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
         if (account.getRole() != AccountRole.ENROLLEE) {
             throw new NoSuchAccountException();
         }
         return account.getId();
     }
 
-    private static int getFacultyId(Connection connection, String facultyName) throws SQLException, NoSuchFacultyException {
-        FacultyDao dao = DaoFactory.getInstance().createFacultyDao(connection);
+    private static int getFacultyId(FacultyDao dao, String facultyName) throws SQLException, NoSuchFacultyException {
         DbFacultyDto faculty = dao.findByName(facultyName).orElseThrow(NoSuchFacultyException::new);
         return faculty.getId();
     }
@@ -73,5 +71,17 @@ public class FacultyRegistrationService {
             }
         }
         return true;
+    }
+
+    private static void saveRegistration(FacultyRegistrationDao dao, int enrolleeId, int facultyId)
+            throws AlreadyRegisteredException, SQLException {
+        try{
+            dao.save(new DbFacultyRegistrationDto(enrolleeId, facultyId));
+        }catch (SQLException ex){
+            if(SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){
+                throw new AlreadyRegisteredException(ex);
+            }
+            throw ex;
+        }
     }
 }
