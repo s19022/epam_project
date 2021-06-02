@@ -51,20 +51,26 @@
   <c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
   <c:if test="${status ne null}">
     <c:choose>
-      <c:when test="${fn:contains(status.getClass().name, 'NoSuchAccountException')}">
-        <c:out value="No such account"/>
+      <c:when test="${status eq 'SUCCESSFULLY'}">
+        Successfully registered!
+        <a href="${pageContext.request.contextPath}/enrollee/main">
+          click here to go to the home page
+        </a>
       </c:when>
-      <c:when test="${fn:contains(status.getClass().name, 'NoSuchFacultyException')}">
-        <c:out value="No such facculty"/>
+      <c:when test="${status eq 'NO_SUCH_ACCOUNT'}">
+        No such account
       </c:when>
-      <c:when test="${fn:contains(status.getClass().name, 'CannotRegisterToFacultyException')}">
-        <c:out value="Not enough points"/>
+      <c:when test="${status eq 'NO_SUCH_FACULTY'}">
+        No such faculty
+      </c:when>
+      <c:when test="${status eq 'CANNOT_REGISTER'}">
+        Not enough points
+      </c:when>
+      <c:when test="${status eq 'ALREADY_REGISTERED'}">
+        Already registered
       </c:when>
       <c:otherwise>
-        Successfully registered!
-          <a href="${pageContext.request.contextPath}/enrollee/main">
-            click here to go to the home page
-          </a>
+        ${status}
        </c:otherwise>
     </c:choose>
   </c:if>
