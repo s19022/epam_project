@@ -1,13 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<c:set var="locale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
 <fmt:message key="enrolleePage.title" bundle="${lang}" var = "title"/>
 <fmt:message key="enrolleePage.welcome" bundle="${lang}" var = "welcome"/>
 <fmt:message key="enrolleePage.subject" bundle="${lang}" var = "subject"/>
 <fmt:message key="enrolleePage.ourFaculties" bundle="${lang}" var = "ourFaculties"/>
 <fmt:message key="indexPage.logout" bundle="${lang}" var = "logout"/>
+<fmt:message key="enrolleePage.subjectName" bundle="${lang}" var = "subjectName"/>
+<fmt:message key="enrolleePage.mark" bundle="${lang}" var = "mark"/>
+<fmt:message key="enrolleePage.registeredFaculties" bundle="${lang}" var = "registeredFaculties"/>
+<fmt:message key="enrolleePage.yourSubjects" bundle="${lang}" var = "yourSubjects"/>
 <html>
 <head>
     <title>${title}</title>
@@ -18,11 +23,11 @@
 <table border="2">
     <thead>
         <tr>
-            <td colspan="2">Your subjects</td>
+            <td colspan="2">${yourSubjects}</td>
         </tr>
         <tr>
-            <td>Subject name</td>
-            <td>Mark</td>
+            <td>${subjectName}</td>
+            <td>${mark}</td>
         </tr>
     </thead>
     <c:forEach items="${requestScope.subjects}" var="subject">
@@ -36,7 +41,7 @@
 <table border="2">
     <thead>
     <tr>
-        <td>Registered faculties</td>
+        <td>${registeredFaculties}</td>
     </tr>
     </thead>
     <c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
