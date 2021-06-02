@@ -2,11 +2,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<c:set var="locale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
 <fmt:message key="loginPage.login" bundle="${lang}" var = "login"/>
 <fmt:message key="loginPage.userName" bundle="${lang}" var="userName"/>
 <fmt:message key="loginPage.password" bundle="${lang}" var="password"/>
+<fmt:message key="loginPage.language" bundle="${lang}" var="language"/>
 <fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
 <fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="loginPage.errorMessage.emptyLogin" bundle="${lang}" var="emptyLogin"/>
@@ -49,16 +51,15 @@
             </td>
         </tr>
     </table>
-    <div>
-        <input type="radio" id="langEn"
-               name="lang" value="EN" checked>
-        <label for="langEn">${langEn}</label>
-
-        <input type="radio" id="langUa"
-               name="lang" value="UA">
-        <label for="langUa">${langUa}</label>
-    </div>
 </form>
+    <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/login">
+        <label for="lang">${language}
+            <select id = "lang" name="lang" onchange="this.form.submit()">
+                <option value="EN">${langEn}</option>
+                <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>
+            </select>
+        </label>
+    </form>
 <p id = "errorField"></p>
 <script>
     const login = document.getElementById('login');
