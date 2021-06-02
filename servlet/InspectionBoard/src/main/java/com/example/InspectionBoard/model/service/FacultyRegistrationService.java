@@ -37,7 +37,7 @@ public class FacultyRegistrationService {
                 if (!canRegister(requiredSubjects, enrolleeSubjects)){
                     throw new CannotRegisterToFacultyException();
                 }
-                registrationDao.register(new DbFacultyRegistrationDto(enrolleeId, facultyId));
+                registrationDao.save(new DbFacultyRegistrationDto(enrolleeId, facultyId));
             }catch (Exception ex) {
                 connection.rollback();
                 throw ex;

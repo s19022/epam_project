@@ -5,5 +5,5 @@ import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationDto;
 import java.sql.SQLException;
 
 public interface FacultyRegistrationDao extends GenericDao<DbFacultyRegistrationDto>{
-    void register(DbFacultyRegistrationDto dto) throws SQLException;
+    void save(DbFacultyRegistrationDto dto) throws SQLException;
 }

@@ -19,7 +19,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
 
 
     @Override
-    public void register(DbFacultyRegistrationDto dto) throws SQLException {
+    public void save(DbFacultyRegistrationDto dto) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(REGISTER)){
             statement.setInt(1, dto.getEnrolleeId());
             statement.setInt(2, dto.getFacultyId());
