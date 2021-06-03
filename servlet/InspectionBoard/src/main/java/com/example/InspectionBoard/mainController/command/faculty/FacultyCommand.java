@@ -14,7 +14,6 @@ public class FacultyCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, RequestType type) {
-        CommandUtility.printParameters(request);
         String facultyOrder = request.getParameter("facultyOrder");
         setAttributeOrderedBy(request, facultyOrder);
         setFaculties(request, getFacultyList(facultyOrder));
