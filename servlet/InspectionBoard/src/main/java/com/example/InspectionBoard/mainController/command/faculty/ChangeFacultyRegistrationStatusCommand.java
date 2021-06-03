@@ -5,6 +5,7 @@ import com.example.InspectionBoard.model.dto.ChangeFacultyRegistrationStatusDto;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.model.enums.RegistrationStatus;
 import com.example.InspectionBoard.model.enums.RequestType;
+import com.example.InspectionBoard.model.service.FacultyRegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ public class ChangeFacultyRegistrationStatusCommand implements Command {
         String facultyName = request.getParameter(FACULTY_NAME);
         String newStatus = request.getParameter(NEW_STATUS);
         ChangeFacultyRegistrationStatusDto dto = new ChangeFacultyRegistrationStatusDto(enrolleeLogin, facultyName, RegistrationStatus.valueOf(newStatus));
+        new FacultyRegistrationService().changeStatus(dto);
         return REDIRECT_KEYWORD + AccountRole.ADMIN.getRedirectPath();
     }
 }

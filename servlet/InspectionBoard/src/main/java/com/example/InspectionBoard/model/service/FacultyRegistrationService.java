@@ -2,6 +2,7 @@ package com.example.InspectionBoard.model.service;
 
 import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
+import com.example.InspectionBoard.model.dto.ChangeFacultyRegistrationStatusDto;
 import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
 import com.example.InspectionBoard.model.dto.db.*;
 import com.example.InspectionBoard.model.entity.FacultyRegistration;
@@ -22,6 +23,15 @@ public class FacultyRegistrationService {
     public List<FacultyRegistration> findAll(){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
             return toFacultyRegistration(dao.findAll());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
+    public void changeStatus(ChangeFacultyRegistrationStatusDto dto){
+        try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
+            dao.changeStatus(dto);
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
