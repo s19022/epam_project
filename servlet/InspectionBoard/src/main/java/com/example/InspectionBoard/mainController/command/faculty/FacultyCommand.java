@@ -1,7 +1,6 @@
 package com.example.InspectionBoard.mainController.command.faculty;
 
 import com.example.InspectionBoard.mainController.command.Command;
-import com.example.InspectionBoard.mainController.command.CommandUtility;
 import com.example.InspectionBoard.model.enums.RequestType;
 import com.example.InspectionBoard.model.entity.Faculty;
 import com.example.InspectionBoard.model.service.FacultyService;

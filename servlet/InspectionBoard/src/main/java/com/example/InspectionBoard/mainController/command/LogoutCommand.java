@@ -9,8 +9,6 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
 import static com.example.InspectionBoard.Constants.*;
-import static com.example.InspectionBoard.mainController.command.CommandUtility.isLoggedIn;
-
 
 public class LogoutCommand implements Command{
     @SuppressWarnings("unchecked")
@@ -26,5 +24,12 @@ public class LogoutCommand implements Command{
             session.setAttribute("userRole", AccountRole.UNKNOWN);
         }
         return REDIRECT_KEYWORD + AccountRole.UNKNOWN.getRedirectPath();
+    }
+
+    public static boolean isLoggedIn(HashSet<String> loggedUsers, String login){
+        if (login == null){
+            return false;
+        }
+        return loggedUsers.stream().anyMatch(login::equals);
     }
 }
