@@ -22,10 +22,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <ul class="navbar-nav mr-auto">
         <li class="nav-item p-2">
-            <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
+            <a class="btn btn-warning" href="${pageContext.request.contextPath}/admin/enrollee?pageNumber=1&itemsPerPage=5" role="button">${showAllEnrollees}</a>
         </li>
         <li class="nav-item p-2">
-            <a class="btn btn-warning" href="${pageContext.request.contextPath}/admin/enrollee?pageNumber=1&itemsPerPage=5" role="button">${showAllEnrollees}</a>
+            <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
         </li>
         <li class="nav-item p-2">
             <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/admin/main">

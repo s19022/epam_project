@@ -4,6 +4,12 @@
 <c:set var="locale" value="${sessionScope.locale}"/>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
+<fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
+<fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
+<fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
+<fmt:message key="navigation.home" bundle="${lang}" var = "home"/>
+
 <fmt:message key="adminPage.enrollee.title" bundle="${lang}" var = "title"/>
 <fmt:message key="adminPage.enrollee.unblock" bundle="${lang}" var = "unblock"/>
 <fmt:message key="adminPage.enrollee.block" bundle="${lang}" var = "block"/>
@@ -14,29 +20,65 @@
 </head>
 <body>
 
-<table>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item p-2">
+      <a class="btn btn-warning" href="${pageContext.request.contextPath}/admin/main" role="button">${home}</a>
+    </li>
+    <li class="nav-item p-2">
+      <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
+    </li>
+    <li class="nav-item p-2">
+      <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/admin/enrollee?pageNumber=1&itemsPerPage=5">
+        <select class="custom-select" id = "lang" name="lang" onchange="this.form.submit()">
+          <option value="EN">${langEn}</option>
+          <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>
+        </select>
+      </form>
+    </li>
+    <li class="nav-item active p-2">
+      <h3>${title}</h3>
+    </li>
+  </ul>
+  <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
+</nav>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Enrollee login</th>
+    <th scope="col">First name</th>
+    <th scope="col">Last name</th>
+    <th scope="col">Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <c:set var="counter" value="1"/>
   <c:forEach items="${requestScope.enrollee}" var="enrollees">
     <tr>
-      <td>
-        ${enrollees.login} : ${enrollees.firstName}, ${enrollees.lastName}
-      </td>
+      <th scope="row">${counter}</th>
+      <td>${enrollees.login}</td>
+      <td>${enrollees.firstName}</td>
+      <td>${enrollees.lastName}</td>
       <td>
       <c:if test="${enrollees.blocked}">
         <a href="${pageContext.request.contextPath}/admin/enrollee/unblock?login=${enrollees.login}">
-          <button>
+          <button class="btn btn-success">
             ${unblock}
           </button>
         </a>
       </c:if>
       <c:if test="${!enrollees.blocked}">
         <a href="${pageContext.request.contextPath}/admin/enrollee/block?login=${enrollees.login}">
-          <button>
+          <button class="btn btn-danger">
             ${block}
           </button>
         </a>
       </c:if>
       </td>
     </tr>
+    <c:set var="counter" value="${counter + 1}"/>
   </c:forEach>
 </table>
 </body>
