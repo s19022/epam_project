@@ -13,5 +13,4 @@ public interface FacultyDao extends GenericDao<DbFacultyDto>{
     List<DbFacultyDto> findAllOrderByNameDesc() throws SQLException;
     List<DbFacultyDto> findAllOrderByBudgetPlacesDesc() throws SQLException;
     List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException;
-    List<DbFacultyDto> findByEnrolleeLoginEquals(String login) throws SQLException;
 }

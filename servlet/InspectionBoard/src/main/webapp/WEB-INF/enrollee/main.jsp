@@ -78,6 +78,7 @@
 <tr>
 <th scope="col">#</th>
 <th scope="col">${facultyName}</th>
+<th>Status</th>
 </tr>
 </thead>
 <tbody>
@@ -85,7 +86,8 @@
 <c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
 <tr>
 <th scope="row">${counter}</th>
-<td>${registeredFaculty.name}</td>
+<td>${registeredFaculty.facultyName}</td>
+<td>${registeredFaculty.status}</td>
 </tr>
 <c:set var="counter" value="${counter + 1}"/>
 </c:forEach>

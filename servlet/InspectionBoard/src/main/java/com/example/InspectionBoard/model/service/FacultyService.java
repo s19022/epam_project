@@ -78,13 +78,4 @@ public class FacultyService {
             throw new SQLExceptionWrapper(ex);
         }
     }
-
-    public List<Faculty> findByEnrolleeLogin(String login){
-        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
-            return toFaculty(dao.findByEnrolleeLoginEquals(login));
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
 }

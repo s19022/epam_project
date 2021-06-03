@@ -23,6 +23,11 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
             "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id " +
                     "AND r.registration_status_id = s.id AND s.status_name = 'PENDING'";
 
+    private static final String FIND_BY_ENROLLEE_LOGIN =
+            "SELECT r.id, s.status_name, a.id, a.login, f.id, f.name " +
+                    "FROM registration r, faculty f, account a, registration_status s " +
+                    "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id " +
+                    "AND r.registration_status_id = s.id AND a.login = ?";
     private static final String CHANGE_STATUS =
             "UPDATE registration " +
             "SET registration_status_id = (SELECT r_s.id FROM registration_status r_s WHERE r_s.status_name = ?) " +
@@ -52,6 +57,14 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
             statement.setString(2, dto.getEnrolleeLogin());
             statement.setString(3, dto.getFacultyName());
             statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public List<DbFacultyRegistration> findByEnrolleeLogin(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_BY_ENROLLEE_LOGIN)){
+            statement.setString(1, login);
+            return parseList(statement.executeQuery());
         }
     }
 

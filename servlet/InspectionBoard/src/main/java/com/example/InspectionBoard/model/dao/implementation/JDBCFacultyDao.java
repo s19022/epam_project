@@ -20,10 +20,7 @@ public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL_ORDER_BY_NAME_DESC =FIND_ALL + " ORDER by name desc";
     private static final String FIND_ALL_ORDER_BY_BUDGET_PLACES_DESC = FIND_ALL + " ORDER by budget_places desc";
     private static final String FIND_ALL_ORDER_BY_ALL_PLACES_DESC = FIND_ALL + " ORDER by all_places desc";
-    private static final String FIND_BY_ENROLLEE_LOGIN =
-            "SELECT f.id, f.name, f.all_places, f.budget_places " +
-            "FROM faculty f, registration r, account a " +
-            "WHERE a.login = ? AND a.id = r.enrollee_id AND r.faculty_id = f.id and f.deleted = false ";
+
     private final Connection connection;
 
     public JDBCFacultyDao(Connection connection) {
@@ -73,15 +70,6 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException {
         return executeQuery(FIND_ALL_ORDER_BY_ALL_PLACES_DESC);
-    }
-
-    @Override
-    public List<DbFacultyDto> findByEnrolleeLoginEquals(String login) throws SQLException {
-        try(PreparedStatement statement = connection.prepareStatement(FIND_BY_ENROLLEE_LOGIN)){
-            statement.setString(1, login);
-            ResultSet rs = statement.executeQuery();
-            return parseFaculties(rs);
-        }
     }
 
     @Override

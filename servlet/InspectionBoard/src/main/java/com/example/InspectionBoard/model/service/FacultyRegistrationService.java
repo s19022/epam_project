@@ -20,6 +20,15 @@ public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
     private static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
 
+    public List<FacultyRegistration> findByEnrolleeLogin(String login){
+        try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
+            return toFacultyRegistration(dao.findByEnrolleeLogin(login));
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
+
     public List<FacultyRegistration> findAll(){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
             return toFacultyRegistration(dao.findAll());
