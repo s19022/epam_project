@@ -41,6 +41,56 @@
     </ul>
     <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
 </nav>
-<%--//todo add pending requests --%>
+<table class="table table-striped">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Pending registrations</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Enrollee login</th>
+        <th scope="col">Subject name</th>
+    </tr>
+    <c:set var="counter" value="1"/>
+    <c:forEach items="${requestScope.registrationList}" var="element">
+        <tr>
+            <th scope="row">${counter}</th>
+            <td>${element.enrolleeLogin}</td>
+            <td>${element.facultyName}</td>
+            <td>${element.status}</td>
+            <td>
+                <form id = "changeStatus" method="post" action="${pageContext.request.contextPath}/faculties/registration">
+                    <input name="enrolleeLogin" value="${element.enrolleeLogin}" hidden>
+                    <input name="facultyName" value="${element.facultyName}" hidden>
+                    <select class="custom-select" name="newStatus">
+                        <option value="PENDING" selected>Pending</option>
+                        <option value="REJECTED">Rejected</option>
+                        <option value="ACCEPTED_BUDGET">Accept for budget</option>
+                        <option value="ACCEPTED_CONTRACT">Accept for contract</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <button onclick="document.getElementById('changeStatus').submit()" class="btn btn-primary">Apply</button>
+            </td>
+        </tr>
+        <c:set var="counter" value="${counter + 1}"/>
+    </c:forEach>
+    </tbody>
+</table>
+<c:choose>
+    <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
+        ${applyToFaculty}
+        <a href="${pageContext.request.contextPath}/register">${register}</a>
+    </c:when>
+    <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
+        <form method="post" action="${pageContext.request.contextPath}/faculties/register">
+            <button class="btn btn-primary" name="facultyName" value="${faculty.name}">${registerButton}</button>
+        </form>
+    </c:when>
+</c:choose>
+
 </body>
 </html>
