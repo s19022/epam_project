@@ -31,7 +31,7 @@ public class RegisterToFacultyCommand implements Command {
         } catch (AlreadyRegisteredException e) {
             setFacultyRegistrationStatus(request, ALREADY_REGISTERED);
         }
-        return "/faculty/info.jsp";
+        return "/WEB-INF/faculty/info.jsp";
     }
 
     private static void setFacultyRegistrationStatus(HttpServletRequest request, FacultyRegistrationStatus status){

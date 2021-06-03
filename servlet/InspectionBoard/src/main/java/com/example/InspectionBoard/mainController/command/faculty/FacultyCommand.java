@@ -18,7 +18,7 @@ public class FacultyCommand implements Command {
         String facultyOrder = request.getParameter("facultyOrder");
         setAttributeOrderedBy(request, facultyOrder);
         setFaculties(request, getFacultyList(facultyOrder));
-        return "/faculty/main.jsp";
+        return "/WEB-INF/faculty/main.jsp";
     }
 
     private static void setAttributeOrderedBy(HttpServletRequest request, String orderedBy){

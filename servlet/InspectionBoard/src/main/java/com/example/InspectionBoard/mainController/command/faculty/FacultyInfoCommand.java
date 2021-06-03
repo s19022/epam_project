@@ -18,6 +18,6 @@ public class FacultyInfoCommand implements Command {
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }
-        return "/faculty/info.jsp";
+        return "/WEB-INF/faculty/info.jsp";
     }
 }
