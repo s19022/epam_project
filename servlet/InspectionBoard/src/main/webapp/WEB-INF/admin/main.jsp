@@ -61,7 +61,7 @@
             <td>${element.facultyName}</td>
             <td>${element.status}</td>
             <td>
-                <form id = "changeStatus" method="post" action="${pageContext.request.contextPath}/faculties/registration">
+                <form id = "changeStatus" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
                     <input name="enrolleeLogin" value="${element.enrolleeLogin}" hidden>
                     <input name="facultyName" value="${element.facultyName}" hidden>
                     <select class="custom-select" name="newStatus">
