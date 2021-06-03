@@ -122,9 +122,10 @@
             <h2><b>${facultyName}</b>: ${faculties.name}</h2>
             <h5><b>${allPlaces}</b>: ${faculties.allPlaces}</h5>
             <h5><b>${budgetPlaces}</b>: ${faculties.budgetPlaces}</h5>
-            <a class="btn btn-primary"
-               href="${pageContext.request.contextPath}/faculties/info?name=${faculties.name}"
-               role="button">${info}</a>
+            <form method="post" action="${pageContext.request.contextPath}/faculties/info">
+                <input name="name" value="${faculties.name}" hidden>
+                <button class="btn btn-primary">${info}</button>
+            </form>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
                     <button class="btn btn-warning" id = "modify">${modify}</button>
                     <button class="btn btn-danger" onclick="openModal('${faculties.name}')">${delete}</button>
