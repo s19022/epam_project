@@ -15,6 +15,6 @@ public class UnblockEnrolleeCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String login = request.getParameter(LOGIN);
         new AccountService().unblockEnrollee(login);
-        return REDIRECT_KEYWORD + ADMIN.getRedirectPath();
+        return REDIRECT_KEYWORD + "/admin/enrollee";
     }
 }

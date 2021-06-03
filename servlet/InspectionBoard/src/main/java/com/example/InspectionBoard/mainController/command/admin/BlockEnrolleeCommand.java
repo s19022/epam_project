@@ -18,7 +18,7 @@ public class BlockEnrolleeCommand implements Command {
         String login = request.getParameter(LOGIN);
         new AccountService().blockEnrollee(login);
         removeAccountFromContext(request.getServletContext(), login);
-        return REDIRECT_KEYWORD + ADMIN.getRedirectPath();
+        return REDIRECT_KEYWORD + "/admin/enrollee";
     }
 
     @SuppressWarnings("unchecked")
