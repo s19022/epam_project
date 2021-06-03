@@ -34,7 +34,7 @@ public class RegisterCommand implements Command{
             LOGGER.warn(ex);
             return "/WEB-INF/error/400.jsp";
         }
-        return REDIRECT_KEYWORD + "/login.jsp";
+        return REDIRECT_KEYWORD + "/login";
     }
 
     private SaveEnrolleeDto parseSaveEnrollee(HttpServletRequest request) throws ValidationException {
@@ -53,6 +53,6 @@ public class RegisterCommand implements Command{
     }
 
     private String executeGet(){
-        return REDIRECT_KEYWORD + "/register.jsp";
+        return "/WEB-INF/register.jsp";
     }
 }
