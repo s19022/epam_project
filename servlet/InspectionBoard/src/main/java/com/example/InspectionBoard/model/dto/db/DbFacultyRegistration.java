@@ -1,6 +1,6 @@
 package com.example.InspectionBoard.model.dto.db;
 
-public class DbFacultyRegistrationStatus {
+public class DbFacultyRegistration {
     private final int facultyRegistrationId;
     private final String statusName;
     private final int enrolleeId;
@@ -8,7 +8,7 @@ public class DbFacultyRegistrationStatus {
     private final int facultyId;
     private final String facultyName;
 
-    public DbFacultyRegistrationStatus(int facultyRegistrationId, String statusName, int enrolleeId, String enrolleeLogin, int facultyId, String facultyName) {
+    public DbFacultyRegistration(int facultyRegistrationId, String statusName, int enrolleeId, String enrolleeLogin, int facultyId, String facultyName) {
         this.facultyRegistrationId = facultyRegistrationId;
         this.statusName = statusName;
         this.enrolleeId = enrolleeId;

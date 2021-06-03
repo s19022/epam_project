@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.dto.db;
 
 import com.example.InspectionBoard.model.entity.*;
+import com.example.InspectionBoard.model.enums.RegistrationStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,5 +61,14 @@ public final class Mapper {
                 dto.getCity(),
                 dto.getRegion(),
                 dto.getSchoolName());
+    }
+
+    public static List<FacultyRegistration> toFacultyRegistration(List<DbFacultyRegistration> dto){
+        return dto.stream().map(Mapper::toFacultyRegistration).collect(Collectors.toList());
+    }
+
+    public static FacultyRegistration toFacultyRegistration(DbFacultyRegistration dto){
+        return new FacultyRegistration(dto.getEnrolleeLogin(), dto.getFacultyName(),
+                RegistrationStatus.valueOf(dto.getStatusName()));
     }
 }

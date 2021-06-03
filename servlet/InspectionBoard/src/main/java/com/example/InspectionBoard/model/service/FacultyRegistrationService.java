@@ -4,6 +4,7 @@ import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
 import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
 import com.example.InspectionBoard.model.dto.db.*;
+import com.example.InspectionBoard.model.entity.FacultyRegistration;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,9 +13,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.example.InspectionBoard.model.dto.db.Mapper.toFacultyRegistration;
+
 public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
     private static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
+
+    public List<FacultyRegistration> findAll(){
+        try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
+            return toFacultyRegistration(dao.findAll());
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
 
     public void register(String accountLogin, String facultyName)
             throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException, AlreadyRegisteredException {

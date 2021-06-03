@@ -2,7 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyRegistrationDao;
 import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
-import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationStatus;
+import com.example.InspectionBoard.model.dto.db.DbFacultyRegistration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +38,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<DbFacultyRegistrationStatus> findAll() throws SQLException{
+    public List<DbFacultyRegistration> findAll() throws SQLException{
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL);
             ResultSet rs = statement.executeQuery()){
             return parseList(rs);
@@ -50,21 +50,21 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
         return connection;
     }
 
-    private static List<DbFacultyRegistrationStatus> parseList(ResultSet rs) throws SQLException {
-        List<DbFacultyRegistrationStatus> out = new ArrayList<>();
+    private static List<DbFacultyRegistration> parseList(ResultSet rs) throws SQLException {
+        List<DbFacultyRegistration> out = new ArrayList<>();
         while (rs.next()){
             out.add(parse(rs));
         }
         return out;
     }
 
-    private static DbFacultyRegistrationStatus parse(ResultSet rs) throws SQLException {
+    private static DbFacultyRegistration parse(ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
         String status = rs.getString(2);
         int enrolleeId = rs.getInt(3);
         String enrolleeLogin = rs.getString(4);
         int facultyId = rs.getInt(5);
         String facultyName = rs.getString(6);
-        return new DbFacultyRegistrationStatus(id, status, enrolleeId, enrolleeLogin, facultyId, facultyName);
+        return new DbFacultyRegistration(id, status, enrolleeId, enrolleeLogin, facultyId, facultyName);
     }
 }
