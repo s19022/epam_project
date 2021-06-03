@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
-    private static final String REGISTER = "insert into registration(enrollee_id, faculty_id) values (?, ?)";
+    private static final int PENDING_ID = 1;
+    private static final String REGISTER =
+            "insert into registration(enrollee_id, faculty_id, registration_status_id)" +
+            " values (?, ?," + PENDING_ID + ")";
     private final Connection connection;
 
     public JDBCFacultyRegistrationDao (Connection connection) {
