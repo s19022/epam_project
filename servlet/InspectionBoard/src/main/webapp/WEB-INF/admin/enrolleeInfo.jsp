@@ -14,6 +14,11 @@
 <fmt:message key="adminPage.enrollee.unblock" bundle="${lang}" var = "unblock"/>
 <fmt:message key="adminPage.enrollee.block" bundle="${lang}" var = "block"/>
 
+<c:set var="itemsPerPage" value="${requestScope.itemsPerPage}"/>
+<c:set var="currentPage" value="${requestScope.pageNumber}"/>
+<c:set var="pagesNumber" value="${requestScope.numberOfPages}"/>
+<c:set var="beginIndex" value="${currentPage - 3}"/>
+<c:set var="endIndex" value="${currentPage + 3}"/>
 <html>
 <head>
     <title>${title}</title>
@@ -40,7 +45,6 @@
     <li class="nav-item p-2">
       <form  method="get" action="${pageContext.request.contextPath}/admin/enrollee">
         <select class="custom-select" name="itemsPerPage" onchange="this.form.submit()">
-          <c:set var="itemsPerPage" value="${requestScope.itemsPerPage}"/>
           <option <c:if test="${itemsPerPage eq 1}">selected</c:if>>1</option>
           <option <c:if test="${itemsPerPage eq 5}">selected</c:if> >5</option>
           <option <c:if test="${itemsPerPage eq 10}">selected</c:if>>10</option>
@@ -62,11 +66,11 @@
     <th scope="col">Enrollee login</th>
     <th scope="col">First name</th>
     <th scope="col">Last name</th>
-    <th scope="col">Status</th>
+<%--    <th scope="col">Status</th>--%>
   </tr>
   </thead>
   <tbody>
-  <c:set var="counter" value="1"/>
+  <c:set var="counter" value="${(currentPage - 1) * itemsPerPage + 1}"/>
   <c:forEach items="${requestScope.enrollee}" var="enrollees">
     <tr>
       <th scope="row">${counter}</th>
@@ -93,9 +97,32 @@
     <c:set var="counter" value="${counter + 1}"/>
   </c:forEach>
 </table>
-<c:set var="page" value="${requestScope.pageNumber}"/>
-<c:set var="pagesNumber" value="${requestScope.numberOfPages}"/>
-<h1>${page}</h1>
-<h2>${pagesNumber}</h2>
+<c:if test="${2 > (currentPage - 3)}">
+  <c:set var="beginIndex" value="2"/>
+</c:if>
+<c:if test="${(pagesNumber - 1) < (currentPage + 3)}">
+  <c:set var="endIndex" value="${pagesNumber - 1}"/>
+</c:if>
+<form method="get" action="${pageContext.request.contextPath}/admin/enrollee">
+  <input name="itemsPerPage" value="${itemsPerPage}" hidden>
+  <div class="container my-3">
+  <div class="col-md-12 text-center">
+    <c:if test="${currentPage ne 1}">
+      <button name="pageNumber" value="1" type="submit" class="btn btn-primary">First</button>
+    </c:if>
+    <c:forEach var = "i" begin="${beginIndex}" end = "${currentPage - 1}">
+      <button name="pageNumber" type="submit" value="${i}" class="btn btn-primary">${i}</button>
+    </c:forEach>
+    <button type="button" class="btn btn-danger" disabled>${currentPage}</button>
+    <c:forEach var = "i" begin="${currentPage + 1}" end = "${endIndex}">
+      <button name="pageNumber" type="submit" value="${i}" class="btn btn-primary">${i}</button>
+      <c:set var="counter" value="${counter + 1}"/>
+    </c:forEach>
+    <c:if test="${currentPage ne pagesNumber}">
+      <button name="pageNumber" value="${pagesNumber}" type="submit" class="btn btn-primary">Last</button>
+    </c:if>
+  </div>
+</div>
+</form>
 </body>
 </html>
