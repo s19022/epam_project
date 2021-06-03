@@ -5,13 +5,12 @@ import com.example.InspectionBoard.model.enums.AccountRole;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static com.example.InspectionBoard.Constants.*;
+import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
 
 public class AuthFilter implements Filter {
     private final List<String> allCanAccess = new ArrayList<>();
@@ -103,36 +102,5 @@ public class AuthFilter implements Filter {
             return;
         }
         request.getSession().setAttribute(USER_ROLE, AccountRole.UNKNOWN);
-    }
-
-
-    public static AccountRole getAccountRole(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String login  = (String)session.getAttribute("login");
-        if (!isLoggedIn(request, login)){
-            return AccountRole.UNKNOWN;
-        }
-        Object userRole = request.getSession().getAttribute(USER_ROLE);
-        return parseAccountRole(userRole);
-    }
-
-    private static boolean isLoggedIn(HttpServletRequest request, String login){
-        Object loggedUsers = request.getServletContext().getAttribute(LOGGED_USERS);
-        if (loggedUsers == null){
-            return false;
-        }
-        return ((HashSet<String>) loggedUsers).contains(login);
-    }
-
-    private static AccountRole parseAccountRole(Object attribute) {
-        try {
-            if (attribute instanceof AccountRole) {
-                return (AccountRole) attribute;
-            }
-            if (attribute instanceof String) {
-                return AccountRole.valueOf((String) attribute);
-            }
-        } catch (RuntimeException ignore) {}
-        return AccountRole.UNKNOWN;
     }
 }
