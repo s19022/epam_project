@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<c:set value="${sessionScope.facultyInfo}" var="faculty"/>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<c:set var="locale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
+<fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="facultyPage.info.title" bundle="${lang}" var = "title"/>
 <fmt:message key="facultyPage.info.requiredSubjects" bundle="${lang}" var = "requiredSubjects"/>
 <fmt:message key="facultyPage.info.subjectName" bundle="${lang}" var = "subjectName"/>
@@ -22,7 +24,7 @@
 <fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
 <fmt:message key="navigation.register" bundle="${lang}" var = "navigationRegister"/>
 <fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
-
+<c:set var="faculty" value="${sessionScope.facultyInfo}"/>
 <html>
 <head>
   <title>${title}</title>
@@ -49,6 +51,14 @@
       <li class="nav-item p-2">
         <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
       </li>
+    <li class="nav-item p-2">
+      <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/faculties/info?name=${faculty.name}">
+        <select class="custom-select" id = "lang" name="lang" onchange="this.form.submit()">
+          <option value="EN">${langEn}</option>
+          <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>
+        </select>
+      </form>
+    </li>
     <li class="nav-item active p-2">
       <h3>${requiredSubjects}</h3>
     </li>

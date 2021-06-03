@@ -1,8 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<c:set var="locale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename = "views" var = "lang"/>
+<fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
+<fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="navigation.home" bundle="${lang}" var = "home"/>
 <fmt:message key="facultyPage.main.title" bundle="${lang}" var = "title"/>
 <fmt:message key="loginPage.login" bundle="${lang}" var = "login"/>
@@ -78,6 +81,14 @@
                 <a class="btn btn-warning" href="${pageContext.request.contextPath}/enrollee/main" role="button">${home}</a>
             </li>
         </c:if>
+        <li class="nav-item p-2">
+            <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/faculties">
+                <select class="custom-select" id = "lang" name="lang" onchange="this.form.submit()">
+                    <option value="EN">${langEn}</option>
+                    <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>
+                </select>
+            </form>
+        </li>
         <li class="nav-item p-2">
             <form  method="get" action="${pageContext.request.contextPath}/faculties">
                 <select class="custom-select" name="facultyOrder" onchange="this.form.submit()">
