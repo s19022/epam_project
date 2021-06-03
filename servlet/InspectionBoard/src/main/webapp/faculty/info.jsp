@@ -52,7 +52,8 @@
         <a class="btn btn-warning" href="${pageContext.request.contextPath}/faculties" role="button">${faculties}</a>
       </li>
     <li class="nav-item p-2">
-      <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/faculties/info?name=${faculty.name}">
+      <form id = "changeLanguage" method="post" action="${pageContext.request.contextPath}/faculties/info">
+        <input name="name" value="${faculty.name}" hidden>
         <select class="custom-select" id = "lang" name="lang" onchange="this.form.submit()">
           <option value="EN">${langEn}</option>
           <option value="UA" <c:if test="${locale eq 'UA'}"> selected</c:if>>${langUa}</option>

@@ -7,8 +7,9 @@
 <fmt:message key="loginPage.langUa" bundle="${lang}" var="langUa"/>
 <fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="navigation.home" bundle="${lang}" var = "home"/>
+<fmt:message key="navigation.login" bundle="${lang}" var = "login"/>
+
 <fmt:message key="facultyPage.main.title" bundle="${lang}" var = "title"/>
-<fmt:message key="loginPage.login" bundle="${lang}" var = "login"/>
 <fmt:message key="facultyPage.main.orderByNameAsc" bundle="${lang}" var = "orderByNameAsc"/>
 <fmt:message key="facultyPage.main.orderByNameDesc" bundle="${lang}" var = "orderByNameDesc"/>
 <fmt:message key="facultyPage.main.orderByAllPlacesDesc" bundle="${lang}" var = "orderByAllPlacesDesc"/>
@@ -81,6 +82,11 @@
                 <a class="btn btn-warning" href="${pageContext.request.contextPath}/enrollee/main" role="button">${home}</a>
             </li>
         </c:if>
+        <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+            <li class="nav-item p-2">
+                <a class="btn btn-warning" href="${pageContext.request.contextPath}/admin/main" role="button">${home}</a>
+            </li>
+        </c:if>
         <li class="nav-item p-2">
             <form id = "changeLanguage" method="get" action="${pageContext.request.contextPath}/faculties">
                 <select class="custom-select" id = "lang" name="lang" onchange="this.form.submit()">
@@ -150,8 +156,8 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <p>${confirmation}</p>
-                <button onclick="deleteFaculty()">${proceed}</button>
-                <button onclick="closeModal()">${cancel}</button>
+                <button class="btn btn-danger" onclick="deleteFaculty()">${proceed}</button>
+                <button class="btn btn-light" onclick="closeModal()">${cancel}</button>
             </div>
         </div>
 <script>
