@@ -17,6 +17,8 @@
 <fmt:message key="enrolleePage.mark" bundle="${lang}" var = "mark"/>
 <fmt:message key="enrolleePage.registeredFaculties" bundle="${lang}" var = "registeredFaculties"/>
 <fmt:message key="enrolleePage.yourSubjects" bundle="${lang}" var = "yourSubjects"/>
+<fmt:message key="enrolleePage.homePage" bundle="${lang}" var = "homePage"/>
+<fmt:message key="enrolleePage.facultyName" bundle="${lang}" var = "facultyName"/>
 <html>
 <head>
     <title>${title}</title>
@@ -37,53 +39,57 @@
             </form>
         </li>
         <li class="nav-item active p-2">
-            <h3>${requiredSubjects}</h3>
+            <h3>${homePage}</h3>
         </li>
     </ul>
-    <c:if test="${sessionScope.userRole ne 'UNKNOWN'}">
         <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
-    </c:if>
-    <c:if test="${sessionScope.userRole eq 'UNKNOWN'}">
-        <a class="btn btn-primary p-2" href="${pageContext.request.contextPath}/login" role="button">${login}</a>
-        <a class="btn btn-success p-2" href="${pageContext.request.contextPath}/register" role="button">${navigationRegister}</a>
-    </c:if>
-
 </nav>
-<h1>${welcome}</h1>
-<a href="${pageContext.request.contextPath}/logout">${logout}</a>
-<table border="2">
-    <thead>
-        <tr>
-            <td colspan="2">${yourSubjects}</td>
-        </tr>
-        <tr>
-            <td>${subjectName}</td>
-            <td>${mark}</td>
-        </tr>
-    </thead>
-    <c:forEach items="${requestScope.subjects}" var="subject">
-        <tr>
-            <td>${subject.name}</td>
-            <td>${subject.mark}</td>
-        </tr>
-    </c:forEach>
-</table>
 
-<table border="2">
-    <thead>
-    <tr>
-        <td>${registeredFaculties}</td>
-    </tr>
-    </thead>
-    <c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
-        <tr>
-            <td>${registeredFaculty.name}</td>
-        </tr>
-    </c:forEach>
+<table class="table table-striped">
+<thead>
+<tr>
+<th scope="col">${yourSubjects}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="col">#</th>
+<th scope="col">${subjectName}</th>
+<th scope="col">${mark}</th>
+</tr>
+<c:set var="counter" value="1"/>
+<c:forEach items="${requestScope.subjects}" var="subject">
+<tr>
+<th scope="row">${counter}</th>
+<td>${subject.name}</td>
+<td>${subject.mark}</td>
+</tr>
+<c:set var="counter" value="${counter + 1}"/>
+</c:forEach>
+</tbody>
 </table>
-
-<a href="${pageContext.request.contextPath}/faculties">
-    <button>${ourFaculties}</button>
-</a>
+<table class="table table-striped">
+<thead>
+<tr>
+<th scope="col">${registeredFaculties}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="col">#</th>
+<th scope="col">${facultyName}</th>
+</tr>
+</thead>
+<tbody>
+<c:set var="counter" value="1"/>
+<c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
+<tr>
+<th scope="row">${counter}</th>
+<td>${registeredFaculty.name}</td>
+</tr>
+<c:set var="counter" value="${counter + 1}"/>
+</c:forEach>
+</tbody>
+</table>
 </body>
 </html>
