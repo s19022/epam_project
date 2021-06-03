@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyRegistrationDao;
+import com.example.InspectionBoard.model.dto.ChangeFacultyRegistrationStatusDto;
 import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
 import com.example.InspectionBoard.model.dto.db.DbFacultyRegistration;
 
@@ -19,7 +20,14 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     private static final String FIND_ALL =
             "SELECT r.id, s.status_name, a.id, a.login, f.id, f.name " +
             "FROM registration r, faculty f, account a, registration_status s " +
-            "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id AND r.registration_status_id = s.id";
+            "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id " +
+                    "AND r.registration_status_id = s.id AND s.status_name = 'PENDING'";
+
+    private static final String CHANGE_STATUS =
+            "UPDATE registration " +
+            "SET registration_status_id = (SELECT r_s.id FROM registration_status r_s WHERE r_s.status_name = ?) " +
+            "WHERE enrollee_id = (SELECT a.id FROM account a WHERE a.login = ?) " +
+            "  AND faculty_id = (SELECT f.id from faculty f where f.name = ?) ";
 
     private final Connection connection;
 
@@ -33,6 +41,16 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
         try(PreparedStatement statement = connection.prepareStatement(REGISTER)){
             statement.setInt(1, dto.getEnrolleeId());
             statement.setInt(2, dto.getFacultyId());
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void changeStatus(ChangeFacultyRegistrationStatusDto dto) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS)){
+            statement.setString(1, dto.getNewStatus().name());
+            statement.setString(2, dto.getEnrolleeLogin());
+            statement.setString(3, dto.getFacultyName());
             statement.executeUpdate();
         }
     }
