@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface EnrolleeDao extends GenericDao<DbEnrolleeDto>{
     List<DbEnrolleeDto> findAllLimitAndOffset(int limit, int offset) throws SQLException;
+    int getNumberOfEnrollees() throws SQLException;
 }

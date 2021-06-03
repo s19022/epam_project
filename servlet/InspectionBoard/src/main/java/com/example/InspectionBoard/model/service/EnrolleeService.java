@@ -27,4 +27,13 @@ public class EnrolleeService {
             throw new SQLExceptionWrapper(ex);
         }
     }
+
+    public int getNumberOfPages(double itemsPerPage){
+        try(EnrolleeDao dao = DaoFactory.getInstance().createEnrolleeDao()){
+            return (int) Math.ceil(dao.getNumberOfEnrollees() / itemsPerPage);
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
 }

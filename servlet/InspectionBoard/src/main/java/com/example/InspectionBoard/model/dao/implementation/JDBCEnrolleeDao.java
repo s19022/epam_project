@@ -3,14 +3,12 @@ package com.example.InspectionBoard.model.dao.implementation;
 import com.example.InspectionBoard.model.dao.EnrolleeDao;
 import com.example.InspectionBoard.model.dto.db.DbEnrolleeDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCEnrolleeDao implements EnrolleeDao {
+    private static final String GET_NUMBERS_OF_PAGES = "select count(*) from enrollee";
     private static final String FIND_ALL =
             "SELECT a.id, a.login, a.blocked, first_name, last_name, father_name, email, city, region, school_name " +
             "FROM enrollee e, account a " +
@@ -41,6 +39,17 @@ public class JDBCEnrolleeDao implements EnrolleeDao {
             statement.setInt(1, limit);
             statement.setInt(2, offset);
             return parseEnrolleeList(statement.executeQuery());
+        }
+    }
+
+    @Override
+    public int getNumberOfEnrollees() throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(GET_NUMBERS_OF_PAGES)){
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            return 0;
         }
     }
 

@@ -93,5 +93,9 @@
     <c:set var="counter" value="${counter + 1}"/>
   </c:forEach>
 </table>
+<c:set var="page" value="${requestScope.pageNumber}"/>
+<c:set var="pagesNumber" value="${requestScope.numberOfPages}"/>
+<h1>${page}</h1>
+<h2>${pagesNumber}</h2>
 </body>
 </html>
