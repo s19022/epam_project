@@ -2,6 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyRegistrationDao;
 import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
+import com.example.InspectionBoard.model.dto.db.DbFacultyRegistrationStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,9 +17,9 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
             "insert into registration(enrollee_id, faculty_id, registration_status_id)" +
             " values (?, ?," + PENDING_ID + ")";
     private static final String FIND_ALL =
-            "SELECT r.id, a.id, a.login, f.id, f.name " +
-            "FROM registration r, faculty f, account a " +
-            "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id";
+            "SELECT r.id, s.status_name, a.id, a.login, f.id, f.name " +
+            "FROM registration r, faculty f, account a, registration_status s " +
+            "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id AND r.registration_status_id = s.id";
 
     private final Connection connection;
 
@@ -37,7 +38,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<SaveFacultyRegistrationDto> findAll() throws SQLException{
+    public List<DbFacultyRegistrationStatus> findAll() throws SQLException{
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL);
             ResultSet rs = statement.executeQuery()){
             return parseList(rs);
@@ -49,15 +50,21 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
         return connection;
     }
 
-    private static List<SaveFacultyRegistrationDto> parseList(ResultSet rs) throws SQLException {
-        List<SaveFacultyRegistrationDto> out = new ArrayList<>();
+    private static List<DbFacultyRegistrationStatus> parseList(ResultSet rs) throws SQLException {
+        List<DbFacultyRegistrationStatus> out = new ArrayList<>();
         while (rs.next()){
             out.add(parse(rs));
         }
         return out;
     }
 
-    private static SaveFacultyRegistrationDto parse(ResultSet rs){
-        return null;
+    private static DbFacultyRegistrationStatus parse(ResultSet rs) throws SQLException {
+        int id = rs.getInt(1);
+        String status = rs.getString(2);
+        int enrolleeId = rs.getInt(3);
+        String enrolleeLogin = rs.getString(4);
+        int facultyId = rs.getInt(5);
+        String facultyName = rs.getString(6);
+        return new DbFacultyRegistrationStatus(id, status, enrolleeId, enrolleeLogin, facultyId, facultyName);
     }
 }
