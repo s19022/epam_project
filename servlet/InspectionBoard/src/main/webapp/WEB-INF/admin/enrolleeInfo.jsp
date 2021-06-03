@@ -37,6 +37,18 @@
         </select>
       </form>
     </li>
+    <li class="nav-item p-2">
+      <form  method="get" action="${pageContext.request.contextPath}/admin/enrollee">
+        <select class="custom-select" name="itemsPerPage" onchange="this.form.submit()">
+          <c:set var="itemsPerPage" value="${requestScope.itemsPerPage}"/>
+          <option <c:if test="${itemsPerPage eq 1}">selected</c:if>>1</option>
+          <option <c:if test="${itemsPerPage eq 5}">selected</c:if> >5</option>
+          <option <c:if test="${itemsPerPage eq 10}">selected</c:if>>10</option>
+          <option <c:if test="${itemsPerPage eq 15}">selected</c:if>>15</option>
+          <option <c:if test="${itemsPerPage eq 20}">selected</c:if>>20</option>
+        </select>
+      </form>
+    </li>
     <li class="nav-item active p-2">
       <h3>${title}</h3>
     </li>
