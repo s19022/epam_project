@@ -58,6 +58,9 @@
     <li class="nav-item active p-2">
       <h3>${requiredSubjects}</h3>
     </li>
+    <li class="nav-item active p-2">
+      <h3>${faculty.name}</h3>
+    </li>
   </ul>
   <c:if test="${sessionScope.userRole ne 'UNKNOWN'}">
     <a class="btn btn-danger p-2" href="${pageContext.request.contextPath}/logout" role="button">${logout}</a>
@@ -95,9 +98,9 @@
         <a href="${pageContext.request.contextPath}/register">${register}</a>
       </c:when>
       <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
-        <a href="${pageContext.request.contextPath}/faculties/register?facultyName=${faculty.name}">
-          <button class="btn btn-primary">${registerButton}</button>
-        </a>
+        <form method="post" action="${pageContext.request.contextPath}/faculties/register">
+          <button class="btn btn-primary" name="facultyName" value="${faculty.name}">${registerButton}</button>
+        </form>
       </c:when>
     </c:choose>
   </c:if>
