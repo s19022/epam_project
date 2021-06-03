@@ -7,10 +7,7 @@ import com.example.InspectionBoard.mainController.command.admin.AdminMainCommand
 import com.example.InspectionBoard.mainController.command.admin.BlockEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.admin.UnblockEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.enrollee.EnrolleeMainCommand;
-import com.example.InspectionBoard.mainController.command.faculty.DeleteFacultyCommand;
-import com.example.InspectionBoard.mainController.command.faculty.FacultyCommand;
-import com.example.InspectionBoard.mainController.command.faculty.FacultyInfoCommand;
-import com.example.InspectionBoard.mainController.command.faculty.RegisterToFacultyCommand;
+import com.example.InspectionBoard.mainController.command.faculty.*;
 import com.example.InspectionBoard.model.enums.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,6 +40,7 @@ public class MainServlet extends HttpServlet {
         commands.put("faculties/register", new RegisterToFacultyCommand());
         commands.put("faculties/info", new FacultyInfoCommand());
         commands.put("faculties/delete", new DeleteFacultyCommand());
+        commands.put("faculties/changeRegistrationStatus", new ChangeFacultyRegistrationStatusCommand());
 
         commands.put("enrollee/main", new EnrolleeMainCommand());
     }
