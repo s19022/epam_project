@@ -9,5 +9,9 @@ public final class Constants {
     public static final String LOGIN_STATUS  = "loginStatus";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "pass";
+    public static final String PAGE_NUMBER = "pageNumber";
+    public static final String ITEMS_PER_PAGE = "itemsPerPage";
+    public static final String NUMBER_OF_PAGES = "numberOfPages";
+    public static final String ENROLLEE_LIST = "enrollee";
 
 }

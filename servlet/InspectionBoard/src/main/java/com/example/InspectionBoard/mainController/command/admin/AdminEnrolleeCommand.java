@@ -9,20 +9,31 @@ import com.example.InspectionBoard.model.service.EnrolleeService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.example.InspectionBoard.Constants.*;
+
 public class AdminEnrolleeCommand implements Command {
     private static final int DEFAULT_ITEMS_PER_PAGE = 5;
 
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        int pageNumber = getPage(request.getParameter("pageNumber"));
-        int itemsPerPage = getItemsPerPage(request.getParameter("itemsPerPage"));
-        request.setAttribute("itemsPerPage", itemsPerPage);
-        request.setAttribute("numberOfPages", new EnrolleeService().getNumberOfPages(itemsPerPage));
-        request.setAttribute("pageNumber", pageNumber);
+        EnrolleeService service = new EnrolleeService();
+
+        int itemsPerPage = getItemsPerPage(request.getParameter(ITEMS_PER_PAGE));
+        int numberOfPages = service.getNumberOfPages(itemsPerPage);
+        int pageNumber = getPage(request.getParameter(PAGE_NUMBER));
+
         FindByPageDto page = new FindByPageDto(pageNumber, itemsPerPage);
-        List<Enrollee> list = new EnrolleeService().findAllByPage(page);
-        request.setAttribute("enrollee", list);
+        List<Enrollee> list = service.findAllByPage(page);
+        setAttributes(request, itemsPerPage, numberOfPages, pageNumber, list);
         return "/WEB-INF/admin/enrolleeInfo.jsp";
+    }
+
+    private static void setAttributes(HttpServletRequest request, int itemsPerPage, int numberOfPages,
+                                      int currentPageNumber, List<Enrollee> enrolleeList){
+        request.setAttribute(ITEMS_PER_PAGE, itemsPerPage);
+        request.setAttribute(NUMBER_OF_PAGES, numberOfPages);
+        request.setAttribute(PAGE_NUMBER, currentPageNumber);
+        request.setAttribute(ENROLLEE_LIST, enrolleeList);
     }
 
     private static int getPage(String pageNumber){
