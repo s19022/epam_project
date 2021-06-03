@@ -2,6 +2,7 @@ package com.example.InspectionBoard.model.service;
 
 import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.*;
+import com.example.InspectionBoard.model.dto.SaveFacultyRegistrationDto;
 import com.example.InspectionBoard.model.dto.db.*;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import org.apache.logging.log4j.LogManager;
@@ -76,7 +77,7 @@ public class FacultyRegistrationService {
     private static void saveRegistration(FacultyRegistrationDao dao, int enrolleeId, int facultyId)
             throws AlreadyRegisteredException, SQLException {
         try{
-            dao.save(new DbFacultyRegistrationDto(enrolleeId, facultyId));
+            dao.save(new SaveFacultyRegistrationDto(enrolleeId, facultyId));
         }catch (SQLException ex){
             if(SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){
                 throw new AlreadyRegisteredException(ex);
