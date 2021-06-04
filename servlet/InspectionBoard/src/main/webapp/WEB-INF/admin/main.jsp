@@ -69,7 +69,7 @@
             <td>${element.enrolleeLogin}</td>
             <td>${element.facultyName}</td>
             <td>
-                <form id = "changeStatus" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
+                <form id = "changeStatus${counter}" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
                     <input name="enrolleeLogin" value="${element.enrolleeLogin}" hidden>
                     <input name="facultyName" value="${element.facultyName}" hidden>
                     <select class="custom-select" name="newStatus">
@@ -81,12 +81,14 @@
                 </form>
             </td>
             <td>
-                <button onclick="document.getElementById('changeStatus').submit()" class="btn btn-primary">${apply}</button>
+                <button onclick="document.getElementById('changeStatus${counter}').submit()" class="btn btn-primary">${apply}</button>
             </td>
         </tr>
         <c:set var="counter" value="${counter + 1}"/>
     </c:forEach>
     </tbody>
 </table>
+<c:set var="changeFacultyRegistrationResult" value="${sessionScope.changeFacultyRegistrationResult}"/>
+<h1>${changeFacultyRegistrationResult}</h1>
 </body>
 </html>

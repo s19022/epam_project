@@ -13,4 +13,6 @@ public interface FacultyDao extends GenericDao<DbFacultyDto>{
     List<DbFacultyDto> findAllOrderByNameDesc() throws SQLException;
     List<DbFacultyDto> findAllOrderByBudgetPlacesDesc() throws SQLException;
     List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException;
+    void subtractBudgetPlace(String facultyName) throws SQLException;
+    void subtractContractPlace(String facultyName) throws SQLException;
 }

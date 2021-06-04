@@ -38,9 +38,22 @@ public class FacultyRegistrationService {
         }
     }
 
-    public void changeStatus(ChangeFacultyRegistrationStatusDto dto){
-        try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
-            dao.changeStatus(dto);
+    public void changeStatus(ChangeFacultyRegistrationStatusDto dto) throws NotEnoughPlacesException, NoSuchFacultyException {
+        DaoFactory factory = DaoFactory.getInstance();
+        try(
+                Connection connection = factory.getConnection();
+                FacultyRegistrationDao facultyRegistrationDao = factory.createFacultyRegistrationDao(connection);
+                FacultyDao facultyDao = factory.createFacultyDao(connection)
+        ){
+            connection.setAutoCommit(false);
+            try{
+                changeStatus(dto, facultyRegistrationDao, facultyDao);
+            }catch (Exception ex){
+                connection.rollback();
+                throw ex;
+            }finally {
+                connection.setAutoCommit(true);
+            }
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
@@ -115,5 +128,37 @@ public class FacultyRegistrationService {
             }
             throw ex;
         }
+    }
+
+    private void changeStatus(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NotEnoughPlacesException, NoSuchFacultyException {
+        switch (dto.getNewStatus()){
+            case PENDING:
+            case REJECTED:
+                facultyRegistrationDao.changeStatus(dto);
+                return;
+            case ACCEPTED_CONTRACT:
+                changeStatusToContract(dto, facultyRegistrationDao, facultyDao);
+                return;
+            case ACCEPTED_BUDGET:
+                changeStatusToBudget(dto, facultyRegistrationDao, facultyDao);
+        }
+    }
+
+    private void changeStatusToContract(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NoSuchFacultyException, NotEnoughPlacesException {
+        DbFacultyDto facultyDto = facultyDao.findByName(dto.getFacultyName()).orElseThrow(NoSuchFacultyException::new);
+        if ((facultyDto.getAllPlaces() - facultyDto.getBudgetPlaces()) <= 0){
+            throw new NotEnoughPlacesException();
+        }
+        facultyDao.subtractContractPlace(dto.getFacultyName());
+        facultyRegistrationDao.changeStatus(dto);
+    }
+
+    private void changeStatusToBudget(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NoSuchFacultyException, NotEnoughPlacesException {
+        DbFacultyDto facultyDto = facultyDao.findByName(dto.getFacultyName()).orElseThrow(NoSuchFacultyException::new);
+        if (facultyDto.getBudgetPlaces() <= 0){
+            throw new NotEnoughPlacesException();
+        }
+        facultyDao.subtractBudgetPlace(dto.getFacultyName());
+        facultyRegistrationDao.changeStatus(dto);
     }
 }

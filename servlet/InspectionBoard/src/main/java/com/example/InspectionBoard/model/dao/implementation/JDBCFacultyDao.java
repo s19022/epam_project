@@ -20,6 +20,16 @@ public class JDBCFacultyDao implements FacultyDao {
     private static final String FIND_ALL_ORDER_BY_NAME_DESC =FIND_ALL + " ORDER by name desc";
     private static final String FIND_ALL_ORDER_BY_BUDGET_PLACES_DESC = FIND_ALL + " ORDER by budget_places desc";
     private static final String FIND_ALL_ORDER_BY_ALL_PLACES_DESC = FIND_ALL + " ORDER by all_places desc";
+    private static final String SUBTRACT_BUDGET_PLACE =
+            "UPDATE faculty " +
+            "SET all_places = (all_places - 1), budget_places = (budget_places - 1) " +
+            "WHERE name = ?";
+
+    private static final String SUBTRACT_CONTRACT_PLACE =
+            "UPDATE faculty " +
+            "SET all_places = (all_places - 1) " +
+            "WHERE name = ?";
+
 
     private final Connection connection;
 
@@ -70,6 +80,22 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException {
         return executeQuery(FIND_ALL_ORDER_BY_ALL_PLACES_DESC);
+    }
+
+    @Override
+    public void subtractBudgetPlace(String facultyName) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(SUBTRACT_BUDGET_PLACE)){
+            statement.setString(1, facultyName);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void subtractContractPlace(String facultyName) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(SUBTRACT_CONTRACT_PLACE)){
+            statement.setString(1, facultyName);
+            statement.executeUpdate();
+        }
     }
 
     @Override
