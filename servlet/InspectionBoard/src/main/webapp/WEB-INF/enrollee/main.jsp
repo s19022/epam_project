@@ -9,6 +9,7 @@
 <fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
 <fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
 
+<fmt:message key="enrolleePage.status" bundle="${lang}" var = "status"/>
 <fmt:message key="enrolleePage.title" bundle="${lang}" var = "title"/>
 <fmt:message key="enrolleePage.welcome" bundle="${lang}" var = "welcome"/>
 <fmt:message key="enrolleePage.subject" bundle="${lang}" var = "subject"/>
@@ -19,6 +20,10 @@
 <fmt:message key="enrolleePage.yourSubjects" bundle="${lang}" var = "yourSubjects"/>
 <fmt:message key="enrolleePage.homePage" bundle="${lang}" var = "homePage"/>
 <fmt:message key="enrolleePage.facultyName" bundle="${lang}" var = "facultyName"/>
+<fmt:message key="enrolleePage.facultyRegistrationStatus.pending" bundle="${lang}" var = "pending"/>
+<fmt:message key="enrolleePage.facultyRegistrationStatus.rejected" bundle="${lang}" var = "rejected"/>
+<fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedBudget" bundle="${lang}" var = "acceptedBudget"/>
+<fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedContract" bundle="${lang}" var = "acceptedContract"/>
 <html>
 <head>
     <title>${title}</title>
@@ -68,6 +73,7 @@
 </c:forEach>
 </tbody>
 </table>
+
 <table class="table table-striped">
 <thead>
 <tr>
@@ -78,7 +84,7 @@
 <tr>
 <th scope="col">#</th>
 <th scope="col">${facultyName}</th>
-<th>Status</th>
+<th scope="col">${status}</th>
 </tr>
 </thead>
 <tbody>
@@ -87,7 +93,23 @@
 <tr>
 <th scope="row">${counter}</th>
 <td>${registeredFaculty.facultyName}</td>
-<td>${registeredFaculty.status}</td>
+    <c:choose>
+        <c:when test="${registeredFaculty.status eq 'PENDING'}">
+            <td style="color: #2ab7ec">${pending}</td>
+        </c:when>
+
+        <c:when test="${registeredFaculty.status eq 'REJECTED'}">
+            <td style="color: red">${rejected}</td>
+        </c:when>
+
+        <c:when test="${registeredFaculty.status eq 'ACCEPTED_BUDGET'}">
+            <td style="color: green">${acceptedBudget}</td>
+        </c:when>
+
+        <c:when test="${registeredFaculty.status eq 'ACCEPTED_CONTRACT'}">
+            <td style="color: green">${acceptedContract}</td>
+        </c:when>
+    </c:choose>
 </tr>
 <c:set var="counter" value="${counter + 1}"/>
 </c:forEach>
