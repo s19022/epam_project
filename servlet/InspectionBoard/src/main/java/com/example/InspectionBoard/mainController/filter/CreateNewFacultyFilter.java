@@ -9,8 +9,6 @@ import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.filter.FilterUtils.isValid;
 
 public class CreateNewFacultyFilter implements Filter {
-    private HttpServletRequest request;
-    private HttpServletResponse response;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -18,8 +16,8 @@ public class CreateNewFacultyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        request = (HttpServletRequest) servletRequest;
-        response = (HttpServletResponse) servletResponse;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         String facultyName = request.getParameter(FACULTY_NAME);
         int allPlaces;
         int budgetPlaces;
