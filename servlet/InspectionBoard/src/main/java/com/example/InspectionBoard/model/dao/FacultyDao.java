@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.model.dao;
 
+import com.example.InspectionBoard.model.dto.CreateFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 
 import java.sql.SQLException;
@@ -15,4 +16,5 @@ public interface FacultyDao extends GenericDao<DbFacultyDto>{
     List<DbFacultyDto> findAllOrderByAllPlacesDesc() throws SQLException;
     void subtractBudgetPlace(String facultyName) throws SQLException;
     void subtractContractPlace(String facultyName) throws SQLException;
+    void create(CreateFacultyDto dto) throws SQLException;
 }

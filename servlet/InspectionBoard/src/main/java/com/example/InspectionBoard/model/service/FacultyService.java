@@ -4,6 +4,7 @@ import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
+import com.example.InspectionBoard.model.dto.CreateFacultyDto;
 import com.example.InspectionBoard.model.entity.Faculty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,15 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 
 public class FacultyService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyService.class.getName());
+
+    public void create(CreateFacultyDto dto){
+        try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            dao.create(dto);
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
 
     public List<Faculty> findAllOrderByNameDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){

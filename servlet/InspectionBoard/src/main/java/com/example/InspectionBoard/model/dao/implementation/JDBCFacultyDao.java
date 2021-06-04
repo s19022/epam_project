@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyDao;
+import com.example.InspectionBoard.model.dto.CreateFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import com.example.InspectionBoard.model.service.RequiredSubjectService;
@@ -30,7 +31,7 @@ public class JDBCFacultyDao implements FacultyDao {
             "SET all_places = (all_places - 1) " +
             "WHERE name = ?";
 
-
+    private static final String CREATE = "insert into faculty(name, budget_places, all_places) values (?, ?, ?) ";
     private final Connection connection;
 
     public JDBCFacultyDao(Connection connection) {
@@ -94,6 +95,16 @@ public class JDBCFacultyDao implements FacultyDao {
     public void subtractContractPlace(String facultyName) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(SUBTRACT_CONTRACT_PLACE)){
             statement.setString(1, facultyName);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void create(CreateFacultyDto dto) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(CREATE)){
+            statement.setString(1, dto.getName());
+            statement.setInt(2, dto.getBudgetPlaces());
+            statement.setInt(3, dto.getAllPlaces());
             statement.executeUpdate();
         }
     }
