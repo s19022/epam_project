@@ -13,6 +13,11 @@
 <fmt:message key="adminPage.enrollee.title" bundle="${lang}" var = "title"/>
 <fmt:message key="adminPage.enrollee.unblock" bundle="${lang}" var = "unblock"/>
 <fmt:message key="adminPage.enrollee.block" bundle="${lang}" var = "block"/>
+<fmt:message key="adminPage.enrollee.enrolleeLogin" bundle="${lang}" var = "enrolleeLogin"/>
+<fmt:message key="adminPage.enrollee.enrolleeFirstName" bundle="${lang}" var = "enrolleeFirstName"/>
+<fmt:message key="adminPage.enrollee.enrolleeLastName" bundle="${lang}" var = "enrolleeLastName"/>
+<fmt:message key="adminPage.pagination.first" bundle="${lang}" var = "first"/>
+<fmt:message key="adminPage.pagination.last" bundle="${lang}" var = "last"/>
 
 <c:set var="itemsPerPage" value="${requestScope.itemsPerPage}"/>
 <c:set var="currentPage" value="${requestScope.pageNumber}"/>
@@ -63,9 +68,9 @@
   <thead>
   <tr>
     <th scope="col">#</th>
-    <th scope="col">Enrollee login</th>
-    <th scope="col">First name</th>
-    <th scope="col">Last name</th>
+    <th scope="col">${enrolleeLogin}</th>
+    <th scope="col">${enrolleeFirstName}</th>
+    <th scope="col">${enrolleeLastName}</th>
 <%--    <th scope="col">Status</th>--%>
   </tr>
   </thead>
@@ -108,7 +113,7 @@
   <div class="container my-3">
   <div class="col-md-12 text-center">
     <c:if test="${currentPage ne 1}">
-      <button name="pageNumber" value="1" type="submit" class="btn btn-primary">First</button>
+      <button name="pageNumber" value="1" type="submit" class="btn btn-primary">${first}</button>
     </c:if>
     <c:forEach var = "i" begin="${beginIndex}" end = "${currentPage - 1}">
       <button name="pageNumber" type="submit" value="${i}" class="btn btn-primary">${i}</button>
@@ -119,7 +124,7 @@
       <c:set var="counter" value="${counter + 1}"/>
     </c:forEach>
     <c:if test="${currentPage ne pagesNumber}">
-      <button name="pageNumber" value="${pagesNumber}" type="submit" class="btn btn-primary">Last</button>
+      <button name="pageNumber" value="${pagesNumber}" type="submit" class="btn btn-primary">${last}</button>
     </c:if>
   </div>
 </div>
