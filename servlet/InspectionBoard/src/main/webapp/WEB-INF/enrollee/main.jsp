@@ -13,7 +13,7 @@
 <fmt:message key="enrolleePage.welcome" bundle="${lang}" var = "welcome"/>
 <fmt:message key="enrolleePage.subject" bundle="${lang}" var = "subject"/>
 <fmt:message key="enrolleePage.ourFaculties" bundle="${lang}" var = "ourFaculties"/>
-<fmt:message key="enrolleePage.subjectName" bundle="${lang}" var = "subjectName"/>
+<fmt:message key="enrolleePage.subjectName" bundle="${lang}" var = "facultyName"/>
 <fmt:message key="enrolleePage.mark" bundle="${lang}" var = "mark"/>
 <fmt:message key="enrolleePage.registeredFaculties" bundle="${lang}" var = "registeredFaculties"/>
 <fmt:message key="enrolleePage.yourSubjects" bundle="${lang}" var = "yourSubjects"/>
@@ -54,7 +54,7 @@
 <tbody>
 <tr>
 <th scope="col">#</th>
-<th scope="col">${subjectName}</th>
+<th scope="col">${facultyName}</th>
 <th scope="col">${mark}</th>
 </tr>
 <c:set var="counter" value="1"/>

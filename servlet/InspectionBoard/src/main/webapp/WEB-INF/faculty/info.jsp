@@ -8,7 +8,7 @@
 <fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="facultyPage.info.title" bundle="${lang}" var = "title"/>
 <fmt:message key="facultyPage.info.requiredSubjects" bundle="${lang}" var = "requiredSubjects"/>
-<fmt:message key="facultyPage.info.subjectName" bundle="${lang}" var = "subjectName"/>
+<fmt:message key="facultyPage.info.subjectName" bundle="${lang}" var = "facultyName"/>
 <fmt:message key="facultyPage.info.minimalMark" bundle="${lang}" var = "minimalMark"/>
 <fmt:message key="facultyPage.info.applyToFaculty" bundle="${lang}" var = "applyToFaculty"/>
 <fmt:message key="facultyPage.info.register" bundle="${lang}" var = "register"/>
@@ -76,7 +76,7 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">${subjectName}</th>
+          <th scope="col">${facultyName}</th>
           <th scope="col">${minimalMark}</th>
         </tr>
       </thead>

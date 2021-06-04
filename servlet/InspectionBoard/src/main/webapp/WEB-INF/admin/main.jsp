@@ -16,11 +16,15 @@
 <fmt:message key="adminPage.showAllEnrollees" bundle="${lang}" var = "showAllEnrollees"/>
 <fmt:message key="adminPage.pendingRegistration" bundle="${lang}" var = "pendingRegistration"/>
 <fmt:message key="adminPage.enrolleeLogin" bundle="${lang}" var = "enrolleeLogin"/>
-<fmt:message key="adminPage.subjectName" bundle="${lang}" var = "subjectName"/>
+<fmt:message key="adminPage.facultyName" bundle="${lang}" var ="facultyName"/>
 <fmt:message key="adminPage.facultyRegistrationStatus.pending" bundle="${lang}" var = "pending"/>
 <fmt:message key="adminPage.facultyRegistrationStatus.rejected" bundle="${lang}" var = "rejected"/>
 <fmt:message key="adminPage.facultyRegistrationStatus.acceptedBudget" bundle="${lang}" var = "acceptedBudget"/>
 <fmt:message key="adminPage.facultyRegistrationStatus.acceptedContract" bundle="${lang}" var = "acceptedContract"/>
+<fmt:message key="adminPage.changeFacultyRegistrationResult.success" bundle="${lang}" var = "success"/>
+<fmt:message key="adminPage.changeFacultyRegistrationResult.notEnoughPlaces" bundle="${lang}" var = "notEnoughPlaces"/>
+<fmt:message key="adminPage.changeFacultyRegistrationResult.noSuchFaculty" bundle="${lang}" var = "noSuchFaculty"/>
+
 <html>
 <head>
     <title>${title}</title>
@@ -59,7 +63,7 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">${enrolleeLogin}</th>
-        <th scope="col">${subjectName}</th>
+        <th scope="col">${facultyName}</th>
         <th scope="col" colspan="2">${changeStatus}</th>
     </tr>
     <c:set var="counter" value="1"/>
@@ -89,6 +93,19 @@
     </tbody>
 </table>
 <c:set var="changeFacultyRegistrationResult" value="${sessionScope.changeFacultyRegistrationResult}"/>
-<h1>${changeFacultyRegistrationResult}</h1>
+<c:if test="${changeFacultyRegistrationResult ne null}">
+    <c:choose>
+        <c:when test="${changeFacultyRegistrationResult eq 'SUCCESS'}">
+            <h1 style="color: green">${success}</h1>
+        </c:when>
+        <c:when test="${changeFacultyRegistrationResult eq 'NOT_ENOUGH_PLACES'}">
+            <h1 style="color: red">${notEnoughPlaces}</h1>
+        </c:when>
+        <c:when test="${changeFacultyRegistrationResult eq 'NO_SUCH_FACULTY'}">
+            <h1 style="color: red">${noSuchFaculty}</h1>
+        </c:when>
+    </c:choose>
+    <c:set var = "changeFacultyRegistrationResult" value="${null}" scope="session"/>
+</c:if>
 </body>
 </html>
