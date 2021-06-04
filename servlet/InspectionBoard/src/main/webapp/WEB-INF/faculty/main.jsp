@@ -25,6 +25,7 @@
 <fmt:message key="facultyPage.main.cancel" bundle="${lang}" var = "cancel"/>
 <fmt:message key="facultyPage.main.register" bundle="${lang}" var = "register"/>
 <fmt:message key="facultyPage.main.logout" bundle="${lang}" var = "logout"/>
+<fmt:message key="facultyPage.main.submit" bundle="${lang}" var = "submit"/>
 <fmt:message key="facultyPage.main.info" bundle="${lang}" var = "info"/>
 
 <%--//todo add localization--%>
@@ -102,12 +103,44 @@
         </c:if>
     </c:forEach>
     <c:if test="${sessionScope.userRole eq 'ADMIN'}">
-        <div class="row">
+        <div class="row" id = "createNew">
             <div class="col-sm-4 p-4  align-self-center">
-                <button class="btn btn-info" id = "createNew">${createNew}</button>
+                <button class="btn btn-info" onclick="createNewButtonClicked()">${createNew}</button>
             </div>
         </div>
+        <div class="row" id="enterNewFacultyData" hidden>
+            <div class="col-sm-4 p-4  align-self-center">
+                <form method="post" action="${pageContext.request.contextPath}/faculties/create">
+                    <div class="form-group">
+                        <label> <b>${facultyName}:</b>
+                            <input type="text" name="facultyName">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label><b>${allPlaces}:</b>
+                        <input type="number" name="allPlaces">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                    <label> <b>${budgetPlaces}:</b>
+                        <input type="number" name="budgetPlaces">
+                    </label>
+                    </div>
+                    <button class="btn btn-info" type="submit">${submit}</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            const createNew = document.getElementById('createNew');
+            const enterData = document.getElementById('enterNewFacultyData');
+            function createNewButtonClicked(){
+                createNew.hidden = true;
+                enterData.hidden = false;
+            }
+        </script>
+
     </c:if>
+
 </div>
 </body>
 <c:if test="${sessionScope.userRole eq 'ADMIN'}">

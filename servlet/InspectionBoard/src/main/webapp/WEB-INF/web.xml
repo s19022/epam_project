@@ -58,6 +58,15 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>CreateNewFacultyFilter</filter-name>
+        <filter-class>com.example.InspectionBoard.mainController.filter.CreateNewFacultyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CreateNewFacultyFilter</filter-name>
+        <url-pattern>/faculties/create</url-pattern>
+    </filter-mapping>
+    
+    <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.example.InspectionBoard.mainController.filter.LoginFilter</filter-class>
     </filter>
@@ -67,6 +76,10 @@
     </filter-mapping>
 <!--    -->
 <!--  ERROR PAGES  -->
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/error/400.jsp</location>
+    </error-page>
     <error-page>
         <error-code>403</error-code>
         <location>/WEB-INF/error/403.jsp</location>

@@ -9,6 +9,14 @@ import java.util.HashSet;
 import static com.example.InspectionBoard.Constants.*;
 
 public class FilterUtils {
+
+    public static boolean isValid(String toCheck){
+        if (toCheck == null){
+            return false;
+        }
+        return !toCheck.trim().isEmpty();
+    }
+
     public static AccountRole getAccountRole(HttpServletRequest request){
         HttpSession session = request.getSession();
         String login  = (String)session.getAttribute(LOGIN);

@@ -12,12 +12,12 @@ import com.example.InspectionBoard.model.service.FacultyRegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.example.InspectionBoard.Constants.FACULTY_NAME;
 import static com.example.InspectionBoard.Constants.REDIRECT_KEYWORD;
 
 public class ChangeFacultyRegistrationStatusCommand implements Command {
 
     public static final String ENROLLEE_LOGIN = "enrolleeLogin";
-    public static final String FACULTY_NAME = "facultyName";
     public static final String NEW_STATUS = "newStatus";
     public static final String CHANGE_FACULTY_REGISTRATION_RESULT = "changeFacultyRegistrationResult";
 
