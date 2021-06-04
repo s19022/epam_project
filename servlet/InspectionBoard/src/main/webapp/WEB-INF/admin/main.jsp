@@ -8,11 +8,19 @@
 <fmt:message key="loginPage.langEn" bundle="${lang}" var="langEn"/>
 <fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
 <fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
-<fmt:message key="adminPage.admin_home_page" bundle="${lang}" var = "homePage"/>
 
+<fmt:message key="adminPage.homePage" bundle="${lang}" var = "homePage"/>
+<fmt:message key="adminPage.changeStatus" bundle="${lang}" var = "changeStatus"/>
+<fmt:message key="adminPage.apply" bundle="${lang}" var = "apply"/>
 <fmt:message key="adminPage.title" bundle="${lang}" var = "title"/>
 <fmt:message key="adminPage.showAllEnrollees" bundle="${lang}" var = "showAllEnrollees"/>
-
+<fmt:message key="adminPage.pendingRegistration" bundle="${lang}" var = "pendingRegistration"/>
+<fmt:message key="adminPage.enrolleeLogin" bundle="${lang}" var = "enrolleeLogin"/>
+<fmt:message key="adminPage.subjectName" bundle="${lang}" var = "subjectName"/>
+<fmt:message key="adminPage.facultyRegistrationStatus.pending" bundle="${lang}" var = "pending"/>
+<fmt:message key="adminPage.facultyRegistrationStatus.rejected" bundle="${lang}" var = "rejected"/>
+<fmt:message key="adminPage.facultyRegistrationStatus.acceptedBudget" bundle="${lang}" var = "acceptedBudget"/>
+<fmt:message key="adminPage.facultyRegistrationStatus.acceptedContract" bundle="${lang}" var = "acceptedContract"/>
 <html>
 <head>
     <title>${title}</title>
@@ -44,14 +52,15 @@
 <table class="table table-striped">
     <thead class="thead-light">
     <tr>
-        <th scope="col">Pending registrations</th>
+        <th scope="col" colspan="5">${pendingRegistration}</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">Enrollee login</th>
-        <th scope="col">Subject name</th>
+        <th scope="col">${enrolleeLogin}</th>
+        <th scope="col">${subjectName}</th>
+        <th scope="col" colspan="2">${changeStatus}</th>
     </tr>
     <c:set var="counter" value="1"/>
     <c:forEach items="${requestScope.registrationList}" var="element">
@@ -59,38 +68,25 @@
             <th scope="row">${counter}</th>
             <td>${element.enrolleeLogin}</td>
             <td>${element.facultyName}</td>
-            <td>${element.status}</td>
             <td>
                 <form id = "changeStatus" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
                     <input name="enrolleeLogin" value="${element.enrolleeLogin}" hidden>
                     <input name="facultyName" value="${element.facultyName}" hidden>
                     <select class="custom-select" name="newStatus">
-                        <option value="PENDING" selected>Pending</option>
-                        <option value="REJECTED">Rejected</option>
-                        <option value="ACCEPTED_BUDGET">Accept for budget</option>
-                        <option value="ACCEPTED_CONTRACT">Accept for contract</option>
+                        <option value="PENDING" selected>${pending}</option>
+                        <option value="REJECTED">${rejected}</option>
+                        <option value="ACCEPTED_BUDGET">${acceptedBudget}</option>
+                        <option value="ACCEPTED_CONTRACT">${acceptedContract}</option>
                     </select>
                 </form>
             </td>
             <td>
-                <button onclick="document.getElementById('changeStatus').submit()" class="btn btn-primary">Apply</button>
+                <button onclick="document.getElementById('changeStatus').submit()" class="btn btn-primary">${apply}</button>
             </td>
         </tr>
         <c:set var="counter" value="${counter + 1}"/>
     </c:forEach>
     </tbody>
 </table>
-<c:choose>
-    <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
-        ${applyToFaculty}
-        <a href="${pageContext.request.contextPath}/register">${register}</a>
-    </c:when>
-    <c:when test="${sessionScope.userRole eq 'ENROLLEE'}">
-        <form method="post" action="${pageContext.request.contextPath}/faculties/register">
-            <button class="btn btn-primary" name="facultyName" value="${faculty.name}">${registerButton}</button>
-        </form>
-    </c:when>
-</c:choose>
-
 </body>
 </html>
