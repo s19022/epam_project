@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command.faculty;
 
+import com.example.InspectionBoard.exceptions.FacultyNameIsTakenException;
 import com.example.InspectionBoard.mainController.command.Command;
 import com.example.InspectionBoard.model.dto.CreateFacultyDto;
 import com.example.InspectionBoard.model.enums.RequestType;
@@ -18,7 +19,13 @@ public class CreateNewFacultyCommand implements Command {
         int allPlaces = (int) request.getAttribute(ALL_PLACES);
 
         CreateFacultyDto dto = new CreateFacultyDto(facultyName, budgetPlaces, allPlaces);
-        new FacultyService().create(dto);
+        try {
+            new FacultyService().create(dto);
+        } catch (FacultyNameIsTakenException e) {
+            //todo set status to fail
+            e.printStackTrace();
+        }
+
         return REDIRECT_KEYWORD + "/faculties";
     }
 }

@@ -1,5 +1,7 @@
 package com.example.InspectionBoard.model.service;
 
+import com.example.InspectionBoard.exceptions.AlreadyRegisteredException;
+import com.example.InspectionBoard.exceptions.FacultyNameIsTakenException;
 import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DaoFactory;
@@ -13,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.example.InspectionBoard.Constants.SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE;
 import static com.example.InspectionBoard.model.dto.db.Mapper.toFaculty;
 import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 
@@ -28,10 +31,13 @@ public class FacultyService {
         }
     }
 
-    public void create(CreateFacultyDto dto){
+    public void create(CreateFacultyDto dto) throws FacultyNameIsTakenException {
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             dao.create(dto);
         }catch (SQLException ex){
+            if(SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){
+                throw new FacultyNameIsTakenException();
+            }
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
