@@ -62,7 +62,7 @@
 
     <filter>
         <filter-name>CreateNewFacultyFilter</filter-name>
-        <filter-class>com.example.InspectionBoard.mainController.filter.CreateNewFacultyFilter</filter-class>
+        <filter-class>com.example.InspectionBoard.mainController.filter.validation.CreateNewFacultyFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CreateNewFacultyFilter</filter-name>
@@ -72,7 +72,7 @@
     
     <filter>
         <filter-name>LoginFilter</filter-name>
-        <filter-class>com.example.InspectionBoard.mainController.filter.LoginFilter</filter-class>
+        <filter-class>com.example.InspectionBoard.mainController.filter.validation.LoginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>

@@ -1,4 +1,4 @@
-package com.example.InspectionBoard.mainController.filter;
+package com.example.InspectionBoard.mainController.filter.validation;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
