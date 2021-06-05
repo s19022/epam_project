@@ -14,11 +14,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.example.InspectionBoard.Constants.SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE;
 import static com.example.InspectionBoard.model.dto.db.Mapper.toFacultyRegistration;
 
 public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
-    private static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
 
     public List<FacultyRegistration> findByEnrolleeLogin(String login){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
