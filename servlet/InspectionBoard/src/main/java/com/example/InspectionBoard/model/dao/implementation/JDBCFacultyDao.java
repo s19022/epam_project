@@ -2,6 +2,7 @@ package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.dto.CreateFacultyDto;
+import com.example.InspectionBoard.model.dto.ModifyFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import com.example.InspectionBoard.model.service.RequiredSubjectService;
@@ -30,6 +31,9 @@ public class JDBCFacultyDao implements FacultyDao {
             "UPDATE faculty " +
             "SET all_places = (all_places - 1) " +
             "WHERE name = ?";
+
+    private static final String UPDATE_FACULTY =
+            "UPDATE faculty SET budget_places = ?, all_places = ? WHERE name = ?";
 
     private static final String CREATE = "insert into faculty(name, budget_places, all_places) values (?, ?, ?) ";
     private final Connection connection;
@@ -105,6 +109,16 @@ public class JDBCFacultyDao implements FacultyDao {
             statement.setString(1, dto.getName());
             statement.setInt(2, dto.getBudgetPlaces());
             statement.setInt(3, dto.getAllPlaces());
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void update(ModifyFacultyDto dto) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_FACULTY)){
+            statement.setInt(1, dto.getBudgetPlaces());
+            statement.setInt(2, dto.getAllPlaces());
+            statement.setString(3, dto.getName());
             statement.executeUpdate();
         }
     }
