@@ -220,8 +220,8 @@
         submitButton.addEventListener('click', function (e){
             const formData = new FormData();
             formData.append('facultyName', facultyNameToModify);
-            formData.append('newAllPlaces', allPlaces.value);
-            formData.append('newBudgetPlaces', budgetPlaces.value);
+            formData.append('allPlaces', allPlaces.value);
+            formData.append('budgetPlaces', budgetPlaces.value);
 
             const request = new XMLHttpRequest();
             request.open('POST', '${pageContext.request.contextPath}/faculties/modify');

@@ -64,6 +64,7 @@
     <filter-mapping>
         <filter-name>CreateNewFacultyFilter</filter-name>
         <url-pattern>/faculties/create</url-pattern>
+        <url-pattern>/faculties/modify</url-pattern>
     </filter-mapping>
     
     <filter>
