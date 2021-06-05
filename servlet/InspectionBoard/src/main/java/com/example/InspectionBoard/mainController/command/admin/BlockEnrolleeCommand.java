@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 
 import static com.example.InspectionBoard.Constants.*;
-import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
 public class BlockEnrolleeCommand implements Command {
     @Override

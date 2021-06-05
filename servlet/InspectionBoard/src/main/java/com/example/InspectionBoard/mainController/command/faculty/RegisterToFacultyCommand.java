@@ -11,14 +11,15 @@ import com.example.InspectionBoard.model.service.FacultyRegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.example.InspectionBoard.Constants.LOGIN;
+import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.model.enums.FacultyRegistrationStatus.*;
 
 public class RegisterToFacultyCommand implements Command {
+
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String enrolleeLogin = (String) request.getSession().getAttribute(LOGIN);
-        String facultyName = request.getParameter("facultyName");
+        String facultyName = request.getParameter(FACULTY_NAME);
         try {
             new FacultyRegistrationService().register(enrolleeLogin, facultyName);
             setFacultyRegistrationStatus(request, SUCCESSFULLY);
@@ -35,6 +36,6 @@ public class RegisterToFacultyCommand implements Command {
     }
 
     private static void setFacultyRegistrationStatus(HttpServletRequest request, FacultyRegistrationStatus status){
-        request.setAttribute("facultyRegistrationStatus", status);
+        request.setAttribute(FACULTY_REGISTRATION_STATUS, status);
     }
 }

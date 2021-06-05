@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.example.InspectionBoard.Constants.LOGIN;
 import static com.example.InspectionBoard.Constants.REDIRECT_KEYWORD;
-import static com.example.InspectionBoard.model.enums.AccountRole.ADMIN;
 
 public class UnblockEnrolleeCommand implements Command {
     @Override

@@ -10,15 +10,18 @@ import com.example.InspectionBoard.model.service.FacultyRegistrationService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.example.InspectionBoard.Constants.*;
+
 public class EnrolleeMainCommand implements Command {
+
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        String login = (String)request.getSession().getAttribute("login");
+        String login = (String)request.getSession().getAttribute(LOGIN);
 
         List<EnrolleeSubject> enrolleeSubjects = new EnrolleeSubjectService().findAllByEnrolleeLogin(login);
         List<FacultyRegistration> facultyRegistrationList = new FacultyRegistrationService().findByEnrolleeLogin(login);
-        request.setAttribute("subjects", enrolleeSubjects);
-        request.setAttribute("registeredFaculties", facultyRegistrationList);
+        request.setAttribute(SUBJECTS, enrolleeSubjects);
+        request.setAttribute(REGISTERED_FACULTIES, facultyRegistrationList);
         return "/WEB-INF/enrollee/main.jsp";
     }
 }

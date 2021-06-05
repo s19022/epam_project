@@ -18,6 +18,27 @@ public final class Constants {
     public static final String ALL_PLACES = "allPlaces";
     public static final String BUDGET_PLACES = "budgetPlaces";
     public static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
-
+    public static final String SUBJECTS = "subjects";
+    public static final String REGISTERED_FACULTIES = "registeredFaculties";
+    public static final String ENROLLEE_LOGIN = "enrolleeLogin";
+    public static final String NEW_STATUS = "newStatus";
+    public static final String CHANGE_FACULTY_REGISTRATION_RESULT = "changeFacultyRegistrationResult";
+    public static final String FACULTY_ORDER = "facultyOrder";
+    public static final String FACULTIES = "faculties";
+    public static final String NAME_DESC = "nameDesc";
+    public static final String ALL_PLACES_DESC = "allPlacesDesc";
+    public static final String BUDGET_PLACES_DESC = "budgetPlacesDesc";
+    public static final String NAME_ASC = "nameAsc";
+    public static final String FACULTY_INFO = "facultyInfo";
+    public static final String FACULTY_REGISTRATION_STATUS = "facultyRegistrationStatus";
+    public static final String FIRST_NAME = "firstName";
+    public static final String FATHER_NAME = "fatherName";
+    public static final String LAST_NAME = "lastName";
+    public static final String EMAIL = "email";
+    public static final String CITY = "city";
+    public static final String REGION = "region";
+    public static final String SCHOOL_NAME = "schoolName";
+    public static final String LANG = "lang";
+    public static final String LOCALE = "locale";
 
 }

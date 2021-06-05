@@ -8,23 +8,25 @@ import com.example.InspectionBoard.model.service.FacultyService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.example.InspectionBoard.Constants.*;
+
 
 public class FacultyCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, RequestType type) {
-        String facultyOrder = request.getParameter("facultyOrder");
+        String facultyOrder = request.getParameter(FACULTY_ORDER);
         setAttributeOrderedBy(request, facultyOrder);
         setFaculties(request, getFacultyList(facultyOrder));
         return "/WEB-INF/faculty/main.jsp";
     }
 
     private static void setAttributeOrderedBy(HttpServletRequest request, String orderedBy){
-        request.getSession().setAttribute("facultyOrder", orderedBy);
+        request.getSession().setAttribute(FACULTY_ORDER, orderedBy);
     }
 
     private static void setFaculties(HttpServletRequest request, List<Faculty> faculties){
-        request.getSession().setAttribute("faculties", faculties);
+        request.getSession().setAttribute(FACULTIES, faculties);
     }
 
     private static List<Faculty> getFacultyList(String orderBy){
@@ -33,13 +35,13 @@ public class FacultyCommand implements Command {
             return service.findAllOrderByNameAsc();
         }
         switch (orderBy){
-            case "nameDesc":
+            case NAME_DESC:
                 return service.findAllOrderByNameDesc();
-            case "allPlacesDesc":
+            case ALL_PLACES_DESC:
                 return service.findAllOrderByAllPlacesDesc();
-            case "budgetPlacesDesc":
+            case BUDGET_PLACES_DESC:
                 return service.findAllOrderByBudgetPlacesDesc();
-            case "nameAsc":
+            case NAME_ASC:
             default:
                 return service.findAllOrderByNameAsc();
         }

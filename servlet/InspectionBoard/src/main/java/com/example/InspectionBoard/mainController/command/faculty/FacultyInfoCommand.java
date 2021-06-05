@@ -8,13 +8,16 @@ import com.example.InspectionBoard.model.service.FacultyService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.example.InspectionBoard.Constants.*;
+
 public class FacultyInfoCommand implements Command {
+
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        String facultyName = request.getParameter("name");
+        String facultyName = request.getParameter("name");//todo rename
         try {
             Faculty f = new FacultyService().findByName(facultyName);
-            request.getSession().setAttribute("facultyInfo", f);
+            request.getSession().setAttribute(FACULTY_INFO, f);
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }

@@ -5,17 +5,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Map;
+
+import static com.example.InspectionBoard.Constants.*;
 
 public class LocalizationFilter implements Filter {
     private static final Locale DEFAULT = Locale.ENGLISH;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        String lang = request.getParameter("lang");
-        String locale = (String) request.getSession().getAttribute("locale");
+        String lang = request.getParameter(LANG);
+        String locale = (String) request.getSession().getAttribute(LOCALE);
 
         if (lang == null){
             if (locale == null){
@@ -36,7 +38,7 @@ public class LocalizationFilter implements Filter {
     }
 
     private void setLocale(HttpServletRequest request, HttpServletResponse response, String locale){
-        request.getSession().setAttribute("locale", locale);
+        request.getSession().setAttribute(LOCALE, locale);
         response.setLocale(new Locale(locale));
     }
 }

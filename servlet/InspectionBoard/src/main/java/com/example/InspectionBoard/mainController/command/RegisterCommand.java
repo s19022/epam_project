@@ -38,15 +38,15 @@ public class RegisterCommand implements Command{
     }
 
     private SaveEnrolleeDto parseSaveEnrollee(HttpServletRequest request) throws ValidationException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("pass");
-        String firstName = request.getParameter("firstName");
-        String fatherName = request.getParameter("fatherName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
-        String city = request.getParameter("city");
-        String region = request.getParameter("region");
-        String schoolName = request.getParameter("schoolName");
+        String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
+        String firstName = request.getParameter(FIRST_NAME);
+        String fatherName = request.getParameter(FATHER_NAME);
+        String lastName = request.getParameter(LAST_NAME);
+        String email = request.getParameter(EMAIL);
+        String city = request.getParameter(CITY);
+        String region = request.getParameter(REGION);
+        String schoolName = request.getParameter(SCHOOL_NAME);
         byte[] certificateScan = {};
         return SaveEnrolleeDto.getInstance(login, password, firstName, fatherName,
                 lastName, email, city, region, schoolName, certificateScan);
