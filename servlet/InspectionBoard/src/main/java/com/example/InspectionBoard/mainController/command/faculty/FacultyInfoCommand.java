@@ -14,7 +14,7 @@ public class FacultyInfoCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        String facultyName = request.getParameter("name");//todo rename
+        String facultyName = request.getParameter(FACULTY_NAME);
         try {
             Faculty f = new FacultyService().findByName(facultyName);
             request.getSession().setAttribute(FACULTY_INFO, f);

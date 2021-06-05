@@ -95,7 +95,7 @@
             </form>
 
             <form method="post" action="${pageContext.request.contextPath}/faculties/info">
-                <input name="name" value="${faculties.name}" hidden>
+                <input name="facultyName" value="${faculties.name}" hidden>
                 <button class="btn btn-primary">${info}</button>
             </form>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
