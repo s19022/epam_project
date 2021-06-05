@@ -85,17 +85,24 @@
             <div class="row">
         </c:if>
         <c:set value="${counter + 1}" var="counter"/>
-        <div class="col-sm-4 p-4" >
-            <h2><b>${facultyName}</b>: ${faculties.name}</h2>
-            <h5><b>${allPlaces}</b>: ${faculties.allPlaces}</h5>
-            <h5><b>${budgetPlaces}</b>: ${faculties.budgetPlaces}</h5>
+        <div class="col-sm-4 p-4">
+            <form>
+                <h2><b>${facultyName}</b>: ${faculties.name}</h2>
+                <h5><b>${allPlaces}</b>:</h5>
+                <input id = "allPlaces${counter}" type="number" readonly class="form-control-plaintext w-25" value="${faculties.allPlaces}"/>
+                <h5><b>${budgetPlaces}</b>:</h5>
+                <input id = "budgetPlaces${counter}" type="number" readonly class="form-control-plaintext w-25" value="${faculties.budgetPlaces}"/>
+            </form>
+
             <form method="post" action="${pageContext.request.contextPath}/faculties/info">
                 <input name="name" value="${faculties.name}" hidden>
                 <button class="btn btn-primary">${info}</button>
             </form>
             <c:if test="${sessionScope.userRole eq 'ADMIN'}">
-                    <button class="btn btn-warning" id = "modify">${modify}</button>
-                    <button class="btn btn-danger" onclick="openModal('${faculties.name}')">${delete}</button>
+                <button class="btn btn-primary" id = "submit${counter}" hidden>${submit}</button>
+                <button class="btn btn-secondary" id = "cancel${counter}" hidden>Cancel</button>
+                <button class="btn btn-warning" id="modify${counter}" onclick="modifyFaculty('${counter}', '${faculties.name}', '${faculties.allPlaces}', '${faculties.budgetPlaces}')">${modify}</button>
+                <button class="btn btn-danger" id = "delete${counter}" onclick="openModal('${faculties.name}')">${delete}</button>
             </c:if>
         </div>
         <c:if test="${counter%3 eq 0}">
@@ -130,6 +137,7 @@
                 </form>
             </div>
         </div>
+
         <script>
             const createNew = document.getElementById('createNew');
             const enterData = document.getElementById('enterNewFacultyData');
@@ -155,6 +163,7 @@
         </div>
 <script>
     const modal = document.getElementById("confirmationModal");
+
     let facultyName;
     function openModal(_facultyName) {
         facultyName = _facultyName;
@@ -181,6 +190,46 @@
         request.onload = function (){
             document.location = "${pageContext.request.contextPath}/faculties";
         }
+    }
+
+    function modifyFaculty(number, facultyNameToModify, allPlacesOld, budgetPlacesOld){
+        const allPlaces = document.getElementById('allPlaces' + number);
+        const budgetPlaces = document.getElementById('budgetPlaces' + number);
+        const modifyButton = document.getElementById('modify' + number);
+        const deleteButton = document.getElementById('delete' + number);
+        const submitButton = document.getElementById('submit' + number);
+        const cancelButton = document.getElementById('cancel' + number);
+
+        modifyButton.hidden = true;
+        deleteButton.hidden = true;
+        submitButton.hidden = false;
+        cancelButton.hidden = false;
+        allPlaces.readOnly = false;
+        budgetPlaces.readOnly = false;
+        cancelButton.addEventListener('click', function(e){
+            e.preventDefault();
+            allPlaces.value = allPlacesOld;
+            budgetPlaces.value = budgetPlacesOld;
+            allPlaces.readOnly = true;
+            budgetPlaces.readOnly = true;
+            cancelButton.hidden = true;
+            submitButton.hidden = true;
+            modifyButton.hidden = false;
+            deleteButton.hidden = false;
+        });
+        submitButton.addEventListener('click', function (e){
+            const formData = new FormData();
+            formData.append('facultyName', facultyNameToModify);
+            formData.append('newAllPlaces', allPlaces.value);
+            formData.append('newBudgetPlaces', budgetPlaces.value);
+
+            const request = new XMLHttpRequest();
+            request.open('POST', '${pageContext.request.contextPath}/faculties/modify');
+            request.send(formData);
+            request.onload = function (){
+                document.location = '${pageContext.request.contextPath}/faculties'
+            }
+        });
     }
 </script>
 </c:if>
