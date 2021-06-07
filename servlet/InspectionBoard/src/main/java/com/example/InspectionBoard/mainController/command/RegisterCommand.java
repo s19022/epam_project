@@ -7,10 +7,15 @@ import com.example.InspectionBoard.model.service.AccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
 
 import static com.example.InspectionBoard.Constants.*;
-
 
 public class RegisterCommand implements Command{
     private static final Logger LOGGER = LogManager.getLogger(RegisterCommand.class.getName());
@@ -22,7 +27,7 @@ public class RegisterCommand implements Command{
                 return executePost(request);
             case GET:
             default:
-                return executeGet();
+                return "/WEB-INF/register.jsp";
         }
     }
 
@@ -47,12 +52,24 @@ public class RegisterCommand implements Command{
         String city = request.getParameter(CITY);
         String region = request.getParameter(REGION);
         String schoolName = request.getParameter(SCHOOL_NAME);
-        byte[] certificateScan = {};
+        byte[] certificateScan = getCertificateScan(request);
         return SaveEnrolleeDto.getInstance(login, password, firstName, fatherName,
                 lastName, email, city, region, schoolName, certificateScan);
     }
 
-    private String executeGet(){
-        return "/WEB-INF/register.jsp";
+    private byte[] getCertificateScan(HttpServletRequest request) {
+        try{
+            Optional<Part> first = request.getParts().stream().filter(p -> MARKS_SCAN.equals(p.getName())).findFirst();
+            if (!first.isPresent()){
+                return new byte[]{};
+            }
+            InputStream is = first.get().getInputStream();
+            byte[] scan = new byte[is.available()];
+            is.read(scan);
+            return scan;
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[]{};
     }
 }

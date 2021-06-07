@@ -53,7 +53,7 @@
     </ul>
     <a class="btn btn-primary p-2" href="${pageContext.request.contextPath}/login" role="button">${login}</a>
 </nav>
-<form method="post" action="register" class="w-25">
+<form method="post" action="register" class="w-25" enctype="multipart/form-data">
     <div class="form-group">
         <label for="login">${userLogin}</label>
         <input type="text" class="form-control" id="login" placeholder="${placeholderLogin}" name = "login">
@@ -93,7 +93,7 @@
 
     <div class="form-group">
         <label for="schoolName">${schoolName}</label>
-        <input name = "schoolName" type="text" class="form-control" id="schoolName" placeholder="PJATK">
+        <input name = "schoolName" type="text" class="form-control" id="schoolName" placeholder="${schoolName}">
     </div>
     <div class="form-group">
         <label for="exampleFormControlFile1">${certificateScan}</label>
