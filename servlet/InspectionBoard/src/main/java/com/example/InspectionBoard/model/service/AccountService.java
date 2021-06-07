@@ -42,11 +42,13 @@ public class AccountService {
             try{
                 int id = dao.insertAccount(s);
                 dao.insertEnrollee(s, id);
-                dao.getConnection().commit();
             }catch (SQLException e) {
                 dao.getConnection().rollback();
+                throw e;
+            }finally {
+                dao.getConnection().commit();
+                dao.getConnection().setAutoCommit(true);
             }
-            dao.getConnection().setAutoCommit(true);
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

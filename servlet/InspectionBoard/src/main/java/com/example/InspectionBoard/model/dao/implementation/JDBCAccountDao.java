@@ -8,6 +8,7 @@ import com.example.InspectionBoard.model.service.ServiceUtility;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,8 @@ public class JDBCAccountDao implements AccountDao {
            " values (?, ?," + USER_ROLE_ID + " )";
     private static final String INSERT_ENROLLEE = "insert into enrollee(id, first_name, father_name," +
                                                     " last_name, email," +
-                                                    " city, region, school_name) " +
-                                                  "values(?, ?, ?, ?, ?, ?, ?, ?)";
+                                                    " city, region, school_name, certificate_scan) " +
+                                                  "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String BLOCK_ENROLLEE = "UPDATE account SET blocked = TRUE WHERE login = ?" +
             " and role_id = "  + USER_ROLE_ID;
     private static final String UNBLOCK_ENROLLEE = "UPDATE account SET blocked = FALSE WHERE login = ?" +
@@ -81,9 +82,13 @@ public class JDBCAccountDao implements AccountDao {
             statement.setString(6, enrollee.getCity());
             statement.setString(7, enrollee.getRegion());
             statement.setString(8, enrollee.getSchoolName());
+            byte[] certificateScan = enrollee.getCertificateScan();
+            if ((certificateScan == null || certificateScan.length == 0)){
+                statement.setBinaryStream(9, null);
+            }else {
+                statement.setBinaryStream(9, new ByteArrayInputStream(certificateScan));
+            }
             statement.executeUpdate();
-            //todo save scan
-//            statement.setBinaryStream(9, new ByteArrayInputStream(enrollee.getCertificateScan()));
         }
     }
 
