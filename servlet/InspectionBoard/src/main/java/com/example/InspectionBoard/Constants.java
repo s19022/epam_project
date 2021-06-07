@@ -48,4 +48,5 @@ public final class Constants {
     public static final String SQL_BREAKING_NOT_NULL_CONSTRAINT_ERROR_CODE = "23502";
     public static final String NOT_TAKEN_SUBJECTS = "notTakenSubjects";
     public static final String MARKS_SCAN = "marksScan";
+    public static final String CREATE_NEW_FACULTY_RESULT = "createNewFacultyResult";
 }

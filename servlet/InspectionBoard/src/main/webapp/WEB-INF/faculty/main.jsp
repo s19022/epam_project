@@ -27,6 +27,7 @@
 <fmt:message key="facultyPage.main.logout" bundle="${lang}" var = "logout"/>
 <fmt:message key="facultyPage.main.submit" bundle="${lang}" var = "submit"/>
 <fmt:message key="facultyPage.main.info" bundle="${lang}" var = "info"/>
+<fmt:message key="facultyPage.main.newFacultyResult.alreadyExists" bundle="${lang}" var = "alreadyExists"/>
 
 <html>
 <head>
@@ -76,7 +77,15 @@
     </c:if>
 
 </nav>
-
+<c:set var="newFacultyResult" value="${sessionScope.createNewFacultyResult}"/>
+<c:if test="${newFacultyResult ne null}">
+    <c:choose>
+        <c:when test="${newFacultyResult eq 'ALREADY_EXISTS'}">
+            <h3 style="color: red">${alreadyExists}</h3>
+        </c:when>
+    </c:choose>
+    <c:set var = "createNewFacultyResult" value="${null}" scope="session"/>
+</c:if>
 <div class="container">
     <c:set value="0" var="counter"/>
     <c:forEach items="${sessionScope.faculties}" var="faculties">

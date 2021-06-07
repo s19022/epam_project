@@ -9,6 +9,7 @@ import com.example.InspectionBoard.model.service.FacultyService;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.example.InspectionBoard.Constants.*;
+import static com.example.InspectionBoard.model.enums.CreateNewFacultyResult.ALREADY_EXISTS;
 
 public class CreateNewFacultyCommand implements Command {
 
@@ -22,10 +23,8 @@ public class CreateNewFacultyCommand implements Command {
         try {
             new FacultyService().create(dto);
         } catch (FacultyNameIsTakenException e) {
-            //todo set status to fail
-            e.printStackTrace();
+            request.getSession().setAttribute(CREATE_NEW_FACULTY_RESULT, ALREADY_EXISTS);
         }
-
         return REDIRECT_KEYWORD + "/faculties";
     }
 }
