@@ -1,11 +1,11 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
+import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.dto.CreateFacultyDto;
 import com.example.InspectionBoard.model.dto.ModifyFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbFacultyDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
-import com.example.InspectionBoard.model.service.RequiredSubjectService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class JDBCFacultyDao implements FacultyDao {
         return connection;
     }
 
-    private static List<DbFacultyDto> parseFaculties(ResultSet rs) throws SQLException {
+    private List<DbFacultyDto> parseFaculties(ResultSet rs) throws SQLException {
         List<DbFacultyDto> faculties = new ArrayList<>();
         while (rs.next()){
             faculties.add(parseFaculty(rs));
@@ -136,13 +136,13 @@ public class JDBCFacultyDao implements FacultyDao {
         return faculties;
     }
 
-    private static DbFacultyDto parseFaculty(ResultSet rs) throws SQLException{
+    private DbFacultyDto parseFaculty(ResultSet rs) throws SQLException{
         int id = rs.getInt(1);
         String name = rs.getString(2);
         int budgetPlaces = rs.getInt(3);
         int allPlaces = rs.getInt(4);
-        //fixme change to dao, now creates 2 transactions
-        List<DbRequiredSubjectDto> requiredSubjects = new RequiredSubjectService().getAllByFacultyId(id);
+        List<DbRequiredSubjectDto> requiredSubjects = DaoFactory.getInstance().createRequiredSubjectDao(connection).getAllByFacultyId(id);
+
         return new DbFacultyDto(id, name, budgetPlaces, allPlaces, requiredSubjects);
     }
 
