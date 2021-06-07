@@ -14,8 +14,9 @@
 <fmt:message key="enrolleePage.welcome" bundle="${lang}" var = "welcome"/>
 <fmt:message key="enrolleePage.subject" bundle="${lang}" var = "subject"/>
 <fmt:message key="enrolleePage.ourFaculties" bundle="${lang}" var = "ourFaculties"/>
-<fmt:message key="enrolleePage.subjectName" bundle="${lang}" var = "facultyName"/>
+<fmt:message key="enrolleePage.subjectName" bundle="${lang}" var = "subjectName"/>
 <fmt:message key="enrolleePage.mark" bundle="${lang}" var = "mark"/>
+<fmt:message key="enrolleePage.submit" bundle="${lang}" var = "submit"/>
 <fmt:message key="enrolleePage.registeredFaculties" bundle="${lang}" var = "registeredFaculties"/>
 <fmt:message key="enrolleePage.yourSubjects" bundle="${lang}" var = "yourSubjects"/>
 <fmt:message key="enrolleePage.homePage" bundle="${lang}" var = "homePage"/>
@@ -59,7 +60,7 @@
 <tbody>
 <tr>
 <th scope="col">#</th>
-<th scope="col">${facultyName}</th>
+<th scope="col">${subjectName}</th>
 <th scope="col">${mark}</th>
 </tr>
 <c:set var="counter" value="1"/>
@@ -71,6 +72,18 @@
 </tr>
 <c:set var="counter" value="${counter + 1}"/>
 </c:forEach>
+<tr>
+    <form method="post" action="${pageContext.request.contextPath}/enrollee/createSubject">
+        <th scope="row">${counter}</th>
+        <td><input class="form-control" type="text" name="subjectName"></td>
+        <td>
+            <div class="form-check-inline">
+                <input  class="form-control" type="number" name="mark">
+                <button class="btn btn-primary" type="submit">${submit}</button>
+            </div>
+        </td>
+    </form>
+</tr>
 </tbody>
 </table>
 
