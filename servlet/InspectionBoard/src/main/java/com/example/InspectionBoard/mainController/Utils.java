@@ -28,4 +28,12 @@ public class Utils {
         }
         return loggedUsers.stream().anyMatch(login::equals);
     }
+
+    public static int getInt(String toParse){
+        try{
+            return Integer.parseInt(toParse);
+        }catch (NumberFormatException ex){
+            return 0;
+        }
+    }
 }

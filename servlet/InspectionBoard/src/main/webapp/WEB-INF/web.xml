@@ -61,6 +61,15 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>CreateNewEnrolleeSubject</filter-name>
+        <filter-class>com.example.InspectionBoard.mainController.filter.validation.CreateNewEnrolleeSubjectFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CreateNewEnrolleeSubject</filter-name>
+        <url-pattern>/enrollee/createSubject</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>CreateNewFacultyFilter</filter-name>
         <filter-class>com.example.InspectionBoard.mainController.filter.validation.CreateNewFacultyFilter</filter-class>
     </filter>

@@ -41,4 +41,6 @@ public final class Constants {
     public static final String LANG = "lang";
     public static final String LOCALE = "locale";
 
+    public static final String SUBJECT_NAME = "subjectName";
+    public static final String MARK = "mark";
 }
