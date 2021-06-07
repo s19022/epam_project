@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.EnrolleeSubjectDao;
+import com.example.InspectionBoard.model.dto.CreateEnrolleeSubjectDto;
 import com.example.InspectionBoard.model.dto.db.DbEnrolleeSubjectDto;
 
 import java.sql.Connection;
@@ -53,6 +54,11 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
             statement.setString(1, login);
             return parseSubjects(statement.executeQuery());
         }
+    }
+
+    @Override
+    public void create(CreateEnrolleeSubjectDto dto) throws SQLException {
+
     }
 
     private static List<DbEnrolleeSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
