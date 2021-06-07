@@ -24,6 +24,9 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
             "WHERE a.login = ? and a.id = m.enrollee_id and s.id = m.subject_id " +
             "FOR UPDATE ";
 
+    private static final String CREATE_SUBJECT ="INSERT INTO mark(enrollee_id, subject_id, mark) values" +
+            " ((SELECT a.id from account a where a.login = ?), (SELECT s.id from subject s where s.name = ?), ?)";
+
     private final Connection connection;
 
     public JDBCEnrolleeSubjectDao(Connection connection) {
@@ -58,7 +61,11 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
 
     @Override
     public void create(CreateEnrolleeSubjectDto dto) throws SQLException {
-
+        try(PreparedStatement statement = connection.prepareStatement(CREATE_SUBJECT)){
+            statement.setString(1, dto.getEnrolleeName());
+            statement.setString(2, dto.getSubjectName());
+            statement.setInt(3, dto.getMark());
+        }
     }
 
     private static List<DbEnrolleeSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
