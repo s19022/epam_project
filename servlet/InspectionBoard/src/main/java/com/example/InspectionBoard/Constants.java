@@ -43,4 +43,6 @@ public final class Constants {
 
     public static final String SUBJECT_NAME = "subjectName";
     public static final String MARK = "mark";
+    public static final String CREATE_ENROLLEE_SUBJECT_RESULT = "createEnrolleeSubjectResult";
+
 }
