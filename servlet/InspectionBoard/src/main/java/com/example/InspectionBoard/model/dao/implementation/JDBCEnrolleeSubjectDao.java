@@ -28,7 +28,7 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
             " ((SELECT a.id from account a where a.login = ?), (SELECT s.id from subject s where s.name = ?), ?)";
 
     private static final String FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN =
-            "select s.id, s.name " +
+            "select s.id, s.name, 0 " +
             "from subject s " +
             "where s.id not in ( " +
             "    select m.subject_id " +

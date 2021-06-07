@@ -18,10 +18,13 @@ public class EnrolleeMainCommand implements Command {
     public String execute(HttpServletRequest request, RequestType requestTypes) {
         String login = (String)request.getSession().getAttribute(LOGIN);
 
-        List<EnrolleeSubject> enrolleeSubjects = new EnrolleeSubjectService().findAllByEnrolleeLogin(login);
+        EnrolleeSubjectService service = new EnrolleeSubjectService();
+        List<EnrolleeSubject> enrolleeSubjects = service.findAllByEnrolleeLogin(login);
+        List<EnrolleeSubject> notTakenSubjects = service.findNotTakenByEnrolleeLogin(login);
         List<FacultyRegistration> facultyRegistrationList = new FacultyRegistrationService().findByEnrolleeLogin(login);
         request.setAttribute(SUBJECTS, enrolleeSubjects);
         request.setAttribute(REGISTERED_FACULTIES, facultyRegistrationList);
+        request.setAttribute(NOT_TAKEN_SUBJECTS, notTakenSubjects);
         return "/WEB-INF/enrollee/main.jsp";
     }
 }

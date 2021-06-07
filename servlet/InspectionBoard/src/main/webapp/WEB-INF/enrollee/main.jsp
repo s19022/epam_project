@@ -25,6 +25,7 @@
 <fmt:message key="enrolleePage.facultyRegistrationStatus.rejected" bundle="${lang}" var = "rejected"/>
 <fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedBudget" bundle="${lang}" var = "acceptedBudget"/>
 <fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedContract" bundle="${lang}" var = "acceptedContract"/>
+
 <html>
 <head>
     <title>${title}</title>
@@ -75,7 +76,12 @@
 <tr>
     <form method="post" action="${pageContext.request.contextPath}/enrollee/createSubject">
         <th scope="row">${counter}</th>
-        <td><input class="form-control" type="text" name="subjectName"></td>
+        <td>
+            <select class="form-select" name="subjectName">
+                <c:forEach items="${requestScope.notTakenSubjects}" var="notTakenSubject">
+                    <option>${notTakenSubject.name}</option>
+                 </c:forEach>
+            </select>
         <td>
             <div class="form-check-inline">
                 <input  class="form-control" type="number" name="mark">
