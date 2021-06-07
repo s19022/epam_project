@@ -65,6 +65,7 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
             statement.setString(1, dto.getEnrolleeName());
             statement.setString(2, dto.getSubjectName());
             statement.setInt(3, dto.getMark());
+            statement.executeUpdate();
         }
     }
 
