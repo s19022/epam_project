@@ -19,8 +19,11 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 public class FacultyService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyService.class.getName());
 
-    public void update(ModifyFacultyDto dto){
+    public void update(ModifyFacultyDto dto) throws BudgetPlacesBiggerThanAllPlacesException {
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            if(dto.getBudgetPlaces() > dto.getAllPlaces()){
+                throw new BudgetPlacesBiggerThanAllPlacesException();
+            }
             dao.update(dto);
         }catch (SQLException ex){
             LOGGER.error(ex);

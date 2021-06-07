@@ -91,6 +91,16 @@
     </c:choose>
     <c:set var = "createNewFacultyResult" value="${null}" scope="session"/>
 </c:if>
+<c:set var="updateFacultyResult" value="${sessionScope.updateFacultyResult}"/>
+<%--<c:if test="${updateFacultyResult ne null}">--%>
+<%--    <c:choose>--%>
+<%--        <c:when test="${updateFacultyResult eq 'INVALID_NUMBER_OF_PLACES'}">--%>
+            <h3 style="color: red">${updateFacultyResult}</h3>
+<%--        </c:when>--%>
+<%--    </c:choose>--%>
+    <c:set var = "updateFacultyResult" value="${null}" scope="session"/>
+<%--</c:if>--%>
+
 <div class="container">
     <c:set value="0" var="counter"/>
     <c:forEach items="${sessionScope.faculties}" var="faculties">

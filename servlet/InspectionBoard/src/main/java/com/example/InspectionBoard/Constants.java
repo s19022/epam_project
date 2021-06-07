@@ -49,4 +49,5 @@ public final class Constants {
     public static final String NOT_TAKEN_SUBJECTS = "notTakenSubjects";
     public static final String MARKS_SCAN = "marksScan";
     public static final String CREATE_NEW_FACULTY_RESULT = "createNewFacultyResult";
+    public static final String UPDATE_FACULTY_RESULT = "updateFacultyResult";
 }
