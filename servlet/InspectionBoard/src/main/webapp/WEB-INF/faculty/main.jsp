@@ -85,6 +85,7 @@
         </c:if>
         <c:set value="${counter + 1}" var="counter"/>
         <div class="col-sm-4 p-4">
+            <c:if test="${sessionScope.userRole eq 'ADMIN'}">
             <form>
                 <h2><b>${facultyName}</b>: ${faculties.name}</h2>
                 <h5><b>${allPlaces}</b>:</h5>
@@ -92,7 +93,12 @@
                 <h5><b>${budgetPlaces}</b>:</h5>
                 <input id = "budgetPlaces${counter}" type="number" readonly class="form-control-plaintext w-25" value="${faculties.budgetPlaces}"/>
             </form>
-
+            </c:if>
+            <c:if test="${sessionScope.userRole ne 'ADMIN'}">
+                <h2><b>${facultyName}</b>: ${faculties.name}</h2>
+                <h5><b>${allPlaces}</b>: ${faculties.allPlaces}</h5>
+                <h5><b>${budgetPlaces}</b>:${faculties.budgetPlaces} </h5>
+            </c:if>
             <form method="post" action="${pageContext.request.contextPath}/faculties/info">
                 <input name="facultyName" value="${faculties.name}" hidden>
                 <button class="btn btn-primary">${info}</button>
