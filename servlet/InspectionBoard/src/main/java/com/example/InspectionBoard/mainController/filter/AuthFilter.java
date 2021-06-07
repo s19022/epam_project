@@ -37,6 +37,7 @@ public class AuthFilter implements Filter {
         enrolleeRoleCanAccess.addAll(loggedInCanAccess);
         enrolleeRoleCanAccess.add("enrollee/main");
         enrolleeRoleCanAccess.add("faculties/register");
+        enrolleeRoleCanAccess.add("enrollee/createSubject");
 
         adminRoleCanAccess.addAll(allCanAccess);
         adminRoleCanAccess.addAll(loggedInCanAccess);

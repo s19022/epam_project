@@ -6,6 +6,7 @@ import com.example.InspectionBoard.mainController.command.admin.AdminEnrolleeCom
 import com.example.InspectionBoard.mainController.command.admin.AdminMainCommand;
 import com.example.InspectionBoard.mainController.command.admin.BlockEnrolleeCommand;
 import com.example.InspectionBoard.mainController.command.admin.UnblockEnrolleeCommand;
+import com.example.InspectionBoard.mainController.command.enrollee.CreateEnrolleeSubjectCommand;
 import com.example.InspectionBoard.mainController.command.enrollee.EnrolleeMainCommand;
 import com.example.InspectionBoard.mainController.command.faculty.*;
 import com.example.InspectionBoard.model.enums.RequestType;
@@ -45,6 +46,7 @@ public class MainServlet extends HttpServlet {
         commands.put("faculties/modify", new ModifyFacultyCommand());
 
         commands.put("enrollee/main", new EnrolleeMainCommand());
+        commands.put("enrollee/createSubject", new CreateEnrolleeSubjectCommand());
     }
 
     @Override
