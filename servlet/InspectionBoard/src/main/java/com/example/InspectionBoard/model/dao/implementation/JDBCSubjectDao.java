@@ -3,15 +3,21 @@ package com.example.InspectionBoard.model.dao.implementation;
 import com.example.InspectionBoard.model.dao.SubjectDao;
 import com.example.InspectionBoard.model.dto.db.DbSubjectDto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSubjectDao implements SubjectDao {
     private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
+    private static final String FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN =
+            "select s.id, s.name " +
+                    "from subject s " +
+                    "where s.id not in ( " +
+                    "    select m.subject_id " +
+                    "    from mark m, account a " +
+                    "    where m.enrollee_id = a.id AND a.login = ? " +
+                    "    )";
+
 
     private final Connection connection;
 
@@ -31,6 +37,15 @@ public class JDBCSubjectDao implements SubjectDao {
     public Connection getConnection() {
         return connection;
     }
+
+    @Override
+    public List<DbSubjectDto> findNotTakenByEnrolleeLogin(String login) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN)){
+            statement.setString(1, login);
+            return parseSubjects(statement.executeQuery());
+        }
+    }
+
 
     private static List<DbSubjectDto> parseSubjects(ResultSet rs) throws SQLException {
         List<DbSubjectDto> subjects = new ArrayList<>();

@@ -73,6 +73,7 @@
 </tr>
 <c:set var="counter" value="${counter + 1}"/>
 </c:forEach>
+<c:if test="${!empty requestScope.notTakenSubjects }">
 <tr>
     <form method="post" action="${pageContext.request.contextPath}/enrollee/createSubject">
         <th scope="row">${counter}</th>
@@ -90,6 +91,8 @@
         </td>
     </form>
 </tr>
+</c:if>
+
 </tbody>
 </table>
 

@@ -27,15 +27,6 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     private static final String CREATE_SUBJECT ="INSERT INTO mark(enrollee_id, subject_id, mark) values" +
             " ((SELECT a.id from account a where a.login = ?), (SELECT s.id from subject s where s.name = ?), ?)";
 
-    private static final String FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN =
-            "select s.id, s.name, 0 " +
-            "from subject s " +
-            "where s.id not in ( " +
-            "    select m.subject_id " +
-            "    from mark m, account a " +
-            "    where m.enrollee_id = a.id AND a.login = ? " +
-            "    )";
-
     private final Connection connection;
 
     public JDBCEnrolleeSubjectDao(Connection connection) {
@@ -63,14 +54,6 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     @Override
     public List<DbEnrolleeSubjectDto> getAllByEnrolleeLogin(String login) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_LOGIN)){
-            statement.setString(1, login);
-            return parseSubjects(statement.executeQuery());
-        }
-    }
-
-    @Override
-    public List<DbEnrolleeSubjectDto> findNotTakenByEnrolleeLogin(String login) throws SQLException {
-        try(PreparedStatement statement = connection.prepareStatement(FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN)){
             statement.setString(1, login);
             return parseSubjects(statement.executeQuery());
         }

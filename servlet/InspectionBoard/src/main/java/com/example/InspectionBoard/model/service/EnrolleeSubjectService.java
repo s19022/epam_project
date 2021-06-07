@@ -19,15 +19,6 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toEnrolleeSubject;
 public class EnrolleeSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
 
-    public List<EnrolleeSubject> findNotTakenByEnrolleeLogin(String login){
-        try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
-            return toEnrolleeSubject(dao.findNotTakenByEnrolleeLogin(login));
-        }catch (SQLException ex){
-            LOGGER.error(ex);
-            throw new SQLExceptionWrapper(ex);
-        }
-    }
-
     public List<EnrolleeSubject> findAllByEnrolleeLogin(String login){
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
             return toEnrolleeSubject(dao.getAllByEnrolleeLogin(login));
