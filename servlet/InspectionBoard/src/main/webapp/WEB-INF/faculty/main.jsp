@@ -28,7 +28,6 @@
 <fmt:message key="facultyPage.main.submit" bundle="${lang}" var = "submit"/>
 <fmt:message key="facultyPage.main.info" bundle="${lang}" var = "info"/>
 
-<%--//todo add localization--%>
 <html>
 <head>
     <title>${title}</title>
