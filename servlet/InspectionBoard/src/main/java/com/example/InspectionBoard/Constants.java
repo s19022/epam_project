@@ -17,7 +17,6 @@ public final class Constants {
     public static final String FACULTY_NAME = "facultyName";
     public static final String ALL_PLACES = "allPlaces";
     public static final String BUDGET_PLACES = "budgetPlaces";
-    public static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
     public static final String SUBJECTS = "subjects";
     public static final String REGISTERED_FACULTIES = "registeredFaculties";
     public static final String ENROLLEE_LOGIN = "enrolleeLogin";
@@ -45,4 +44,6 @@ public final class Constants {
     public static final String MARK = "mark";
     public static final String CREATE_ENROLLEE_SUBJECT_RESULT = "createEnrolleeSubjectResult";
 
+    public static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
+    public static final String SQL_BREAKING_NOT_NULL_CONSTRAINT_ERROR_CODE = "23502";
 }

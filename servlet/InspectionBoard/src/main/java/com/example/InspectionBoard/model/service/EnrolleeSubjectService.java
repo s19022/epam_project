@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.model.service;
 
+import com.example.InspectionBoard.exceptions.NoSuchSubjectException;
 import com.example.InspectionBoard.exceptions.NotUniqueSubjectException;
 import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
 import com.example.InspectionBoard.model.dao.DaoFactory;
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.example.InspectionBoard.Constants.SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE;
+import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.model.dto.db.Mapper.toEnrolleeSubject;
 
 public class EnrolleeSubjectService {
@@ -27,11 +28,14 @@ public class EnrolleeSubjectService {
         }
     }
 
-    public void create(CreateEnrolleeSubjectDto dto) throws NotUniqueSubjectException {
+    public void create(CreateEnrolleeSubjectDto dto) throws NotUniqueSubjectException, NoSuchSubjectException {
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
             dao.create(dto);
         }catch (SQLException ex){
             if(SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){
+                throw new NoSuchSubjectException();
+            }
+            if(SQL_BREAKING_NOT_NULL_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){
                 throw new NotUniqueSubjectException();
             }
             LOGGER.error(ex);
