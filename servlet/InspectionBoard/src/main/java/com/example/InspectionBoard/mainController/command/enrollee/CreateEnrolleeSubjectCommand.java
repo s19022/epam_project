@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command.enrollee;
 
+import com.example.InspectionBoard.exceptions.MarkIsNotValidException;
 import com.example.InspectionBoard.exceptions.NoSuchSubjectException;
 import com.example.InspectionBoard.exceptions.NotUniqueSubjectException;
 import com.example.InspectionBoard.mainController.command.Command;
@@ -31,6 +32,8 @@ public class CreateEnrolleeSubjectCommand implements Command {
             request.getSession().setAttribute(CREATE_ENROLLEE_SUBJECT_RESULT, NOT_UNIQUE_SUBJECT);
         } catch (NoSuchSubjectException e) {
             request.getSession().setAttribute(CREATE_ENROLLEE_SUBJECT_RESULT, NO_SUCH_SUBJECT);
+        } catch (MarkIsNotValidException e) {
+            request.getSession().setAttribute(CREATE_ENROLLEE_SUBJECT_RESULT, MARK_IS_INVALID);
         }
         return REDIRECT_KEYWORD + AccountRole.ENROLLEE.getRedirectPath();
     }
