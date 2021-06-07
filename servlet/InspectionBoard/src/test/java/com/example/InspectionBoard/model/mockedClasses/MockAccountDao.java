@@ -8,7 +8,6 @@ import com.example.InspectionBoard.model.dto.db.DbAccountDto;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 import static com.example.InspectionBoard.model.service.ServiceUtility.hash;
@@ -32,32 +31,32 @@ public class MockAccountDao implements AccountDao {
     }
 
     @Override
-    public void blockEnrollee(String login) throws SQLException {
+    public void blockEnrollee(String login){
 
     }
 
     @Override
-    public void unblockEnrollee(String login) throws SQLException {
+    public void unblockEnrollee(String login){
 
     }
 
     @Override
-    public void insertEnrollee(SaveEnrolleeDto enrollee, int id) throws SQLException {
+    public void insertEnrollee(SaveEnrolleeDto enrollee, int id){
 
     }
 
     @Override
-    public int insertAccount(SaveEnrolleeDto enrollee) throws SQLException {
+    public int insertAccount(SaveEnrolleeDto enrollee){
         return 0;
     }
 
     @Override
-    public Optional<DbAccountDto> findByLogin(String login) throws SQLException {
+    public Optional<DbAccountDto> findByLogin(String login){
         return Optional.empty();
     }
 
     @Override
-    public List<DbAccountDto> findAll() throws SQLException {
+    public List<DbAccountDto> findAll(){
         return null;
     }
 
@@ -78,5 +77,9 @@ public class MockAccountDao implements AccountDao {
         loginPassword.put("enrollee2", hash("enrollee2"));
         DbAccountDto enrollee2 = new DbAccountDto(2, AccountRole.ENROLLEE, false, "enrollee2");
         accountDtoSet.add(enrollee2);
+
+        loginPassword.put("admin3", hash("admin3"));
+        DbAccountDto admin3 = new DbAccountDto(2, AccountRole.ADMIN, false, "admin3");
+        accountDtoSet.add(admin3);
     }
 }
