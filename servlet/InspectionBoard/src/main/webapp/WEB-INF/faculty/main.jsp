@@ -28,6 +28,7 @@
 <fmt:message key="facultyPage.main.submit" bundle="${lang}" var = "submit"/>
 <fmt:message key="facultyPage.main.info" bundle="${lang}" var = "info"/>
 <fmt:message key="facultyPage.main.newFacultyResult.alreadyExists" bundle="${lang}" var = "alreadyExists"/>
+<fmt:message key="facultyPage.main.newFacultyResult.invalidNumberOfPlaces" bundle="${lang}" var = "invalidNumberOfPlaces"/>
 
 <html>
 <head>
@@ -82,6 +83,10 @@
     <c:choose>
         <c:when test="${newFacultyResult eq 'ALREADY_EXISTS'}">
             <h3 style="color: red">${alreadyExists}</h3>
+        </c:when>
+
+        <c:when test="${newFacultyResult eq 'INVALID_NUMBER_OF_PLACES'}">
+            <h3 style="color: red">${invalidNumberOfPlaces}</h3>
         </c:when>
     </c:choose>
     <c:set var = "createNewFacultyResult" value="${null}" scope="session"/>

@@ -1,9 +1,6 @@
 package com.example.InspectionBoard.model.service;
 
-import com.example.InspectionBoard.exceptions.AlreadyRegisteredException;
-import com.example.InspectionBoard.exceptions.FacultyNameIsTakenException;
-import com.example.InspectionBoard.exceptions.NoSuchFacultyException;
-import com.example.InspectionBoard.exceptions.SQLExceptionWrapper;
+import com.example.InspectionBoard.exceptions.*;
 import com.example.InspectionBoard.model.dao.DaoFactory;
 import com.example.InspectionBoard.model.dao.FacultyDao;
 import com.example.InspectionBoard.model.dto.CreateFacultyDto;
@@ -31,8 +28,11 @@ public class FacultyService {
         }
     }
 
-    public void create(CreateFacultyDto dto) throws FacultyNameIsTakenException {
+    public void create(CreateFacultyDto dto) throws FacultyNameIsTakenException, BudgetPlacesBiggerThanAllPlacesException {
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
+            if(dto.getBudgetPlaces() > dto.getAllPlaces()){
+                throw new BudgetPlacesBiggerThanAllPlacesException();
+            }
             dao.create(dto);
         }catch (SQLException ex){
             if(SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE.equals(ex.getSQLState())){

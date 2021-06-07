@@ -1,5 +1,6 @@
 package com.example.InspectionBoard.mainController.command.faculty;
 
+import com.example.InspectionBoard.exceptions.BudgetPlacesBiggerThanAllPlacesException;
 import com.example.InspectionBoard.exceptions.FacultyNameIsTakenException;
 import com.example.InspectionBoard.mainController.command.Command;
 import com.example.InspectionBoard.model.dto.CreateFacultyDto;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.model.enums.CreateNewFacultyResult.ALREADY_EXISTS;
+import static com.example.InspectionBoard.model.enums.CreateNewFacultyResult.INVALID_NUMBER_OF_PLACES;
 
 public class CreateNewFacultyCommand implements Command {
 
@@ -24,6 +26,8 @@ public class CreateNewFacultyCommand implements Command {
             new FacultyService().create(dto);
         } catch (FacultyNameIsTakenException e) {
             request.getSession().setAttribute(CREATE_NEW_FACULTY_RESULT, ALREADY_EXISTS);
+        } catch (BudgetPlacesBiggerThanAllPlacesException e) {
+            request.getSession().setAttribute(CREATE_NEW_FACULTY_RESULT, INVALID_NUMBER_OF_PLACES);
         }
         return REDIRECT_KEYWORD + "/faculties";
     }
