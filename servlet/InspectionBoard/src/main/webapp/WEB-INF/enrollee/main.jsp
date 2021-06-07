@@ -25,7 +25,12 @@
 <fmt:message key="enrolleePage.facultyRegistrationStatus.rejected" bundle="${lang}" var = "rejected"/>
 <fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedBudget" bundle="${lang}" var = "acceptedBudget"/>
 <fmt:message key="enrolleePage.facultyRegistrationStatus.acceptedContract" bundle="${lang}" var = "acceptedContract"/>
+<fmt:message key="enrolleePage.subjectCreationStatus.markIsInvalid" bundle="${lang}" var = "markIsInvalid"/>
+<fmt:message key="enrolleePage.subjectCreationStatus.noSuchSubject" bundle="${lang}" var = "noSuchSubject"/>
+<fmt:message key="enrolleePage.subjectCreationStatus.notUnique" bundle="${lang}" var = "notUnique"/>
 
+
+<c:set var="createSubjectResult" value="${sessionScope.createEnrolleeSubjectResult}"/>
 <html>
 <head>
     <title>${title}</title>
@@ -95,7 +100,22 @@
 
 </tbody>
 </table>
+<c:if test="${createSubjectResult ne null}">
+    <c:choose>
+        <c:when test="${createSubjectResult eq 'NOT_UNIQUE_SUBJECT'}">
+            <h3 style="color: red">${noSuchSubject}</h3>
+        </c:when>
 
+        <c:when test="${createSubjectResult eq 'NO_SUCH_SUBJECT'}">
+            <h3 style="color: red">${noSuchSubject}</h3>
+        </c:when>
+
+        <c:when test="${createSubjectResult eq 'MARK_IS_INVALID'}">
+            <h3 style="color: red">${markIsInvalid}</h3>
+        </c:when>
+    </c:choose>
+    <c:set var = "createEnrolleeSubjectResult" value="${null}" scope="session"/>
+</c:if>
 <table class="table table-striped">
 <thead>
 <tr>
