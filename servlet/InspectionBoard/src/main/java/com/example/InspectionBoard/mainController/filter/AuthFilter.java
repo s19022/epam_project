@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.InspectionBoard.Constants.*;
-import static com.example.InspectionBoard.mainController.filter.FilterUtils.getAccountRole;
+import static com.example.InspectionBoard.mainController.Utils.getAccountRole;
 
 public class AuthFilter implements Filter {
     private final List<String> allCanAccess = new ArrayList<>();

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.mainController.Utils.getInt;
-import static com.example.InspectionBoard.mainController.filter.FilterUtils.isValid;
+import static com.example.InspectionBoard.mainController.Utils.isValid;
 
 public class CreateNewEnrolleeSubjectFilter implements Filter {
 

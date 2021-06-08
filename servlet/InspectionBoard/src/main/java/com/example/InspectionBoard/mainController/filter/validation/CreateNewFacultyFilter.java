@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.example.InspectionBoard.Constants.*;
-import static com.example.InspectionBoard.mainController.filter.FilterUtils.isValid;
+import static com.example.InspectionBoard.mainController.Utils.isValid;
 
 public class CreateNewFacultyFilter implements Filter {
 

@@ -3,12 +3,21 @@ package com.example.InspectionBoard.mainController;
 import com.example.InspectionBoard.model.enums.AccountRole;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
 import static com.example.InspectionBoard.Constants.*;
 
 public class Utils {
+
+    public static boolean isValid(String toCheck){
+        if (toCheck == null){
+            return false;
+        }
+        return !toCheck.trim().isEmpty();
+    }
+
 
     @SuppressWarnings("unchecked")
     public static void removeFromContext(HttpSession session){
@@ -35,5 +44,32 @@ public class Utils {
         }catch (NumberFormatException ex){
             return 0;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static boolean isLoggedIn(HttpServletRequest request){
+        String login  = (String)request.getSession().getAttribute(LOGIN);
+        HashSet<String> loggedUsers = (HashSet<String>) request.getServletContext().getAttribute(LOGGED_USERS);
+        return isLoggedIn(loggedUsers, login);
+    }
+
+    public static AccountRole getAccountRole(HttpServletRequest request){
+        if (!isLoggedIn(request)){
+            return AccountRole.UNKNOWN;
+        }
+        Object userRole = request.getSession().getAttribute(USER_ROLE);
+        return parseAccountRole(userRole);
+    }
+
+    private static AccountRole parseAccountRole(Object attribute) {
+        try {
+            if (attribute instanceof AccountRole) {
+                return (AccountRole) attribute;
+            }
+            if (attribute instanceof String) {
+                return AccountRole.valueOf((String) attribute);
+            }
+        } catch (RuntimeException ignore) {}
+        return AccountRole.UNKNOWN;
     }
 }
