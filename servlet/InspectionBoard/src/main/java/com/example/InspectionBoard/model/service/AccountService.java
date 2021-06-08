@@ -18,6 +18,14 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toAccount;
 public class AccountService {
     private static final Logger LOGGER = LogManager.getLogger(AccountService.class.getName());
 
+    /**
+     *
+     * @param login login of account
+     * @param password password of account
+     * @return Account identified by login and password
+     * @throws WrongLoginPasswordException if there are no account with given login and password
+     * @throws AccountIsBlockedException if found account is blocked
+     */
     public Account getAccount(String login, String password)
             throws WrongLoginPasswordException, AccountIsBlockedException{
         String hashedPassword = ServiceUtility.hash(password);
@@ -36,6 +44,10 @@ public class AccountService {
         }
     }
 
+    /**
+     * saves Enrollee to database
+     * @param s details of Enrollee to be saved
+     */
     public void createEnrollee(SaveEnrolleeDto s){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.getConnection().setAutoCommit(false);
@@ -56,6 +68,11 @@ public class AccountService {
 
     }
 
+    /**
+     * Sets isBlocked of enrollee with given login to true
+     * @param login enrollee login
+     *
+     */
     public void blockEnrollee(String login){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.blockEnrollee(login);
@@ -64,6 +81,12 @@ public class AccountService {
             throw new SQLExceptionWrapper(ex);
         }
     }
+
+    /**
+     * Sets isBlocked of enrollee with given login to false
+     * @param login enrollee login
+     *
+     */
     public void unblockEnrollee(String login){
         try (AccountDao dao = DaoFactory.getInstance().createAccountDao()){
             dao.unblockEnrollee(login);
