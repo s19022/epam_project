@@ -119,6 +119,14 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *
+     * @param dao dao to interact with database
+     * @param login enrollee login
+     * @return id of enrollee with given id
+     * @throws SQLException is thrown by dao
+     * @throws NoSuchAccountException if database doesn't have enrollee with given login
+     */
     private static int getEnrolleeId(AccountDao dao, String login) throws SQLException, NoSuchAccountException {
         DbAccountDto account = dao.findByLogin(login).orElseThrow(NoSuchAccountException::new);
         if (account.getRole() != AccountRole.ENROLLEE) {
@@ -127,11 +135,25 @@ public class FacultyRegistrationService {
         return account.getId();
     }
 
+    /**
+     *
+     * @param dao to interact with database
+     * @param facultyName name of the faculty
+     * @return id of the faculty with given name
+     * @throws SQLException is thrown by dao
+     * @throws NoSuchFacultyException if database doesn't have faculty with given name
+     */
     private static int getFacultyId(FacultyDao dao, String facultyName) throws SQLException, NoSuchFacultyException {
         DbFacultyDto faculty = dao.findByName(facultyName).orElseThrow(NoSuchFacultyException::new);
         return faculty.getId();
     }
 
+    /**
+     *  Compares required marks and subjects of faculty to data passed by enrollee
+     * @param requiredSubjects subjects required by faculty
+     * @param enrolleeSubjects subjects passed by enrollee
+     * @return whether enrollee meets requirements to register to faculty
+     */
     private static boolean canRegister(List<DbRequiredSubjectDto> requiredSubjects, List<DbEnrolleeSubjectDto> enrolleeSubjects){
         for (DbRequiredSubjectDto subject : requiredSubjects){
             boolean contains = enrolleeSubjects.stream().anyMatch(s -> subject.getId() == s.getId() && subject.getMinimalGrade() <= s.getMark());
@@ -142,6 +164,14 @@ public class FacultyRegistrationService {
         return true;
     }
 
+    /**
+     *
+     * @param dao to interact with database
+     * @param enrolleeId id of enrollee to be saved
+     * @param facultyId id of faculty to be saved
+     * @throws AlreadyRegisteredException if there is a registration with given enrolleeId and facultyId
+     * @throws SQLException is thrown by dao
+     */
     private static void saveRegistration(FacultyRegistrationDao dao, int enrolleeId, int facultyId)
             throws AlreadyRegisteredException, SQLException {
         try{
@@ -154,6 +184,15 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *
+     * @param dto data to be saved
+     * @param facultyRegistrationDao dao to interact with facultyRegistration
+     * @param facultyDao dao to interact with faculty
+     * @throws SQLException is thrown by dao
+     * @throws NotEnoughPlacesException if faculty with given name doesn't have free places
+     * @throws NoSuchFacultyException if faculty with given name doesn't exist
+     */
     private void changeStatus(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NotEnoughPlacesException, NoSuchFacultyException {
         switch (dto.getNewStatus()){
             case PENDING:
@@ -168,6 +207,15 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *
+     * @param dto data to be saved
+     * @param facultyRegistrationDao dao to interact with facultyRegistration
+     * @param facultyDao dao to interact with faculty
+     * @throws SQLException is thrown by dao
+     * @throws NotEnoughPlacesException if faculty with given name doesn't have free places
+     * @throws NoSuchFacultyException if faculty with given name doesn't exist
+     */
     private void changeStatusToContract(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NoSuchFacultyException, NotEnoughPlacesException {
         DbFacultyDto facultyDto = facultyDao.findByName(dto.getFacultyName()).orElseThrow(NoSuchFacultyException::new);
         if ((facultyDto.getAllPlaces() - facultyDto.getBudgetPlaces()) <= 0){
@@ -177,6 +225,16 @@ public class FacultyRegistrationService {
         facultyRegistrationDao.changeStatus(dto);
     }
 
+
+    /**
+     *
+     * @param dto data to be saved
+     * @param facultyRegistrationDao dao to interact with facultyRegistration
+     * @param facultyDao dao to interact with faculty
+     * @throws SQLException is thrown by dao
+     * @throws NotEnoughPlacesException if faculty with given name doesn't have free places
+     * @throws NoSuchFacultyException if faculty with given name doesn't exist
+     */
     private void changeStatusToBudget(ChangeFacultyRegistrationStatusDto dto, FacultyRegistrationDao facultyRegistrationDao, FacultyDao facultyDao) throws SQLException, NoSuchFacultyException, NotEnoughPlacesException {
         DbFacultyDto facultyDto = facultyDao.findByName(dto.getFacultyName()).orElseThrow(NoSuchFacultyException::new);
         if (facultyDto.getBudgetPlaces() <= 0){
