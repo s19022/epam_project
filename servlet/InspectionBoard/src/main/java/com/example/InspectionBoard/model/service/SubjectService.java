@@ -24,4 +24,12 @@ public class SubjectService {
         }
     }
 
+    public List<Subject> findNotTakenByFacultyName(String facultyName){
+        try(SubjectDao dao = DaoFactory.getInstance().createSubjectDao()){
+            return toSubject(dao.findNotTakenByFacultyName(facultyName));
+        }catch (SQLException ex){
+            LOGGER.error(ex);
+            throw new SQLExceptionWrapper(ex);
+        }
+    }
 }
