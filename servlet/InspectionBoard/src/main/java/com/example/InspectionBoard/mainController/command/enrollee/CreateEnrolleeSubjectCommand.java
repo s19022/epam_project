@@ -21,9 +21,6 @@ public class CreateEnrolleeSubjectCommand implements Command {
         String subjectName = (String) request.getAttribute(SUBJECT_NAME);
         String enrolleeLogin = (String) request.getSession().getAttribute(LOGIN);
         int mark = (int) request.getAttribute(MARK);
-        System.out.println(subjectName);
-        System.out.println(enrolleeLogin);
-        System.out.println(mark);
         CreateEnrolleeSubjectDto dto = new CreateEnrolleeSubjectDto(subjectName, enrolleeLogin, mark);
         try{
             new EnrolleeSubjectService().create(dto);
