@@ -24,6 +24,8 @@
 <fmt:message key="navigation.logout" bundle="${lang}" var = "logout"/>
 <fmt:message key="navigation.register" bundle="${lang}" var = "navigationRegister"/>
 <fmt:message key="navigation.faculties" bundle="${lang}" var = "faculties"/>
+<fmt:message key="enrolleePage.submit" bundle="${lang}" var = "submit"/>
+
 <c:set var="faculty" value="${sessionScope.facultyInfo}"/>
 <html>
 <head>
@@ -91,6 +93,26 @@
         <c:set var="counter" value="${counter + 1}"/>
       </c:forEach>
       </tbody>
+      <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+        <tr>
+          <form method="post" action="${pageContext.request.contextPath}/faculty/createSubject">
+            <th scope="row">${counter}</th>
+            <td>
+              <select class="form-select" name="subjectName">
+                <c:forEach items="${requestScope.notTakenSubjects}" var="notTakenSubject">
+                  <option>${notTakenSubject.name}</option>
+                </c:forEach>
+              </select>
+            <td>
+              <div class="form-check-inline">
+                <input  class="form-control" type="number" name="mark">
+                <button class="btn btn-primary" type="submit">${submit}</button>
+              </div>
+            </td>
+          </form>
+        </tr>
+
+      </c:if>
     </table>
     <c:choose>
       <c:when test="${sessionScope.userRole eq 'UNKNOWN'}">
