@@ -19,6 +19,13 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isMarkVal
 public class RequiredSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
 
+    /**
+     *
+     * @param dto data to be inserted
+     * @throws NotUniqueSubjectException if faculty already has subject with given name
+     * @throws NoSuchSubjectException if subject with given name doesn't exist
+     * @throws MarkIsNotValidException if mark is invalid
+     */
     public void create(CreateFacultySubjectDto dto) throws NotUniqueSubjectException, NoSuchSubjectException, MarkIsNotValidException {
         try(RequiredSubjectDao dao = DaoFactory.getInstance().createRequiredSubjectDao()){
             if (!isMarkValid(dto.getMinimalMark())){

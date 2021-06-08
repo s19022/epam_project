@@ -15,6 +15,11 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toSubject;
 public class SubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
 
+    /**
+     *
+     * @param login enrollee login to find not taken subjects
+     * @return list of not filled in subjects
+     */
     public List<Subject> findNotTakenByEnrolleeLogin(String login){
         try(SubjectDao dao = DaoFactory.getInstance().createSubjectDao()){
             return toSubject(dao.findNotTakenByEnrolleeLogin(login));
@@ -24,6 +29,11 @@ public class SubjectService {
         }
     }
 
+    /**
+     *
+     * @param facultyName faculty name to find not taken subjects
+     * @return list of not required subjects
+     */
     public List<Subject> findNotTakenByFacultyName(String facultyName){
         try(SubjectDao dao = DaoFactory.getInstance().createSubjectDao()){
             return toSubject(dao.findNotTakenByFacultyName(facultyName));

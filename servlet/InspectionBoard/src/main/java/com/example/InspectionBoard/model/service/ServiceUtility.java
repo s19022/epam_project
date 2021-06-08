@@ -12,6 +12,12 @@ public class ServiceUtility {
     private static final int MIN_MARK = 1;
 
     private static final Logger LOGGER = LogManager.getLogger(ServiceUtility.class.getName());
+
+    /**
+     *
+     * @param password String to be hashed
+     * @return hashed input using SHA1
+     */
     public static String hash(String password) {
         //stole from stackoverflow, seems to work correctly
         try {
@@ -32,10 +38,6 @@ public class ServiceUtility {
             LOGGER.error(e);
             return password;
         }
-    }
-    public static String decode(String toDecode){
-        byte[] decoded = Base64.getDecoder().decode(toDecode.getBytes(StandardCharsets.UTF_8));
-        return new String(decoded);
     }
 
     public static boolean isValid(String toCheck){
