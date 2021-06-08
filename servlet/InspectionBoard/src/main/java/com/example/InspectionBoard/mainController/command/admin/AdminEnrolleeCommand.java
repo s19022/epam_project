@@ -21,6 +21,9 @@ public class AdminEnrolleeCommand implements Command {
         int itemsPerPage = getItemsPerPage(request.getParameter(ITEMS_PER_PAGE));
         int numberOfPages = service.getNumberOfPages(itemsPerPage);
         int pageNumber = getPage(request.getParameter(PAGE_NUMBER));
+        if (pageNumber > numberOfPages){
+            pageNumber = 1;
+        }
 
         FindByPageDto page = new FindByPageDto(pageNumber, itemsPerPage);
         List<Enrollee> list = service.findAllByPage(page);
