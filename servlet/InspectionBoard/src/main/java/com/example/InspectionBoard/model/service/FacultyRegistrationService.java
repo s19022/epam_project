@@ -20,6 +20,11 @@ import static com.example.InspectionBoard.model.dto.db.Mapper.toFacultyRegistrat
 public class FacultyRegistrationService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyRegistrationService.class.getName());
 
+    /**
+     *
+     * @param login Enrollee login
+     * @return all faculties that Enrollee with given login is registered to
+     */
     public List<FacultyRegistration> findByEnrolleeLogin(String login){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
             return toFacultyRegistration(dao.findByEnrolleeLogin(login));
@@ -29,6 +34,10 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *
+     * @return all FacultyRegistration with status equals to PENDING
+     */
     public List<FacultyRegistration> findAllPending(){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
             return toFacultyRegistration(dao.findAllPending());
@@ -38,6 +47,12 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *
+     * @param dto information about facultyRegistration to be updated
+     * @throws NotEnoughPlacesException if faculty with given name doesn't have free places
+     * @throws NoSuchFacultyException if there are no faculty with given name
+     */
     public void changeStatus(ChangeFacultyRegistrationStatusDto dto) throws NotEnoughPlacesException, NoSuchFacultyException {
         DaoFactory factory = DaoFactory.getInstance();
         try(
@@ -60,6 +75,15 @@ public class FacultyRegistrationService {
         }
     }
 
+    /**
+     *  saves Enrollee with given login to faculty with given name
+     * @param accountLogin account Login
+     * @param facultyName faculty name
+     * @throws NoSuchAccountException if Account with given login doesn't exist in database
+     * @throws NoSuchFacultyException if Faculty with given name doesn't exist in database
+     * @throws CannotRegisterToFacultyException if Enrollee doesn't meet requirements for given faculty
+     * @throws AlreadyRegisteredException if Enrollee already saved to given faculty
+     */
     public void register(String accountLogin, String facultyName)
             throws NoSuchAccountException, NoSuchFacultyException, CannotRegisterToFacultyException, AlreadyRegisteredException {
         DaoFactory factory = DaoFactory.getInstance();
