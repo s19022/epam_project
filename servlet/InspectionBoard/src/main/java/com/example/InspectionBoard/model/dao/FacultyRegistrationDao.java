@@ -11,4 +11,5 @@ public interface FacultyRegistrationDao extends GenericDao<DbFacultyRegistration
     void save(SaveFacultyRegistrationDto dto) throws SQLException;
     void changeStatus(ChangeFacultyRegistrationStatusDto dto) throws SQLException;
     List<DbFacultyRegistration> findByEnrolleeLogin(String login) throws SQLException;
+    List<DbFacultyRegistration> findAllPending() throws SQLException;
 }

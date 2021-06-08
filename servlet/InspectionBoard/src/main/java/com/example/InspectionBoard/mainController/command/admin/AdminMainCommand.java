@@ -13,7 +13,7 @@ import static com.example.InspectionBoard.Constants.REGISTRATION_LIST;
 public class AdminMainCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        List<FacultyRegistration> registrationList = new FacultyRegistrationService().findAll();
+        List<FacultyRegistration> registrationList = new FacultyRegistrationService().findAllPending();
         request.setAttribute(REGISTRATION_LIST, registrationList);
         return "/WEB-INF/admin/main.jsp";
     }

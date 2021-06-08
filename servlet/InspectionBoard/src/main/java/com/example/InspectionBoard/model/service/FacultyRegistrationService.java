@@ -29,9 +29,9 @@ public class FacultyRegistrationService {
         }
     }
 
-    public List<FacultyRegistration> findAll(){
+    public List<FacultyRegistration> findAllPending(){
         try(FacultyRegistrationDao dao = DaoFactory.getInstance().createFacultyRegistrationDao()){
-            return toFacultyRegistration(dao.findAll());
+            return toFacultyRegistration(dao.findAllPending());
         }catch (SQLException ex){
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);

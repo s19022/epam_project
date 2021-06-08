@@ -17,7 +17,7 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     private static final String REGISTER =
             "insert into registration(enrollee_id, faculty_id, registration_status_id)" +
             " values (?, ?," + PENDING_ID + ")";
-    private static final String FIND_ALL =
+    private static final String FIND_ALL_PENDING =
             "SELECT r.id, s.status_name, a.id, a.login, f.id, f.name " +
             "FROM registration r, faculty f, account a, registration_status s " +
             "WHERE r.enrollee_id = a.id AND r.faculty_id = f.id " +
@@ -69,11 +69,16 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<DbFacultyRegistration> findAll() throws SQLException{
-        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL);
+    public List<DbFacultyRegistration> findAllPending() throws SQLException{
+        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_PENDING);
             ResultSet rs = statement.executeQuery()){
             return parseList(rs);
         }
+    }
+
+    @Override
+    public List<DbFacultyRegistration> findAll() throws SQLException {
+        return null;
     }
 
     @Override
