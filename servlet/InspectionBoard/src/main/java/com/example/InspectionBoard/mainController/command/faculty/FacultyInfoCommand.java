@@ -18,16 +18,24 @@ public class FacultyInfoCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, RequestType requestTypes) {
-        String facultyName = request.getParameter(FACULTY_NAME);
+        String facultyName = getFacultyName(request);
         try {
             Faculty f = new FacultyService().findByName(facultyName);
             List<Subject> notTakenSubjects = new SubjectService().findNotTakenByFacultyName(facultyName);
             request.getSession().setAttribute(FACULTY_INFO, f);
             request.setAttribute(NOT_TAKEN_SUBJECTS, notTakenSubjects);
+            request.getSession().setAttribute(FACULTY_NAME, facultyName);
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }
-        request.getSession().setAttribute(FACULTY_NAME, facultyName);
         return "/WEB-INF/faculty/info.jsp";
+    }
+
+    private String getFacultyName(HttpServletRequest request){
+        String facultyName = request.getParameter(FACULTY_NAME);
+        if (facultyName != null){
+            return facultyName;
+        }
+        return (String) request.getSession().getAttribute(FACULTY_NAME);
     }
 }
