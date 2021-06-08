@@ -27,13 +27,6 @@ public class JDBCEnrolleeDao implements EnrolleeDao {
     }
 
     @Override
-    public List<DbEnrolleeDto> findAll() throws SQLException {
-        try(PreparedStatement statement = connection.prepareStatement(FIND_ALL)){
-            return parseEnrolleeList(statement.executeQuery());
-        }
-    }
-
-    @Override
     public List<DbEnrolleeDto> findAllLimitAndOffset(int limit, int offset) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_LIMIT_AND_OFFSET)){
             statement.setInt(1, limit);

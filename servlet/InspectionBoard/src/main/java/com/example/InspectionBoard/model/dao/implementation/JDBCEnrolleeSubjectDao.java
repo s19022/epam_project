@@ -39,11 +39,6 @@ public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     }
 
     @Override
-    public List<DbEnrolleeSubjectDto> findAll(){
-        return new ArrayList<>();
-    }
-
-    @Override
     public List<DbEnrolleeSubjectDto> getAllByEnrolleeId(int id) throws SQLException {
         try(PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_ENROLLEE_ID)){
             statement.setInt(1, id);

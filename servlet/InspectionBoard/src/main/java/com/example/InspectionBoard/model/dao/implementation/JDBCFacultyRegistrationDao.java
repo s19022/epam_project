@@ -77,11 +77,6 @@ public class JDBCFacultyRegistrationDao implements FacultyRegistrationDao {
     }
 
     @Override
-    public List<DbFacultyRegistration> findAll() throws SQLException {
-        return null;
-    }
-
-    @Override
     public Connection getConnection() {
         return connection;
     }

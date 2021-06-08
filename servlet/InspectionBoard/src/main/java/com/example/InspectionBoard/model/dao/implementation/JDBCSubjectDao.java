@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSubjectDao implements SubjectDao {
-    private static final String GET_ALL_SUBJECTS =  "SELECT id, name FROM subject";
     private static final String FIND_NOT_TAKEN_BY_ENROLLEE_LOGIN =
             "select s.id, s.name " +
             "from subject s " +
@@ -30,14 +29,6 @@ public class JDBCSubjectDao implements SubjectDao {
 
     public JDBCSubjectDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public List<DbSubjectDto> findAll() throws SQLException {
-        try(Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(GET_ALL_SUBJECTS)){
-            return parseSubjects(rs);
-        }
     }
 
     @Override

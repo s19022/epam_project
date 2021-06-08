@@ -63,11 +63,6 @@ public class JDBCFacultyDao implements FacultyDao {
     }
 
     @Override
-    public List<DbFacultyDto> findAll() throws SQLException {
-        return executeQuery(FIND_ALL);
-    }
-
-    @Override
     public List<DbFacultyDto> findAllOrderByNameDesc() throws SQLException {
         return executeQuery(FIND_ALL_ORDER_BY_NAME_DESC);
     }

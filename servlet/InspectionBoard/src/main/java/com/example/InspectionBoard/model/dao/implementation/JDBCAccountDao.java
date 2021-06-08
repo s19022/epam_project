@@ -6,11 +6,8 @@ import com.example.InspectionBoard.model.dto.db.DbAccountDto;
 import com.example.InspectionBoard.model.enums.AccountRole;
 import com.example.InspectionBoard.model.service.ServiceUtility;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.io.ByteArrayInputStream;
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 
 public class JDBCAccountDao implements AccountDao {
@@ -118,11 +115,6 @@ public class JDBCAccountDao implements AccountDao {
             }
         }
 
-    }
-
-    @Override
-    public List<DbAccountDto> findAll() {
-        throw new NotImplementedException();
     }
 
     @Override

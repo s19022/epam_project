@@ -1,7 +1,5 @@
 package com.example.InspectionBoard.model.mockedClasses;
 
-import com.example.InspectionBoard.exceptions.AccountIsBlockedException;
-import com.example.InspectionBoard.exceptions.WrongLoginPasswordException;
 import com.example.InspectionBoard.model.dao.AccountDao;
 import com.example.InspectionBoard.model.dto.SaveEnrolleeDto;
 import com.example.InspectionBoard.model.dto.db.DbAccountDto;
@@ -55,10 +53,6 @@ public class MockAccountDao implements AccountDao {
         return Optional.empty();
     }
 
-    @Override
-    public List<DbAccountDto> findAll(){
-        return null;
-    }
 
     @Override
     public Connection getConnection() {

@@ -3,7 +3,6 @@ package com.example.InspectionBoard.model.dao.implementation;
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
 import com.example.InspectionBoard.model.dto.CreateFacultySubjectDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,11 +24,6 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
 
     public JDBCRequiredSubjectDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public List<DbRequiredSubjectDto> findAll() {
-        throw new NotImplementedException();
     }
 
     @Override
