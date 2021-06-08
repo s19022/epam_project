@@ -49,6 +49,7 @@ public class AuthFilter implements Filter {
         adminRoleCanAccess.add("faculties/changeRegistrationStatus");
         adminRoleCanAccess.add("faculties/create");
         adminRoleCanAccess.add("faculties/modify");
+        adminRoleCanAccess.add("faculties/createSubject");
 
         supportedUrlList.addAll(allCanAccess);
         supportedUrlList.addAll(loggedInCanAccess);

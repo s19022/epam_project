@@ -95,7 +95,7 @@
       </tbody>
       <c:if test="${sessionScope.userRole eq 'ADMIN'}">
         <tr>
-          <form method="post" action="${pageContext.request.contextPath}/faculty/createSubject">
+          <form method="post" action="${pageContext.request.contextPath}/faculties/createSubject">
             <th scope="row">${counter}</th>
             <td>
               <select class="form-select" name="subjectName">

@@ -44,6 +44,7 @@ public class MainServlet extends HttpServlet {
         commands.put("faculties/changeRegistrationStatus", new ChangeFacultyRegistrationStatusCommand());
         commands.put("faculties/create", new CreateNewFacultyCommand());
         commands.put("faculties/modify", new ModifyFacultyCommand());
+        commands.put("faculties/createSubject", new CreateNewFacultySubjectCommand());
 
         commands.put("enrollee/main", new EnrolleeMainCommand());
         commands.put("enrollee/createSubject", new CreateEnrolleeSubjectCommand());

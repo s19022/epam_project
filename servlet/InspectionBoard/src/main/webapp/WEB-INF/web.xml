@@ -67,6 +67,7 @@
     <filter-mapping>
         <filter-name>CreateNewEnrolleeSubject</filter-name>
         <url-pattern>/enrollee/createSubject</url-pattern>
+        <url-pattern>/faculties/createSubject</url-pattern>
     </filter-mapping>
 
     <filter>
