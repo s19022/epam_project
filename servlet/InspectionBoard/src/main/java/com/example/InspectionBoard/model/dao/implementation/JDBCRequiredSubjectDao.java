@@ -1,6 +1,7 @@
 package com.example.InspectionBoard.model.dao.implementation;
 
 import com.example.InspectionBoard.model.dao.RequiredSubjectDao;
+import com.example.InspectionBoard.model.dto.CreateFacultySubjectDto;
 import com.example.InspectionBoard.model.dto.db.DbRequiredSubjectDto;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -15,6 +16,10 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
     private static final String GET_ALL_BY_FACULTY_ID = "SELECT s.id, s.name, r_s.minimal_grade " +
                                                         "FROM subject s, required_subject r_s " +
                                                         "WHERE faculty_id = ? and s.id = r_s.subject_id";
+
+    private static final String CREATE_SUBJECT ="INSERT INTO required_subject(faculty_id, subject_id, minimal_grade) values" +
+            " ((SELECT f.id from faculty f where f.name = ?), (SELECT s.id from subject s where s.name = ?), ?)";
+
 
     private final Connection connection;
 
@@ -38,6 +43,16 @@ public class JDBCRequiredSubjectDao implements RequiredSubjectDao {
             statement.setInt(1, facultyId);
             ResultSet rs = statement.executeQuery();
             return parseRequiredSubjects(rs);
+        }
+    }
+
+    @Override
+    public void create(CreateFacultySubjectDto dto) throws SQLException {
+        try(PreparedStatement statement = connection.prepareStatement(CREATE_SUBJECT)){
+            statement.setString(1, dto.getFacultyName());
+            statement.setString(2, dto.getSubjectName());
+            statement.setInt(3, dto.getMinimalMark());
+            statement.executeUpdate();
         }
     }
 
