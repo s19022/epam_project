@@ -27,6 +27,7 @@ public class FacultyInfoCommand implements Command {
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }
+        request.getSession().setAttribute(FACULTY_NAME, facultyName);
         return "/WEB-INF/faculty/info.jsp";
     }
 }
