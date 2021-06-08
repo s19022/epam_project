@@ -14,17 +14,17 @@ import java.util.List;
 public class JDBCEnrolleeSubjectDao implements EnrolleeSubjectDao {
     private static final String FIND_ALL_BY_ENROLLEE_ID =
             "SELECT m.subject_id, s.name, m.mark " +
-            "FROM mark m, subject s " +
+            "FROM enrollee_subject m, subject s " +
             "WHERE m.enrollee_id = ? and s.id = m.subject_id " +
             "FOR UPDATE ";
 
     private static final String FIND_ALL_BY_ENROLLEE_LOGIN =
             "SELECT m.subject_id, s.name, m.mark " +
-            "FROM mark m, subject s, account a " +
+            "FROM enrollee_subject m, subject s, account a " +
             "WHERE a.login = ? and a.id = m.enrollee_id and s.id = m.subject_id " +
             "FOR UPDATE ";
 
-    private static final String CREATE_SUBJECT ="INSERT INTO mark(enrollee_id, subject_id, mark) values" +
+    private static final String CREATE_SUBJECT ="INSERT INTO enrollee_subject(enrollee_id, subject_id, mark) values" +
             " ((SELECT a.id from account a where a.login = ?), (SELECT s.id from subject s where s.name = ?), ?)";
 
     private final Connection connection;

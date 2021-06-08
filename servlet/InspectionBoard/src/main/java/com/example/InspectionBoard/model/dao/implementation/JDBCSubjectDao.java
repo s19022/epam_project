@@ -14,7 +14,7 @@ public class JDBCSubjectDao implements SubjectDao {
                     "from subject s " +
                     "where s.id not in ( " +
                     "    select m.subject_id " +
-                    "    from mark m, account a " +
+                    "    from enrollee_subject m, account a " +
                     "    where m.enrollee_id = a.id AND a.login = ? " +
                     "    )";
 
