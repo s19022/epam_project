@@ -21,6 +21,11 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isMarkVal
 public class EnrolleeSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
 
+    /**
+     *
+     * @param login Login of Enrollee
+     * @return List of EnrolleeSubject for enrollee with given login
+     */
     public List<EnrolleeSubject> findAllByEnrolleeLogin(String login){
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
             return toEnrolleeSubject(dao.getAllByEnrolleeLogin(login));
@@ -30,6 +35,13 @@ public class EnrolleeSubjectService {
         }
     }
 
+    /**
+     * saves EnrolleeSubject to database
+     * @param dto information to be saved
+     * @throws NotUniqueSubjectException if Enrollee already filled given subject
+     * @throws NoSuchSubjectException if Subject with given name is not present in database
+     * @throws MarkIsNotValidException  if mark is greater than MAX_MARK or smaller than MIN_MARK
+     */
     public void create(CreateEnrolleeSubjectDto dto) throws NotUniqueSubjectException, NoSuchSubjectException, MarkIsNotValidException {
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
             if (!isMarkValid(dto.getMark())){
