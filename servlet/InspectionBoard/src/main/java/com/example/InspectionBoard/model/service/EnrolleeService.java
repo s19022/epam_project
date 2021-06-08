@@ -16,6 +16,11 @@ import java.util.List;
 public class EnrolleeService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeService.class.getName());
 
+    /**
+     *
+     * @param page details about page to be found
+     * @return List of Enrollees on given page
+     */
     public List<Enrollee> findAllByPage(FindByPageDto page){
         int limit = page.getItemsPerPage();
         int offset = page.getItemsPerPage() * (page.getPageNumber() - 1);
@@ -28,6 +33,11 @@ public class EnrolleeService {
         }
     }
 
+    /**
+     *
+     * @param itemsPerPage number of items on page
+     * @return number of pages with itemsPerPage on each page
+     */
     public int getNumberOfPages(double itemsPerPage){
         try(EnrolleeDao dao = DaoFactory.getInstance().createEnrolleeDao()){
             return (int) Math.ceil(dao.getNumberOfEnrollees() / itemsPerPage);
