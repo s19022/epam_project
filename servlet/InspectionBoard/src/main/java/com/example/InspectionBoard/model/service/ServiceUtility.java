@@ -8,6 +8,9 @@ import java.security.MessageDigest;
 import java.util.Base64;
 
 public class ServiceUtility {
+    private static final int MAX_MARK = 12;
+    private static final int MIN_MARK = 1;
+
     private static final Logger LOGGER = LogManager.getLogger(ServiceUtility.class.getName());
     public static String hash(String password) {
         //stole from stackoverflow, seems to work correctly
@@ -39,4 +42,8 @@ public class ServiceUtility {
         return !(toCheck == null || toCheck.trim().isEmpty());
     }
 
+
+    public static boolean isMarkValid(int mark){
+        return mark >= MIN_MARK && mark <= MAX_MARK;
+    }
 }

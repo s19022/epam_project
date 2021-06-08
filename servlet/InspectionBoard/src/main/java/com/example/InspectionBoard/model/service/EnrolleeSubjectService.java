@@ -16,11 +16,10 @@ import java.util.List;
 
 import static com.example.InspectionBoard.Constants.*;
 import static com.example.InspectionBoard.model.dto.db.Mapper.toEnrolleeSubject;
+import static com.example.InspectionBoard.model.service.ServiceUtility.isMarkValid;
 
 public class EnrolleeSubjectService {
     private static final Logger LOGGER = LogManager.getLogger(EnrolleeSubjectService.class.getName());
-    private static final int MAX_MARK = 12;
-    private static final int MIN_MARK = 1;
 
     public List<EnrolleeSubject> findAllByEnrolleeLogin(String login){
         try(EnrolleeSubjectDao dao = DaoFactory.getInstance().createEnrolleeSubjectDao()){
@@ -47,9 +46,5 @@ public class EnrolleeSubjectService {
             LOGGER.error(ex);
             throw new SQLExceptionWrapper(ex);
         }
-    }
-
-    private boolean isMarkValid(int mark){
-        return mark >= MIN_MARK && mark <= MAX_MARK;
     }
 }
