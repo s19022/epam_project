@@ -19,6 +19,11 @@ import static com.example.InspectionBoard.model.service.ServiceUtility.isValid;
 public class FacultyService {
     private static final Logger LOGGER = LogManager.getLogger(FacultyService.class.getName());
 
+    /**
+     *
+     * @param dto data to be updated
+     * @throws BudgetPlacesBiggerThanAllPlacesException if budgetPlaces > than allPlaces
+     */
     public void update(ModifyFacultyDto dto) throws BudgetPlacesBiggerThanAllPlacesException {
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             if(dto.getBudgetPlaces() > dto.getAllPlaces()){
@@ -31,6 +36,12 @@ public class FacultyService {
         }
     }
 
+    /**
+     *
+     * @param dto data to be inserted
+     * @throws FacultyNameIsTakenException if faculty with given name already exists
+     * @throws BudgetPlacesBiggerThanAllPlacesException if budgetPlaces > than allPlace
+     */
     public void create(CreateFacultyDto dto) throws FacultyNameIsTakenException, BudgetPlacesBiggerThanAllPlacesException {
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             if(dto.getBudgetPlaces() > dto.getAllPlaces()){
@@ -46,6 +57,10 @@ public class FacultyService {
         }
     }
 
+    /**
+     *
+     * @return all faculties ordered by name descending
+     */
     public List<Faculty> findAllOrderByNameDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByNameDesc());
@@ -56,6 +71,10 @@ public class FacultyService {
     }
 
 
+    /**
+     *
+     * @return all faculties ordered by name ascending
+     */
     public List<Faculty> findAllOrderByNameAsc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByNameAsc());
@@ -65,6 +84,11 @@ public class FacultyService {
         }
     }
 
+
+    /**
+     *
+     * @return all faculties ordered by budget places descending
+     */
     public List<Faculty> findAllOrderByBudgetPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByBudgetPlacesDesc());
@@ -74,6 +98,11 @@ public class FacultyService {
         }
     }
 
+
+    /**
+     *
+     * @return all faculties ordered by all places descending
+     */
     public List<Faculty> findAllOrderByAllPlacesDesc(){
         try(FacultyDao dao = DaoFactory.getInstance().createFacultyDao()){
             return toFaculty(dao.findAllOrderByAllPlacesDesc());
@@ -83,6 +112,10 @@ public class FacultyService {
         }
     }
 
+    /**
+     * sets isDeleted to true for faculty with given name
+     * @param facultyName name of the faculty to be deleted
+     */
     public void deleteByFacultyName(String facultyName){
         if (!isValid(facultyName)){
             LOGGER.warn("Empty faculty name");
@@ -96,6 +129,12 @@ public class FacultyService {
         }
     }
 
+    /**
+     *
+     * @param name name of faculty to be found
+     * @return found faculty
+     * @throws NoSuchFacultyException if given faculty doesn't exist
+     */
     public Faculty findByName(String name) throws NoSuchFacultyException {
         if (!isValid(name)){
             throw new NoSuchFacultyException();
