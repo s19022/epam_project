@@ -94,6 +94,7 @@
       </c:forEach>
       </tbody>
       <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+        <c:if test="${!empty(requestScope.notTakenSubjects)}">
         <tr>
           <form method="post" action="${pageContext.request.contextPath}/faculties/createSubject">
             <th scope="row">${counter}</th>
@@ -111,7 +112,7 @@
             </td>
           </form>
         </tr>
-
+        </c:if>
       </c:if>
     </table>
     <c:choose>
