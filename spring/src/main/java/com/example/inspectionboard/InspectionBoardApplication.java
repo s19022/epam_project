@@ -1,5 +1,6 @@
 package com.example.inspectionboard;
 
+import com.example.inspectionboard.service.AccountDetailsService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -18,10 +19,10 @@ public class InspectionBoardApplication extends SpringBootServletInitializer {
         return builder.sources(InspectionBoardApplication.class);
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new BasicUserDetailsService();
-//    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new AccountDetailsService();
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
