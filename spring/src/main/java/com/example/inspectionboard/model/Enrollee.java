@@ -1,13 +1,15 @@
 package com.example.inspectionboard.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -35,4 +37,16 @@ public class Enrollee extends Account{
     private String schoolName;
 
     private byte[] certificateScan;
+
+    @OneToMany(mappedBy = "enrollee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<FacultyRegistration> facultyRegistrationSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "enrollee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<EnrolleeSubject> enrolleeSubjectSet = new HashSet<>();
 }
