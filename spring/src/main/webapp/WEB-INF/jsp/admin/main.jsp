@@ -70,12 +70,12 @@
     <c:forEach items="${requestScope.registrationList}" var="element">
         <tr>
             <th scope="row">${counter}</th>
-            <td>${element.enrolleeLogin}</td>
-            <td>${element.facultyName}</td>
+            <td>${element.enrollee.login}</td>
+            <td>${element.faculty.name}</td>
             <td>
                 <form id = "changeStatus${counter}" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
-                    <input name="enrolleeLogin" value="${element.enrolleeLogin}" hidden>
-                    <input name="facultyName" value="${element.facultyName}" hidden>
+                    <input name="enrolleeLogin" value="${element.enrollee.login}" hidden>
+                    <input name="facultyName" value="${element.faculty.name}" hidden>
                     <select class="custom-select" name="newStatus">
                         <option value="PENDING" selected>${pending}</option>
                         <option value="REJECTED">${rejected}</option>
