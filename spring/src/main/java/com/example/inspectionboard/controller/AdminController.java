@@ -16,7 +16,8 @@ public class AdminController {
 
     @RequestMapping("/main")
     public String mainPage(Model model){
-//        model.addAttribute(REGISTRATION_LIST, facultyRegistrationService.findAllPending());
+        System.out.println("admin");
+        //        model.addAttribute(REGISTRATION_LIST, facultyRegistrationService.findAllPending());
         return "admin/main";
     }
 /*
