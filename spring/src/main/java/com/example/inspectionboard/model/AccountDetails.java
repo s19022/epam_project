@@ -12,21 +12,8 @@ import java.util.Collections;
 @Entity
 
 @Getter
-@EqualsAndHashCode
-public class AccountDetails implements UserDetails {
-    @Id
-    @Column(name = "account_id")
-    private Long id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    @NotBlank
-    @Column(unique = true)
-    private String login;
-
+@EqualsAndHashCode(callSuper = false)
+public class AccountDetails extends Account implements UserDetails{
     @NotBlank
     @Column
     private String password;
@@ -35,12 +22,12 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(account.getAccountType());
+        return Collections.singleton(getAccountType());
     }
 
     @Override
     public String getUsername() {
-        return login;
+        return getLogin();
     }
 
     @Override
