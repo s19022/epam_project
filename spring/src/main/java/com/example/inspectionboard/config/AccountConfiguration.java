@@ -11,7 +11,10 @@ public class AccountConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
+                .antMatchers("/enrollee/**").hasRole("ENROLLEE")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .permitAll().and().csrf().disable();
