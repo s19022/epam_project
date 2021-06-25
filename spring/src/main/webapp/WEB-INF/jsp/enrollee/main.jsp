@@ -73,7 +73,7 @@
     <c:forEach items="${requestScope.subjects}" var="subject">
         <tr>
             <th scope="row">${counter}</th>
-            <td>${subject.name}</td>
+            <td>${subject.subject.name}</td>
             <td>${subject.mark}</td>
         </tr>
         <c:set var="counter" value="${counter + 1}"/>
@@ -134,7 +134,7 @@
     <c:forEach items="${requestScope.registeredFaculties}" var="registeredFaculty">
         <tr>
             <th scope="row">${counter}</th>
-            <td>${registeredFaculty.facultyName}</td>
+            <td>${registeredFaculty.faculty.name}</td>
             <c:choose>
                 <c:when test="${registeredFaculty.status eq 'PENDING'}">
                     <td style="color: #2ab7ec">${pending}</td>

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping(value = "/enrollee")
 @RequiredArgsConstructor
@@ -26,6 +28,8 @@ public class EnrolleeController {
         try {
             var enrollee = enrolleeService.findByLogin(authentication.getName());
             model.addAttribute(STUDENT_ENROLLEE, enrollee);
+            model.addAttribute(SUBJECTS, enrollee.getEnrolleeSubjectSet());
+            model.addAttribute(REGISTERED_FACULTIES, enrollee.getFacultyRegistrationSet());
         } catch (NoSuchEnrolleeException e) {
             e.printStackTrace();
         }
