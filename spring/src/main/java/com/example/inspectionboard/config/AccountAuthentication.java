@@ -21,6 +21,9 @@ public class AccountAuthentication implements AuthenticationProvider {
         if (!accountDetails.getPassword().equals(authentication.getCredentials().toString())){
             throw new BadCredentialsException("Authentication failed");
         }
+        if (!accountDetails.isAccountNonLocked()){
+            throw new BadCredentialsException("Your account is blocked");
+        }
         return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(), accountDetails.getPassword(), accountDetails.getAuthorities());
     }
 
