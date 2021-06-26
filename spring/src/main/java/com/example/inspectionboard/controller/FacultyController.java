@@ -1,6 +1,8 @@
 package com.example.inspectionboard.controller;
 
+import com.example.inspectionboard.exception.*;
 import com.example.inspectionboard.model.enums.AccountType;
+import com.example.inspectionboard.service.FacultyRegistrationService;
 import com.example.inspectionboard.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 import static com.example.inspectionboard.Constants.*;
@@ -18,6 +21,7 @@ import static com.example.inspectionboard.Constants.*;
 @RequiredArgsConstructor
 public class FacultyController {
     private final FacultyService facultyService;
+    private final FacultyRegistrationService facultyRegistrationService;
 
     @GetMapping()
     public String mainPage(Model model,
@@ -27,6 +31,29 @@ public class FacultyController {
         model.addAttribute(FACULTIES, facultyService.findAllOrderBy(facultyOrder));
         model.addAttribute(FACULTY_ORDER, facultyOrder);
         return "faculty/main";
+    }
+
+    @RequestMapping(value = "/info")
+    public String infoPage(Model model, Authentication authentication, @RequestParam String facultyName){
+        try{
+            model.addAttribute(USER_ROLE, getRole(authentication));
+            model.addAttribute(FACULTY_INFO, facultyService.findFacultyByName(facultyName));
+        } catch (NoSuchFacultyException e) {
+            e.printStackTrace();
+        }
+        return "faculty/info";
+    }
+
+    @RequestMapping("/register")
+    public String register(HttpServletRequest request, Authentication authentication, @RequestParam String facultyName){
+        String status = "SUCCESSFULLY";
+        try {
+            facultyRegistrationService.register(authentication.getName(), facultyName);
+        } catch (NoSuchEnrolleeException | NoSuchFacultyException | CannotRegisterToFacultyException | AlreadyRegisteredException e) {
+            status = e.getClass().getName();
+        }
+        request.getSession().setAttribute(FACULTY_REGISTRATION_STATUS, status);
+        return "redirect:/faculties/info?facultyName=" + facultyName; //fixme
     }
 
     private static GrantedAuthority getRole(Authentication authentication){

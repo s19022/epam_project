@@ -4,7 +4,6 @@ import com.example.inspectionboard.model.Faculty;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,6 +14,7 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
     @Override
     Set<Faculty> findAll();
 
+    @Query("from Faculty as f left join fetch f.requiredSubjectSet where f.name = ?1")
     Optional<Faculty> findFacultyByName(String name);
 
     @Query("FROM Faculty f ORDER BY f.name ASC")
