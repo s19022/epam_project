@@ -16,8 +16,10 @@ public class AccountConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/enrollee/**").hasRole("ENROLLEE")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().formLogin()
-                .permitAll().and().csrf().disable();
+                .and().formLogin().permitAll()
+                .and()
+                .logout().logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+                .and().csrf().disable();
     }
 }
 

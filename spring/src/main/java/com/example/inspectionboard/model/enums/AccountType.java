@@ -4,7 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum AccountType implements GrantedAuthority {
     ADMIN,
-    ENROLLEE;
+    ENROLLEE,
+    UNKNOWN;
 
     @Override
     public String getAuthority() {
