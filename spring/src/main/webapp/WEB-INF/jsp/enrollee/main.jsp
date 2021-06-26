@@ -102,15 +102,15 @@
 </table>
 <c:if test="${createSubjectResult ne null}">
     <c:choose>
-        <c:when test="${createSubjectResult eq 'NOT_UNIQUE_SUBJECT'}">
+        <c:when test="${createSubjectResult eq 'com.example.inspectionboard.exception.NotUniqueSubjectException'}">
+            <h3 style="color: red">${notUnique}</h3>
+        </c:when>
+
+        <c:when test="${createSubjectResult eq 'com.example.inspectionboard.exception.NoSuchSubjectException'}">
             <h3 style="color: red">${noSuchSubject}</h3>
         </c:when>
 
-        <c:when test="${createSubjectResult eq 'NO_SUCH_SUBJECT'}">
-            <h3 style="color: red">${noSuchSubject}</h3>
-        </c:when>
-
-        <c:when test="${createSubjectResult eq 'MARK_IS_INVALID'}">
+        <c:when test="${createSubjectResult eq 'com.example.inspectionboard.exception.MarkIsNotValidException'}">
             <h3 style="color: red">${markIsInvalid}</h3>
         </c:when>
     </c:choose>

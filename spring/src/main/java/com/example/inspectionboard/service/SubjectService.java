@@ -14,7 +14,7 @@ import java.util.Set;
 public class SubjectService {
     private final SubjectRepository subjectRepository;
 
-    public Set<Subject> findNotTakenByEnrolleeLogin(@NotNull Enrollee enrollee){
+    public Set<Subject> findNotTakenByEnrollee(@NotNull Enrollee enrollee){
         return subjectRepository.findNotTakenByEnrollee(enrollee);
     }
 }
