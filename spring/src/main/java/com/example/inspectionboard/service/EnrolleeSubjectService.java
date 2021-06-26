@@ -6,17 +6,13 @@ import com.example.inspectionboard.repository.EnrolleeRepository;
 import com.example.inspectionboard.repository.EnrolleeSubjectRepository;
 import com.example.inspectionboard.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.NestedExceptionUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 
 @Service
 @RequiredArgsConstructor
 public class EnrolleeSubjectService {
-    private static final String SQL_BREAKING_UNIQUE_CONSTRAINT_ERROR_CODE = "23505";
     private static final int MAX_MARK = 12;
     private static final int MIN_MARK = 1;
 
