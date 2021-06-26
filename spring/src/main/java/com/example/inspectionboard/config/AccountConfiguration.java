@@ -15,6 +15,7 @@ public class AccountConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/enrollee/**").hasRole("ENROLLEE")
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/faculties/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
                 .and()

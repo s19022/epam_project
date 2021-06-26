@@ -104,7 +104,7 @@
 
 <div class="container">
     <c:set value="0" var="counter"/>
-    <c:forEach items="${sessionScope.faculties}" var="faculties">
+    <c:forEach items="${requestScope.faculties}" var="faculties">
         <c:if test="${counter%3 eq 0}">
             <div class="row">
         </c:if>

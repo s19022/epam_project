@@ -15,6 +15,8 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
     @Override
     Set<Faculty> findAll();
 
+    Optional<Faculty> findFacultyByName(String name);
+
     @Query("FROM Faculty f ORDER BY f.name ASC")
     Set<Faculty> findAllOrderByNameAsc();
 
@@ -26,24 +28,6 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
 
     @Query("FROM Faculty f ORDER BY f.budgetPlaces DESC")
     Set<Faculty> findAllOrderByBudgetPlacesDesc();
-
-/*
-
-    @Query("SELECT t.faculty FROM TeacherFaculty t WHERE t.teacher.login = ?1 AND t.endDate is null ORDER BY t.faculty.name ASC")
-    Set<Faculty> findAllFilterByTeacherLoginOrderByNameAsc(String login);
-
-    @Query("SELECT t.faculty FROM TeacherFaculty t WHERE t.teacher.login = ?1  AND t.endDate is null ORDER BY t.faculty.name DESC")
-    Set<Faculty> findAllFilterByTeacherLoginOrderByNameDesc(String login);
-
-    @Query("SELECT t.faculty FROM TeacherFaculty t WHERE t.teacher.login = ?1  AND t.endDate is null ORDER BY t.faculty.allPlaces DESC")
-    Set<Faculty> findAllFilterByTeacherLoginOrderByAllPlacesDesc(String login);
-
-    @Query("SELECT t.faculty FROM TeacherFaculty t WHERE t.teacher.login = ?1  AND t.endDate is null ORDER BY t.faculty.budgetPlaces DESC")
-    Set<Faculty> findAllFilterByTeacherLoginOrderByBudgetPlacesDesc(String login);
-*/
-//    @Query("from Faculty as f left join fetch f.requiredSubjectSet left join fetch f.teacherFacultySet where f.name = :name")
-    Optional<Faculty> findFacultyByName(/*@Param("name")*/String name);
-
 
     @Modifying
     @Query("UPDATE Faculty f set f.allPlaces = ?2 WHERE f = ?1")
