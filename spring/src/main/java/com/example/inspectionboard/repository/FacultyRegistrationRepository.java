@@ -13,6 +13,8 @@ import java.util.Set;
 public interface FacultyRegistrationRepository extends CrudRepository<FacultyRegistration, Long> {
     Set<FacultyRegistration> findAllByStatusEquals(FacultyRegistrationStatus status);
 
+    Set<FacultyRegistration> findAllByEnrolleeLoginAndFacultyIsDeleted(String enrolleeLogin, boolean isDeleted);
+
     @Modifying
     @Query("UPDATE FacultyRegistration  r SET r.status = ?3 WHERE r.faculty = ?2 AND r.enrollee =?1")
     int updateSetStatus(Enrollee enrollee, Faculty faculty, FacultyRegistrationStatus status);
