@@ -214,7 +214,9 @@
             form.set("facultyName", facultyName);
 
             const request = new XMLHttpRequest();
-            request.open("POST", "${pageContext.request.contextPath}/faculties/delete");
+            const path = "${pageContext.request.contextPath}/faculties/" + facultyName + "/delete";
+            console.log(path);
+            request.open("POST", path);
             request.send(form);
             request.onload = function (){
                 document.location = "${pageContext.request.contextPath}/faculties";

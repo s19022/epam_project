@@ -36,4 +36,8 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
     @Modifying
     @Query("UPDATE Faculty f set f.allPlaces = ?2, f.budgetPlaces = ?3 WHERE f = ?1")
     int updateSetAllPlacesAndBudgetPlaces(Faculty faculty, int allPlaces, int budgetPlaces);
+
+    @Modifying
+    @Query("DELETE FROM Faculty f WHERE f.name = ?1")
+    int deleteByName(String name);
 }

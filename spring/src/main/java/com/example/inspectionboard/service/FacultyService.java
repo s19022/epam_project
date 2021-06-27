@@ -5,6 +5,7 @@ import com.example.inspectionboard.model.Faculty;
 import com.example.inspectionboard.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -31,6 +32,12 @@ public class FacultyService {
 
     public Faculty findFacultyByName(String facultyName) throws NoSuchFacultyException {
         return facultyRepository.findFacultyByName(facultyName).orElseThrow(NoSuchFacultyException::new);
+    }
+
+    @Transactional
+    public void delete(String facultyName){
+        System.out.println(facultyName);
+        facultyRepository.deleteByName(facultyName);
     }
 }
 

@@ -34,7 +34,7 @@ public class FacultyController {
     @GetMapping()
     public String mainPage(Model model,
                            Authentication authentication,
-                           @RequestParam(defaultValue = NAME_ASC) String facultyOrder){
+                           @RequestParam(defaultValue = NAME_ASC) String facultyOrder) {
         model.addAttribute(USER_ROLE, getRole(authentication));
         model.addAttribute(FACULTIES, facultyService.findAllOrderBy(facultyOrder));
         model.addAttribute(FACULTY_ORDER, facultyOrder);
@@ -42,8 +42,8 @@ public class FacultyController {
     }
 
     @RequestMapping(value = "/{facultyName}/info")
-    public String infoPage(Model model, Authentication authentication, @PathVariable String facultyName){
-        try{
+    public String infoPage(Model model, Authentication authentication, @PathVariable String facultyName) {
+        try {
             var faculty = facultyService.findFacultyByName(facultyName);
             model.addAttribute(USER_ROLE, getRole(authentication));
             model.addAttribute(FACULTY_INFO, faculty);
@@ -55,7 +55,7 @@ public class FacultyController {
     }
 
     @RequestMapping("/{facultyName}/register")
-    public String register(HttpServletRequest request, Authentication authentication, @PathVariable String facultyName){
+    public String register(HttpServletRequest request, Authentication authentication, @PathVariable String facultyName) {
         String status = SUCCESSFULLY;
         try {
             facultyRegistrationService.register(authentication.getName(), facultyName);
@@ -70,18 +70,24 @@ public class FacultyController {
     public String createSubject(HttpServletRequest request,
                                 @PathVariable String facultyName,
                                 @RequestParam String subjectName,
-                                @RequestParam int minimalGrade){
+                                @RequestParam int minimalGrade) {
         try {
             requiredSubjectService.save(subjectName, facultyName, minimalGrade);
         } catch (NoSuchSubjectException | MarkIsNotValidException | NotUniqueSubjectException | NoSuchFacultyException e) {
-            request.getSession().setAttribute("",e.getClass().getName());
+            request.getSession().setAttribute("", e.getClass().getName());
             e.printStackTrace();    //fixme
         }
         return ("redirect:/faculties/" + facultyName + "/info");
     }
 
-    private static GrantedAuthority getRole(Authentication authentication){
-        if (authentication == null){
+    @PostMapping("/{facultyName}/delete")
+    public String deleteSubject(HttpServletRequest request, @PathVariable String facultyName) {
+        facultyService.delete(facultyName);
+        return "redirect:/faculties";
+    }
+
+    private static GrantedAuthority getRole(Authentication authentication) {
+        if (authentication == null) {
             return AccountType.UNKNOWN;
         }
         return new ArrayList<>(authentication.getAuthorities()).get(0);
