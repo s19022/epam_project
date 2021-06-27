@@ -19,19 +19,19 @@ public class FacultyService {
     public Set<Faculty> findAllOrderBy(String orderBy){
         switch (orderBy){
             case NAME_DESC:
-                return facultyRepository.findAllOrderByNameDesc();
+                return facultyRepository.findAllOrderByNameDescAndDeletedIs(false);
             case ALL_PLACES_DESC:
-                return facultyRepository.findAllOrderByAllPlacesDesc();
+                return facultyRepository.findAllOrderByAllPlacesDescAndDeletedIs(false);
             case BUDGET_PLACES_DESC:
-                return facultyRepository.findAllOrderByBudgetPlacesDesc();
+                return facultyRepository.findAllOrderByBudgetPlacesDescAndDeletedIs(false);
             case NAME_ASC:
             default:
-                return facultyRepository.findAllOrderByNameAsc();
+                return facultyRepository.findAllOrderByNameAscAndDeletedIs(false);
         }
     }
 
     public Faculty findFacultyByName(String facultyName) throws NoSuchFacultyException {
-        return facultyRepository.findFacultyByName(facultyName).orElseThrow(NoSuchFacultyException::new);
+        return facultyRepository.findFacultyByNameAndDeletedIs(facultyName, false).orElseThrow(NoSuchFacultyException::new);
     }
 
     @Transactional

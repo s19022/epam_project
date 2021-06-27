@@ -17,17 +17,20 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
     @Query("from Faculty as f left join fetch f.requiredSubjectSet where f.name = ?1")
     Optional<Faculty> findFacultyByName(String name);
 
-    @Query("FROM Faculty f ORDER BY f.name ASC")
-    Set<Faculty> findAllOrderByNameAsc();
+    @Query("from Faculty as f left join fetch f.requiredSubjectSet where f.name = ?1 and f.isDeleted = ?2")
+    Optional<Faculty> findFacultyByNameAndDeletedIs(String name, boolean deleted);
 
-    @Query("FROM Faculty f ORDER BY f.name DESC")
-    Set<Faculty> findAllOrderByNameDesc();
+    @Query("FROM Faculty f WHERE f.isDeleted = ?1 ORDER BY f.name ASC")
+    Set<Faculty> findAllOrderByNameAscAndDeletedIs(boolean deleted);
 
-    @Query("FROM Faculty f ORDER BY f.allPlaces DESC")
-    Set<Faculty> findAllOrderByAllPlacesDesc();
+    @Query("FROM Faculty f WHERE f.isDeleted = ?1 ORDER BY f.name DESC")
+    Set<Faculty> findAllOrderByNameDescAndDeletedIs(boolean deleted);
 
-    @Query("FROM Faculty f ORDER BY f.budgetPlaces DESC")
-    Set<Faculty> findAllOrderByBudgetPlacesDesc();
+    @Query("FROM Faculty f WHERE f.isDeleted = ?1 ORDER BY f.allPlaces DESC")
+    Set<Faculty> findAllOrderByAllPlacesDescAndDeletedIs(boolean deleted);
+
+    @Query("FROM Faculty f WHERE f.isDeleted = ?1 ORDER BY f.budgetPlaces DESC")
+    Set<Faculty> findAllOrderByBudgetPlacesDescAndDeletedIs(boolean deleted);
 
     @Modifying
     @Query("UPDATE Faculty f set f.allPlaces = ?2 WHERE f = ?1")
