@@ -36,8 +36,7 @@ public class FacultyService {
 
     @Transactional
     public void delete(String facultyName){
-        System.out.println(facultyName);
-        facultyRepository.deleteByName(facultyName);
+        facultyRepository.updateSetDeleted(facultyName, true);
     }
 }
 

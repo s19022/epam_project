@@ -41,6 +41,7 @@ public interface FacultyRepository extends CrudRepository<Faculty, Long> {
     int updateSetAllPlacesAndBudgetPlaces(Faculty faculty, int allPlaces, int budgetPlaces);
 
     @Modifying
-    @Query("DELETE FROM Faculty f WHERE f.name = ?1")
-    int deleteByName(String name);
+    @Query("UPDATE Faculty f set f.isDeleted = ?2 WHERE f.name = ?1")
+    int updateSetDeleted(String name, boolean deleted);
+
 }
