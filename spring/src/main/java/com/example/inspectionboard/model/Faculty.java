@@ -31,6 +31,9 @@ public class Faculty {
     @Min(0)
     private int allPlaces;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Builder.Default
     @ToString.Exclude
