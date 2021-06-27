@@ -129,7 +129,7 @@
     </c:choose>
 </c:if>
 
-<c:set value="${sessionScope.facultyRegistrationStatus}" var="status"/>
+<c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
 <c:if test="${status ne null}">
     <c:choose>
         <c:when test="${status eq 'SUCCESSFULLY'}">

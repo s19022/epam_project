@@ -20,6 +20,7 @@ import static com.example.inspectionboard.Constants.*;
 @RequestMapping(value = "/faculties")
 @RequiredArgsConstructor
 public class FacultyController {
+    public static final String SUCCESSFULLY = "SUCCESSFULLY";
     private final FacultyService facultyService;
     private final FacultyRegistrationService facultyRegistrationService;
 
@@ -45,15 +46,15 @@ public class FacultyController {
     }
 
     @RequestMapping("/register")
-    public String register(HttpServletRequest request, Authentication authentication, @RequestParam String facultyName){
-        String status = "SUCCESSFULLY";
+    public String register(Model model, Authentication authentication, @RequestParam String facultyName){
+        String status = SUCCESSFULLY;
         try {
             facultyRegistrationService.register(authentication.getName(), facultyName);
         } catch (NoSuchEnrolleeException | NoSuchFacultyException | CannotRegisterToFacultyException | AlreadyRegisteredException e) {
             status = e.getClass().getName();
         }
-        request.getSession().setAttribute(FACULTY_REGISTRATION_STATUS, status);
-        return "redirect:/faculties/info?facultyName=" + facultyName; //fixme
+        model.addAttribute(FACULTY_REGISTRATION_STATUS, status);
+        return infoPage(model, authentication, facultyName);
     }
 
     private static GrantedAuthority getRole(Authentication authentication){
