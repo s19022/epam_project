@@ -4,6 +4,7 @@ import com.example.inspectionboard.exception.*;
 import com.example.inspectionboard.model.enums.AccountType;
 import com.example.inspectionboard.service.FacultyRegistrationService;
 import com.example.inspectionboard.service.FacultyService;
+import com.example.inspectionboard.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,8 +22,10 @@ import static com.example.inspectionboard.Constants.*;
 @RequiredArgsConstructor
 public class FacultyController {
     public static final String SUCCESSFULLY = "SUCCESSFULLY";
+
     private final FacultyService facultyService;
     private final FacultyRegistrationService facultyRegistrationService;
+    private final SubjectService subjectService;
 
     @GetMapping()
     public String mainPage(Model model,
@@ -37,8 +40,10 @@ public class FacultyController {
     @RequestMapping(value = "/info")
     public String infoPage(Model model, Authentication authentication, @RequestParam String facultyName){
         try{
+            var faculty = facultyService.findFacultyByName(facultyName);
             model.addAttribute(USER_ROLE, getRole(authentication));
-            model.addAttribute(FACULTY_INFO, facultyService.findFacultyByName(facultyName));
+            model.addAttribute(FACULTY_INFO, faculty);
+            model.addAttribute(NOT_TAKEN_SUBJECTS, subjectService.findNotTakenByFaculty(faculty));
         } catch (NoSuchFacultyException e) {
             e.printStackTrace();
         }

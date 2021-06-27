@@ -12,6 +12,7 @@ public class Constants {
     public static final String FACULTIES = "faculties";
     public static final String FACULTY_INFO = "facultyInfo";
     public static final String FACULTY_NAME = "facultyName";
+    public static final String NOT_TAKEN_SUBJECTS = "notTakenSubjects";
 
 
 }

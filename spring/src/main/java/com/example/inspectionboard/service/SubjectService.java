@@ -1,6 +1,7 @@
 package com.example.inspectionboard.service;
 
 import com.example.inspectionboard.model.Enrollee;
+import com.example.inspectionboard.model.Faculty;
 import com.example.inspectionboard.model.Subject;
 import com.example.inspectionboard.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,9 @@ public class SubjectService {
 
     public Set<Subject> findNotTakenByEnrollee(@NotNull Enrollee enrollee){
         return subjectRepository.findNotTakenByEnrollee(enrollee);
+    }
+
+    public Set<Subject> findNotTakenByFaculty(@NotNull Faculty faculty){
+        return subjectRepository.findNotTakenByFaculty(faculty);
     }
 }
