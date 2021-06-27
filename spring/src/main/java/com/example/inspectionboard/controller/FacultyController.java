@@ -41,8 +41,8 @@ public class FacultyController {
         return "faculty/main";
     }
 
-    @RequestMapping(value = "/info")
-    public String infoPage(Model model, Authentication authentication, @RequestParam String facultyName){
+    @RequestMapping(value = "/{facultyName}/info")
+    public String infoPage(Model model, Authentication authentication, @PathVariable String facultyName){
         try{
             var faculty = facultyService.findFacultyByName(facultyName);
             model.addAttribute(USER_ROLE, getRole(authentication));
@@ -54,22 +54,22 @@ public class FacultyController {
         return "faculty/info";
     }
 
-    @RequestMapping("/register")
-    public String register(Model model, Authentication authentication, @RequestParam String facultyName){
+    @RequestMapping("/{facultyName}/register")
+    public String register(HttpServletRequest request, Authentication authentication, @PathVariable String facultyName){
         String status = SUCCESSFULLY;
         try {
             facultyRegistrationService.register(authentication.getName(), facultyName);
         } catch (NoSuchEnrolleeException | NoSuchFacultyException | CannotRegisterToFacultyException | AlreadyRegisteredException e) {
             status = e.getClass().getName();
         }
-        model.addAttribute(FACULTY_REGISTRATION_STATUS, status);
-        return infoPage(model, authentication, facultyName);
+        request.getSession().setAttribute(FACULTY_REGISTRATION_STATUS, status);
+        return ("redirect:/faculties/" + facultyName + "/info");
     }
 
-    @PostMapping("/createSubject")
+    @PostMapping("/{facultyName}/createSubject")
     public String createSubject(HttpServletRequest request,
+                                @PathVariable String facultyName,
                                 @RequestParam String subjectName,
-                                @RequestParam String facultyName,
                                 @RequestParam int minimalGrade){
         try {
             requiredSubjectService.save(subjectName, facultyName, minimalGrade);
@@ -77,7 +77,7 @@ public class FacultyController {
             request.getSession().setAttribute("",e.getClass().getName());
             e.printStackTrace();    //fixme
         }
-        return "redirect:/faculties";
+        return ("redirect:/faculties/" + facultyName + "/info");
     }
 
     private static GrantedAuthority getRole(Authentication authentication){

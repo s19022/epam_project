@@ -97,8 +97,7 @@
         <c:if test="${userRole eq 'ADMIN'}">
             <c:if test="${!empty(requestScope.notTakenSubjects)}">
                 <tr>
-                    <form method="post" action="${pageContext.request.contextPath}/faculties/createSubject">
-                        <input name="facultyName" value="${faculty.name}" hidden>
+                    <form method="post" action="${pageContext.request.contextPath}/faculties/${faculty.name}/createSubject">
                         <th scope="row">${counter}</th>
                         <td>
                             <select class="form-select" name="subjectName">
@@ -123,14 +122,14 @@
             <a href="${pageContext.request.contextPath}/register">${register}</a>
         </c:when>
         <c:when test="${userRole eq 'ENROLLEE'}">
-            <form method="post" action="${pageContext.request.contextPath}/faculties/register">
-                <button class="btn btn-primary" name="facultyName" value="${faculty.name}">${registerButton}</button>
-            </form>
+            <a href="${pageContext.request.contextPath}/faculties/${faculty.name}/register" class="btn btn-primary">
+                ${registerButton}
+            </a>
         </c:when>
     </c:choose>
 </c:if>
 
-<c:set value="${requestScope.facultyRegistrationStatus}" var="status"/>
+<c:set value="${sessionScope.facultyRegistrationStatus}" var="status"/>
 <c:if test="${status ne null}">
     <c:choose>
         <c:when test="${status eq 'SUCCESSFULLY'}">

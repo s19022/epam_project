@@ -124,10 +124,9 @@
                 <h5><b>${allPlaces}</b>: ${faculties.allPlaces}</h5>
                 <h5><b>${budgetPlaces}</b>:${faculties.budgetPlaces} </h5>
             </c:if>
-            <form method="post" action="${pageContext.request.contextPath}/faculties/info">
-                <input name="facultyName" value="${faculties.name}" hidden>
-                <button class="btn btn-primary">${info}</button>
-            </form>
+            <a  class="btn btn-primary" href="${pageContext.request.contextPath}/faculties/${faculties.name}/info">
+                    ${info}
+            </a>
             <c:if test="${userRole eq 'ADMIN'}">
                 <button class="btn btn-primary" id = "submit${counter}" hidden>${submit}</button>
                 <button class="btn btn-secondary" id = "cancel${counter}" hidden>Cancel</button>
