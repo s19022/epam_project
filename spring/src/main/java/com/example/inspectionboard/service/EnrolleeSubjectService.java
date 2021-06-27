@@ -9,14 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.inspectionboard.service.ServiceUtils.isMarkValid;
+
 
 @Service
 @RequiredArgsConstructor
 public class EnrolleeSubjectService {
-    private static final int MAX_MARK = 12;
-    private static final int MIN_MARK = 1;
-
-
     private final EnrolleeSubjectRepository enrolleeSubjectRepository;
     private final EnrolleeRepository enrolleeRepository;
     private final SubjectRepository subjectRepository;
@@ -45,9 +43,5 @@ public class EnrolleeSubjectService {
                 .enrollee(enrollee)
                 .mark(mark).build();
         enrolleeSubjectRepository.save(enrolleeSubject);
-    }
-
-    public static boolean isMarkValid(int mark) {
-        return mark >= MIN_MARK && mark <= MAX_MARK;
     }
 }

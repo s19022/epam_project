@@ -98,6 +98,7 @@
             <c:if test="${!empty(requestScope.notTakenSubjects)}">
                 <tr>
                     <form method="post" action="${pageContext.request.contextPath}/faculties/createSubject">
+                        <input name="facultyName" value="${faculty.name}" hidden>
                         <th scope="row">${counter}</th>
                         <td>
                             <select class="form-select" name="subjectName">
@@ -107,7 +108,7 @@
                             </select>
                         <td>
                             <div class="form-check-inline">
-                                <input  class="form-control" type="number" name="mark">
+                                <input  class="form-control" type="number" name="minimalGrade">
                                 <button class="btn btn-primary" type="submit">${submit}</button>
                             </div>
                         </td>

@@ -4,13 +4,16 @@ import com.example.inspectionboard.exception.*;
 import com.example.inspectionboard.model.enums.AccountType;
 import com.example.inspectionboard.service.FacultyRegistrationService;
 import com.example.inspectionboard.service.FacultyService;
+import com.example.inspectionboard.service.RequiredSubjectService;
 import com.example.inspectionboard.service.SubjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -23,9 +26,10 @@ import static com.example.inspectionboard.Constants.*;
 public class FacultyController {
     public static final String SUCCESSFULLY = "SUCCESSFULLY";
 
+    private final SubjectService subjectService;
     private final FacultyService facultyService;
     private final FacultyRegistrationService facultyRegistrationService;
-    private final SubjectService subjectService;
+    private final RequiredSubjectService requiredSubjectService;
 
     @GetMapping()
     public String mainPage(Model model,
@@ -60,6 +64,20 @@ public class FacultyController {
         }
         model.addAttribute(FACULTY_REGISTRATION_STATUS, status);
         return infoPage(model, authentication, facultyName);
+    }
+
+    @PostMapping("/createSubject")
+    public String createSubject(HttpServletRequest request,
+                                @RequestParam String subjectName,
+                                @RequestParam String facultyName,
+                                @RequestParam int minimalGrade){
+        try {
+            requiredSubjectService.save(subjectName, facultyName, minimalGrade);
+        } catch (NoSuchSubjectException | MarkIsNotValidException | NotUniqueSubjectException | NoSuchFacultyException e) {
+            request.getSession().setAttribute("",e.getClass().getName());
+            e.printStackTrace();    //fixme
+        }
+        return "redirect:/faculties";
     }
 
     private static GrantedAuthority getRole(Authentication authentication){
