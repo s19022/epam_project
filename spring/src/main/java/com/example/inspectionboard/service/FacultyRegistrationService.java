@@ -51,7 +51,7 @@ public class FacultyRegistrationService {
     }
 
     public Set<FacultyRegistration> findAllPending(){
-        return facultyRegistrationRepository.findAllByStatusEquals(FacultyRegistrationStatus.PENDING);
+        return facultyRegistrationRepository.findAllByStatusAndFacultyIsDeleted(FacultyRegistrationStatus.PENDING, false);
     }
 
     /**

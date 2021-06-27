@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Repository
 public interface FacultyRegistrationRepository extends CrudRepository<FacultyRegistration, Long> {
-    Set<FacultyRegistration> findAllByStatusEquals(FacultyRegistrationStatus status);
+    Set<FacultyRegistration> findAllByStatusAndFacultyIsDeleted(FacultyRegistrationStatus status, boolean isDeleted);
 
     Set<FacultyRegistration> findAllByEnrolleeLoginAndFacultyIsDeleted(String enrolleeLogin, boolean isDeleted);
 
