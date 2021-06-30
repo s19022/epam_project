@@ -18,8 +18,6 @@ public class AccountDetails extends Account implements UserDetails{
     @Column
     private String password;
 
-    private boolean isBlocked;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(getAccountType());
@@ -37,7 +35,7 @@ public class AccountDetails extends Account implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        return !isBlocked;
+        return !isBlocked();
     }
 
     @Override

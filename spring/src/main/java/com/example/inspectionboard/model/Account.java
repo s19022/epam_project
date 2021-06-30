@@ -23,6 +23,9 @@ public class Account {
     @Column(unique = true)
     private String login;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isBlocked;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, updatable = false)
     private AccountType accountType;
