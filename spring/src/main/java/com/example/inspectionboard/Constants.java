@@ -13,6 +13,9 @@ public class Constants {
     public static final String FACULTY_INFO = "facultyInfo";
     public static final String FACULTY_NAME = "facultyName";
     public static final String NOT_TAKEN_SUBJECTS = "notTakenSubjects";
+    public static final String SUCCESSFULLY = "SUCCESSFULLY";
 
 
+    public static final String CHANGE_FACULTY_REGISTRATION_RESULT = "changeFacultyRegistrationResult";
+    public static final String CREATE_SUBJECT_RESULT = "createSubjectResult";
 }

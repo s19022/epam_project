@@ -135,16 +135,16 @@
         <c:when test="${status eq 'SUCCESSFULLY'}">
             <h5 style="color:green">${successfully}</h5>
         </c:when>
-        <c:when test="${status eq 'com.example.inspectionboard.exception.NoSuchEnrolleeException'}">
+        <c:when test="${status eq 'NoSuchEnrolleeException'}">
             <h5 style="color: red">${noSuchAccount}</h5>
         </c:when>
-        <c:when test="${status eq 'com.example.inspectionboard.exception.NoSuchFacultyException'}">
+        <c:when test="${status eq 'NoSuchFacultyException'}">
             <h5 style="color: red">${noSuchFaculty}</h5>
         </c:when>
-        <c:when test="${status eq 'com.example.inspectionboard.exception.CannotRegisterToFacultyException'}">
+        <c:when test="${status eq 'CannotRegisterToFacultyException'}">
             <h5 style="color: red">${cannotRegister}</h5>
         </c:when>
-        <c:when test="${status eq 'com.example.inspectionboard.exception.AlreadyRegisteredException'}">
+        <c:when test="${status eq 'AlreadyRegisteredException'}">
             <h5 style="color: red">${alreadyRegistered}</h5>
         </c:when>
         <c:otherwise>

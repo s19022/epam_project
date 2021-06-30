@@ -24,6 +24,7 @@
 <fmt:message key="adminPage.changeFacultyRegistrationResult.success" bundle="${lang}" var = "success"/>
 <fmt:message key="adminPage.changeFacultyRegistrationResult.notEnoughPlaces" bundle="${lang}" var = "notEnoughPlaces"/>
 <fmt:message key="adminPage.changeFacultyRegistrationResult.noSuchFaculty" bundle="${lang}" var = "noSuchFaculty"/>
+<fmt:message key="adminPage.changeFacultyRegistrationResult.noSuchEnrollee" bundle="${lang}" var = "noSuchEnrollee"/>
 
 <html>
 <head>
@@ -73,9 +74,8 @@
             <td>${element.enrollee.login}</td>
             <td>${element.faculty.name}</td>
             <td>
-                <form id = "changeStatus${counter}" method="post" action="${pageContext.request.contextPath}/faculties/changeRegistrationStatus">
+                <form id = "changeStatus${counter}" method="post" action="${pageContext.request.contextPath}/faculties/${element.faculty.name}/changeRegistrationStatus">
                     <input name="enrolleeLogin" value="${element.enrollee.login}" hidden>
-                    <input name="facultyName" value="${element.faculty.name}" hidden>
                     <select class="custom-select" name="newStatus">
                         <option value="PENDING" selected>${pending}</option>
                         <option value="REJECTED">${rejected}</option>
@@ -95,14 +95,17 @@
 <c:set var="changeFacultyRegistrationResult" value="${sessionScope.changeFacultyRegistrationResult}"/>
 <c:if test="${changeFacultyRegistrationResult ne null}">
     <c:choose>
-        <c:when test="${changeFacultyRegistrationResult eq 'SUCCESS'}">
+        <c:when test="${changeFacultyRegistrationResult eq 'SUCCESSFULLY'}">
             <h1 style="color: green">${success}</h1>
         </c:when>
-        <c:when test="${changeFacultyRegistrationResult eq 'NOT_ENOUGH_PLACES'}">
-            <h1 style="color: red">${notEnoughPlaces}</h1>
+        <c:when test="${changeFacultyRegistrationResult eq 'NoSuchEnrolleeException'}">
+            <h1 style="color: red">${noSuchEnrollee}</h1>
         </c:when>
-        <c:when test="${changeFacultyRegistrationResult eq 'NO_SUCH_FACULTY'}">
+        <c:when test="${changeFacultyRegistrationResult eq 'NoSuchFacultyException'}">
             <h1 style="color: red">${noSuchFaculty}</h1>
+        </c:when>
+        <c:when test="${changeFacultyRegistrationResult eq 'NotEnoughPlacesException'}">
+            <h1 style="color: red">${notEnoughPlaces}</h1>
         </c:when>
     </c:choose>
     <c:set var = "changeFacultyRegistrationResult" value="${null}" scope="session"/>

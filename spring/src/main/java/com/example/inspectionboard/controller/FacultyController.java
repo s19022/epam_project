@@ -2,18 +2,17 @@ package com.example.inspectionboard.controller;
 
 import com.example.inspectionboard.exception.*;
 import com.example.inspectionboard.model.enums.AccountType;
+import com.example.inspectionboard.model.enums.FacultyRegistrationStatus;
 import com.example.inspectionboard.service.FacultyRegistrationService;
 import com.example.inspectionboard.service.FacultyService;
 import com.example.inspectionboard.service.RequiredSubjectService;
 import com.example.inspectionboard.service.SubjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -24,8 +23,6 @@ import static com.example.inspectionboard.Constants.*;
 @RequestMapping(value = "/faculties")
 @RequiredArgsConstructor
 public class FacultyController {
-    public static final String SUCCESSFULLY = "SUCCESSFULLY";
-
     private final SubjectService subjectService;
     private final FacultyService facultyService;
     private final FacultyRegistrationService facultyRegistrationService;
@@ -71,20 +68,37 @@ public class FacultyController {
                                 @PathVariable String facultyName,
                                 @RequestParam String subjectName,
                                 @RequestParam int minimalGrade) {
+        String createSubjectResult = SUCCESSFULLY;
         try {
             requiredSubjectService.save(subjectName, facultyName, minimalGrade);
         } catch (NoSuchSubjectException | MarkIsNotValidException | NotUniqueSubjectException | NoSuchFacultyException e) {
-            request.getSession().setAttribute("", e.getClass().getName());
-            e.printStackTrace();    //fixme
+            createSubjectResult = e.getClass().getSimpleName();
         }
+        request.getSession().setAttribute(CREATE_SUBJECT_RESULT, createSubjectResult);
         return ("redirect:/faculties/" + facultyName + "/info");
     }
 
     @PostMapping("/{facultyName}/delete")
-    public String deleteSubject(HttpServletRequest request, @PathVariable String facultyName) {
+    public String deleteSubject(@PathVariable String facultyName) {
         facultyService.delete(facultyName);
         return "redirect:/faculties";
     }
+
+    @PostMapping("/{facultyName}/changeRegistrationStatus")
+    public String changeRegistrationStatus(HttpServletRequest request,
+                                           @PathVariable String facultyName,
+                                           @RequestParam String enrolleeLogin,
+                                           @RequestParam FacultyRegistrationStatus newStatus) {
+        String changeFacultyRegistrationResult = SUCCESSFULLY;
+        try {
+            facultyRegistrationService.changeStatus(newStatus, enrolleeLogin, facultyName);
+        } catch (NoSuchFacultyException | NoSuchEnrolleeException | NotEnoughPlacesException e) {
+            changeFacultyRegistrationResult = e.getClass().getSimpleName();
+        }
+        request.getSession().setAttribute(CHANGE_FACULTY_REGISTRATION_RESULT, changeFacultyRegistrationResult);
+        return "redirect:/admin/main";
+    }
+
 
     private static GrantedAuthority getRole(Authentication authentication) {
         if (authentication == null) {
