@@ -7,11 +7,9 @@ import com.example.inspectionboard.repository.FacultyRegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +26,11 @@ public class EnrolleeService {
     }
 
     public Page<Enrollee> findAll(int pageNumber, int numberOfItems){
-        Pageable pageable = PageRequest.of(pageNumber, numberOfItems);
-        return enrolleeRepository.findAll(pageable);
+        pageNumber = Math.max(1, pageNumber) - 1;
+        var page = enrolleeRepository.findAll(PageRequest.of(pageNumber, numberOfItems));
+        if (page.isEmpty()){
+            return findAll(1, numberOfItems);
+        }
+        return page;
     }
 }

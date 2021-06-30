@@ -15,6 +15,13 @@ public class Constants {
     public static final String NOT_TAKEN_SUBJECTS = "notTakenSubjects";
     public static final String SUCCESSFULLY = "SUCCESSFULLY";
 
+    public static final String ENROLLEE_LIST = "enrollee";
+    public static final String PAGE_NUMBER = "pageNumber";
+    public static final String REGISTRATION_LIST = "registrationList";
+    public static final String ITEMS_PER_PAGE = "itemsPerPage";
+    public static final String NUMBER_OF_PAGES = "numberOfPages";
+
+
 
     public static final String CHANGE_FACULTY_REGISTRATION_RESULT = "changeFacultyRegistrationResult";
     public static final String CREATE_SUBJECT_RESULT = "createSubjectResult";

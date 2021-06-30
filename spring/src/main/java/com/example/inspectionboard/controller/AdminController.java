@@ -9,16 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.example.inspectionboard.Constants.*;
+
 @Controller
 @RequestMapping(value = "/admin")
 @RequiredArgsConstructor
 public class AdminController {
-    public static final String ENROLLEE_LIST = "enrollee";
-    public static final String PAGE_NUMBER = "pageNumber";
-    public static final String REGISTRATION_LIST = "registrationList";
-    public static final String ITEMS_PER_PAGE = "itemsPerPage";
-    public static final String NUMBER_OF_PAGES = "numberOfPages";
-
     private final FacultyRegistrationService facultyRegistrationService;
     private final EnrolleeService enrolleeService;
 
@@ -42,16 +38,12 @@ public class AdminController {
     }
 
     @RequestMapping("/enrollee")
-    public String enrolleePage(Model model, @RequestParam int pageNumber, @RequestParam int itemsPerPage){
+    public String enrolleePage(Model model, @RequestParam(defaultValue = "1") int pageNumber, @RequestParam(defaultValue = "5") int itemsPerPage){
         var enrollees = enrolleeService.findAll(pageNumber, itemsPerPage);
         model.addAttribute(ITEMS_PER_PAGE, itemsPerPage);
-        model.addAttribute(NUMBER_OF_PAGES, 2);
-        model.addAttribute(PAGE_NUMBER, pageNumber);
+        model.addAttribute(NUMBER_OF_PAGES, enrollees.getTotalPages());
+        model.addAttribute(PAGE_NUMBER, enrollees.getNumber() + 1);
         model.addAttribute(ENROLLEE_LIST, enrollees.toList());
-        System.out.println(enrollees.getTotalElements());
-        System.out.println(enrollees.getTotalPages());
-        System.out.println(enrollees.getNumber());
-        System.out.println(enrollees);
         return "admin/enrolleeInfo";
     }
 }
