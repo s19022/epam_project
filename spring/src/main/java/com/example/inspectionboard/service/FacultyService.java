@@ -4,6 +4,7 @@ import com.example.inspectionboard.exception.NoSuchFacultyException;
 import com.example.inspectionboard.model.Faculty;
 import com.example.inspectionboard.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +20,14 @@ public class FacultyService {
     public Set<Faculty> findAllOrderBy(String orderBy){
         switch (orderBy){
             case NAME_DESC:
-                return facultyRepository.findAllOrderByNameDescAndDeletedIs(false);
+                return facultyRepository.findAllByIsDeleted(Sort.by("name").descending(), false);
             case ALL_PLACES_DESC:
-                return facultyRepository.findAllOrderByAllPlacesDescAndDeletedIs(false);
+                return facultyRepository.findAllByIsDeleted(Sort.by("allPlaces").descending(), false);
             case BUDGET_PLACES_DESC:
-                return facultyRepository.findAllOrderByBudgetPlacesDescAndDeletedIs(false);
+                return facultyRepository.findAllByIsDeleted(Sort.by("budgetPlaces").descending(), false);
             case NAME_ASC:
             default:
-                return facultyRepository.findAllOrderByNameAscAndDeletedIs(false);
+                return facultyRepository.findAllByIsDeleted(Sort.by("name").ascending(), false);
         }
     }
 

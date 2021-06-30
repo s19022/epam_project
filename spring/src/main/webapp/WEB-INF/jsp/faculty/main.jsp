@@ -62,9 +62,9 @@
             <form  method="get" action="${pageContext.request.contextPath}/faculties">
                 <select class="custom-select" name="facultyOrder" onchange="this.form.submit()">
                     <option value="nameAsc">${orderByNameAsc}</option>
-                    <option value="nameDesc" <c:if test="${sessionScope.facultyOrder eq 'nameDesc'}">selected</c:if>>${orderByNameDesc}</option>
-                    <option value="allPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>${orderByAllPlacesDesc}</option>
-                    <option value="budgetPlacesDesc" <c:if test="${sessionScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>${orderByBudgetPlacesDesc}</option>
+                    <option value="nameDesc" <c:if test="${requestScope.facultyOrder eq 'nameDesc'}">selected</c:if>>${orderByNameDesc}</option>
+                    <option value="allPlacesDesc" <c:if test="${requestScope.facultyOrder eq 'allPlacesDesc'}">selected</c:if>>${orderByAllPlacesDesc}</option>
+                    <option value="budgetPlacesDesc" <c:if test="${requestScope.facultyOrder eq 'budgetPlacesDesc'}">selected</c:if>>${orderByBudgetPlacesDesc}</option>
                 </select>
             </form>
         </li>
